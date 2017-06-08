@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react';
-import { 
+import {
   View,
   Text,
   TouchableOpacity,
@@ -41,10 +41,10 @@ export default class TabOneScreenOne extends React.Component {
         marginLeft: -20,
       },
       headerLeft: (
-        <Ionicons.Button 
+        <Ionicons.Button
           name="ios-menu"
           color="#185ffe"
-          style={{marginLeft:13}} 
+          style={{marginLeft:13}}
           backgroundColor="#eeeef2"
           onPress={
             () => navigation.navigate('DrawerOpen')
@@ -100,11 +100,11 @@ export default class TabOneScreenOne extends React.Component {
         style={{
           flex:1,
           backgroundColor:'aqua',
-          alignItems:'center',
+          // alignItems:'center',
           justifyContent:'center'
         }}>
         <ScrollView
-          style={styles.contentContainer}     
+          style={styles.contentContainer}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
@@ -155,6 +155,30 @@ export default class TabOneScreenOne extends React.Component {
             }}>
             <Text>{'dispatch Action Go to next screen this tab'}</Text>
           </TouchableOpacity>
+          <View style={styles.diamondContainer}>
+            <Text style={styles.diamondText}>
+              寶石：10000
+              </Text>
+          </View>
+          <View style={styles.resourceContainer1}>
+            <Text style={styles.resourceText}>
+              金：10000
+              </Text>
+              <Text style={styles.resourceText}>
+              木：10000
+              </Text>
+              <Text style={styles.resourceText}>
+              水：10000
+              </Text>
+          </View>
+          <View style={styles.resourceContainer2}>
+            <Text style={styles.resourceText}>
+              火：10000
+              </Text>
+              <Text style={styles.resourceText}>
+              土：10000
+              </Text>
+          </View>
         </ScrollView>
       </View>
     )
@@ -170,5 +194,70 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingVertical: 1,
     marginTop: Platform.OS == 'ios' ? 25 : 0,
+  },
+  diamondContainer: {
+    flex: 1,
+    // width: '100%',
+    // justifyContent: 'flex-start',
+    flexDirection: 'row',
+    // alignContent: 'center',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    backgroundColor: '#EDE7C9',
+    marginTop: 100,
+    marginBottom: 3,
+    marginLeft: 3,
+    marginRight: 3,
+    borderWidth: 5,
+    borderColor: '#F9CF7A',
+  },
+  diamondText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    flexShrink:1,
+    width: '100%',
+    backgroundColor: '#D25141',
+    color: '#F9CF7A',
+    fontSize: 16,
+    lineHeight: 32,
+    padding: 0,
+    borderRadius: 10,
+    padding: 10,
+  },
+  resourceContainer1: {
+    flex: 1,
+    // width: '100%',
+    // justifyContent: 'flex-start',
+    flexDirection: 'row',
+    // alignContent: 'center',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    marginLeft: 3,
+    marginRight: 3,
+    borderRadius: 10,
+    paddingTop: 10,
+    backgroundColor: '#D25141',
+  },
+  resourceContainer2: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    marginLeft: 3,
+    marginRight: 3,
+    borderRadius: 10,
+    paddingBottom: 10,
+    backgroundColor: '#D25141',
+  },
+  resourceText: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    flexShrink: 1,
+    width: '100%',
+    backgroundColor: '#D25141',
+    color: '#F9CF7A',
+    fontSize: 16,
+    lineHeight: 32,
+    padding: 0,
   },
 });
