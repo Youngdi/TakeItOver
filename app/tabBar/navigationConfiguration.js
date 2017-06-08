@@ -42,11 +42,10 @@ const StackrouteConfiguration = {
   Login: { screen: LoginScreen },
 }
 const StackConfiguration = {
-  initialRouteName:'Splash',
+  initialRouteName:'Home',
   headerMode: 'none',
   navigationOptions:{
     gesturesEnabled: false,
   },
 }
 export const TabBar = StackNavigator(StackrouteConfiguration, StackConfiguration);
-
