@@ -12,10 +12,13 @@ import {
   TextInput,
   Button,
   AsyncStorage,
+  Dimensions,
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
+
+const { width, height } = Dimensions.get("window");
 
 export default class TabOneScreenOne extends React.Component {
   constructor(props) {
@@ -99,9 +102,7 @@ export default class TabOneScreenOne extends React.Component {
       <View
         style={{
           flex:1,
-          backgroundColor:'aqua',
-          // alignItems:'center',
-          justifyContent:'center'
+          backgroundColor:'darkturquoise',
         }}>
         <ScrollView
           style={styles.contentContainer}
@@ -117,27 +118,30 @@ export default class TabOneScreenOne extends React.Component {
             />
           }
         >
-          <Text style={styles.text}>{this.state.board}</Text>
-          <TouchableOpacity
-            onPress={ async () => {
-              //this.props.navigation.navigate('TabOneDrawerTwo')
-              try {
-                const value = await AsyncStorage.getItem('@User');
-                if (value !== null){
-                  // We have data!!
-                  console.log(value);
-                }
-              } catch (error) {
-                console.log(error);
-              }
-              //console.log(this.props.navigation.state.params.data);
-            }}
+        <View
             style={{
-              padding:20,
-              borderRadius:20,
-              backgroundColor:'yellow',
-              marginTop:20
-            }}>
+              width:width,
+              height:height * 1,
+              backgroundColor:'darkturquoise',
+              justifyContent: 'flex-start',
+              alignItems: 'center',
+              }}
+            >
+            <Text style={styles.text}>{this.state.board}</Text>
+            <TouchableOpacity
+              onPress={ async () => {
+                //this.props.navigation.navigate('TabOneDrawerTwo')
+                try {
+                  const value = await AsyncStorage.getItem('@User');
+                  if (value !== null){
+                    // We have data!!
+                    console.log(value);
+                  }
+                } catch (error) {
+                  console.log(error);
+                }
+                //console.log(this.props.navigation.state.params.data);
+              }}>
             <Text>{'Go to next screen this tab'}</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -146,12 +150,6 @@ export default class TabOneScreenOne extends React.Component {
                 console.log(token);
                 alert(token);
               });
-            }}
-            style={{
-              padding:20,
-              borderRadius:20,
-              backgroundColor:'white',
-              marginTop:20
             }}>
             <Text>{'dispatch Action Go to next screen this tab'}</Text>
           </TouchableOpacity>
@@ -160,104 +158,118 @@ export default class TabOneScreenOne extends React.Component {
               寶石：10000
               </Text>
           </View>
-          <View style={styles.resourceContainer1}>
-            <Text style={styles.resourceText}>
-              金：10000
+          <View style={styles.resourceContainer}>
+            <View style={styles.resourceRow1}>
+              <Text style={styles.resourceText}>
+              金：9999
               </Text>
               <Text style={styles.resourceText}>
-              木：10000
+              木：9999
               </Text>
               <Text style={styles.resourceText}>
-              水：10000
+              水：9999
               </Text>
+            </View>
+            <View style={styles.resourceRow2}>
+              <Text style={styles.emptyText}></Text>
+              <Text style={styles.resourceText}>
+              火：9999
+              </Text>
+              <Text style={styles.resourceText}>
+              土：9999
+              </Text>
+              <Text style={styles.emptyText}></Text>
+            </View>
           </View>
-          <View style={styles.resourceContainer2}>
-            <Text style={styles.resourceText}>
-              火：10000
-              </Text>
-              <Text style={styles.resourceText}>
-              土：10000
-              </Text>
-          </View>
+        </View>
         </ScrollView>
       </View>
     )
   }
 }
+console.log(height);
 const styles = StyleSheet.create({
   text: {
+    flex: 1,
     textAlign: 'center',
     color: 'red',
     backgroundColor: 'rgba(0,0,0,0)',
     fontSize: 32
   },
   contentContainer: {
-    paddingVertical: 1,
+    flex: 1,
     marginTop: Platform.OS == 'ios' ? 25 : 0,
+    height: height,
+    width: width,
   },
   diamondContainer: {
-    flex: 1,
-    // width: '100%',
-    // justifyContent: 'flex-start',
-    flexDirection: 'row',
-    // alignContent: 'center',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    backgroundColor: '#EDE7C9',
-    marginTop: 100,
-    marginBottom: 3,
-    marginLeft: 3,
-    marginRight: 3,
-    borderWidth: 5,
-    borderColor: '#F9CF7A',
+  flex: 1,
+  flexDirection: 'row',
+  justifyContent: 'center',
+  // alignContent: 'center',
+  // flexWrap: 'nowrap',
+  // alignItems: 'center',
+  backgroundColor: 'rgba(0,0,0,0)',
+  marginTop: 50,
   },
   diamondText: {
     textAlign: 'center',
     fontWeight: 'bold',
-    flexShrink:1,
-    width: '100%',
-    backgroundColor: '#D25141',
-    color: '#F9CF7A',
+    width: 150,
+    height: 150,
+    lineHeight: 150,//vertical position
     fontSize: 16,
-    lineHeight: 32,
+    backgroundColor: 'rgba(0,0,0,0)',
+    color: '#D25141',
     padding: 0,
     borderRadius: 10,
-    padding: 10,
+    borderWidth: 10,
+    borderColor: '#F9CF7A',
+    // padding: 10,
   },
-  resourceContainer1: {
-    flex: 1,
-    // width: '100%',
-    // justifyContent: 'flex-start',
-    flexDirection: 'row',
+  resourceContainer: {
+    flex: 2,
+    // justifyContent: 'flex-end',
     // alignContent: 'center',
     flexWrap: 'nowrap',
     alignItems: 'center',
+    marginTop: 30,
     marginLeft: 3,
     marginRight: 3,
     borderRadius: 10,
-    paddingTop: 10,
-    backgroundColor: '#D25141',
+    borderWidth: 10,
+    borderColor: '#D25141',
   },
-  resourceContainer2: {
+  resourceRow1: {
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'nowrap',
     alignItems: 'center',
-    marginLeft: 3,
-    marginRight: 3,
-    borderRadius: 10,
-    paddingBottom: 10,
-    backgroundColor: '#D25141',
+    justifyContent: 'center',
+    backgroundColor: 'white',
+  },
+  resourceRow2: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    backgroundColor: 'white',
+  },
+  emptyText: {
+    flex: 0.5,
   },
   resourceText: {
+    flex: 1,
+    flexDirection: 'row',
     textAlign: 'center',
     fontWeight: 'bold',
-    flexShrink: 1,
-    width: '100%',
-    backgroundColor: '#D25141',
+    backgroundColor: 'aqua',
     color: '#F9CF7A',
     fontSize: 16,
     lineHeight: 32,
     padding: 0,
+    borderRadius: 5,
+    borderWidth: 5,
+    borderColor: '#F9CF7A',
   },
 });
