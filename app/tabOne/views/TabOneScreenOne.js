@@ -4,6 +4,7 @@ import {
   View,
   Text,
   TouchableOpacity,
+  TouchableHighlight,
   Image,
   StyleSheet,
   RefreshControl,
@@ -14,11 +15,12 @@ import {
   AsyncStorage,
   Dimensions,
 } from 'react-native';
+import Modal from 'react-native-modalbox';
 import * as Config from '../../constants/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-import { getMyUser } from '../../api/api';
+import { getMyUser, api_buyResource } from '../../api/api';
 const { width, height } = Dimensions.get("window");
 
 async function getFlagFromSetting() {
@@ -66,6 +68,8 @@ export default class TabOneScreenOne extends React.Component {
       wood: 0,
       stone: 0,
       seed: 0,
+      shopIcon:'',
+      shopText:'',
     };
   }
   async init() {
@@ -161,8 +165,17 @@ export default class TabOneScreenOne extends React.Component {
        });
     });
   }
+  onPressSourceButton(resource) {
+    this.setState({
+
+    });
+    this.refs.buy_modal.open();
+    //api_buyResource
+  }
+  onChangeText(val){
+    console.log(val)
+  }
   render() {
-    console.log(this.state);
     return(
       <View
         style={{
@@ -183,70 +196,128 @@ export default class TabOneScreenOne extends React.Component {
             />
           }
         >
-            <Image 
-              style={{width:'100%',height:height*0.5, marginBottom:0, marginTop:22}} 
-              source={require('../../images/home/W1.png')}>
-            </Image>
-            <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-              <View style={{width:130, height:130, flexShrink:1}}>
-                <Image
-                  style={styles.source}
-                  source={require('../../images/home/fire.png')}>
-                  <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{this.state.fire}</Text>
-                  </View>
-                </Image>
-              </View>
-              <View style={{width:130, height:130, flexShrink:1}}>
-                <Image
-                  style={styles.source}
-                  source={require('../../images/home/k.png')}>
-                  <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{this.state.K}</Text>
-                  </View>
-                </Image>
-              </View>
-              <View style={{width:130, height:130, flexShrink:1}}>
-                <Image
-                  style={styles.source}
-                  source={require('../../images/home/water.png')}>
-                  <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{this.state.water}</Text>
-                  </View>
-                </Image>
-              </View>
+            <View style={{width:'100%', height:height*0.5, marginBottom:15}} >
+              <Image 
+                style={{width:'100%', height:'100%'}} 
+                source={require('../../images/home/W1.png')}>
+              </Image>
             </View>
-            <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-              <View style={{width:130, height:130, flexShrink:1}}>
-                <Image
-                  style={styles.source}
-                  source={require('../../images/home/stone.png')}>
-                  <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{this.state.stone}</Text>
-                  </View>
-                </Image>
+            <View style={{width:'100%'}}>
+              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                <View style={styles.sourceSize}>
+                  <Image
+                    style={styles.source}
+                    source={require('../../images/home/fire.png')}>
+                    <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'fire')}>
+                      <View style={styles.backdropView}>
+                        <Text style={styles.headline}>{this.state.fire}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </Image>
+                </View>
+                <View style={styles.sourceSize}>
+                  <Image
+                    style={styles.source}
+                    source={require('../../images/home/k.png')}>
+                    <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'k')}>
+                      <View style={styles.backdropView}>
+                        <Text style={styles.headline}>{this.state.K}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </Image>
+                </View>
+                <View style={styles.sourceSize}>
+                  <Image
+                    style={styles.source}
+                    source={require('../../images/home/water.png')}>
+                    <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'water')}>
+                      <View style={styles.backdropView}>
+                        <Text style={styles.headline}>{this.state.water}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </Image>
+                </View>
               </View>
-              <View style={{width:130, height:130, flexShrink:1}}>
-                <Image
-                  style={styles.source}
-                  source={require('../../images/home/seed.png')}>
-                  <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{this.state.seed}</Text>
-                  </View>
-                </Image>
+              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                <View style={styles.sourceSize}>
+                  <Image
+                    style={styles.source}
+                    source={require('../../images/home/stone.png')}>
+                    <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'stone')}>
+                      <View style={styles.backdropView}>
+                        <Text style={styles.headline}>{this.state.stone}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </Image>
+                </View>
+                <View style={styles.sourceSize}>
+                  <Image
+                    style={styles.source}
+                    source={require('../../images/home/seed.png')}>
+                    <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'seed')}>
+                      <View style={styles.backdropView}>
+                        <Text style={styles.headline}>{this.state.seed}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </Image>
+                </View>
+                <View style={styles.sourceSize}>
+                  <Image
+                    style={styles.source}
+                    source={require('../../images/home/wood.png')}>
+                    <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'wood')}>
+                      <View style={styles.backdropView}>
+                        <Text style={styles.headline}>{this.state.wood}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </Image>
+                </View>
               </View>
-              <View style={{width:130, height:130, flexShrink:1}}>
-                <Image
-                  style={styles.source}
-                  source={require('../../images/home/wood.png')}>
-                  <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{this.state.wood}</Text>
-                  </View>
-                </Image>
-              </View>
+              <View style={{width:'100%', height:5}}></View>
             </View>
-
         </ScrollView>
+        <Modal
+          style={[styles.modal]}
+          position={"center"}
+          ref={"buy_modal"}
+          isOpen={this.state.isOpen}
+        >
+          <View style={styles.ImageShadow}>
+            <Image 
+              style={styles.backdrop} 
+              source={require('../../images/BG_top.png')}>
+                <View style={styles.backdropSourceView}>
+                  <Text style={styles.backdropSourceViewHeadline}>請問你是否要用3顆K寶石換1個木頭</Text>
+                  <View style={{flexDirection:'row'}}>
+                    <Text style={{fontSize:20,marginTop:18}}>3</Text>
+                    <Text style={{fontSize:20,marginTop:18, marginLeft:10}}>X</Text>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={require('../../images/modal/K_Jewelry.png')}
+                    ></Image>
+                    <Text style={{fontSize:20,marginTop:18, marginRight:10}}>=</Text>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={require('../../images/modal/Wood.png')}
+                    ></Image>
+                  </View>
+                  <View style={{width:250}}>
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={require('../../images/modal/K_Jewelry.png')} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="請輸入數量" 
+                          placeholderTextColor="#FFF" 
+                          style={styles.input}
+                          onChangeText={(val) => this.onChangeText(val)}
+                          />
+                    </View>
+                  </View>
+                </View>
+            </Image>
+          </View>
+        </Modal>
       </View>
     )
   }
@@ -259,7 +330,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    //marginTop: Platform.OS == 'ios' ? 25 : 0,
+    marginTop: Platform.OS == 'ios' ? 25 : 0,
     height: height,
     width: width,
   },
@@ -272,6 +343,8 @@ const styles = StyleSheet.create({
   },
   backdropView: {
     flex:1,
+    width: width*0.3,
+    height: width*0.3,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
@@ -282,5 +355,90 @@ const styles = StyleSheet.create({
     fontWeight: '400',
     textAlign: 'center',
     color: 'rgb(255,255,255)'
-  }
+  },
+  sourceSize: {
+    width:'100%',
+    height: width*0.3,
+    flexShrink:1
+  },
+  modal: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    width:300,
+    height:300,
+  },
+  backdrop: {
+    left:-16,
+    top:-15,
+    width: 330,
+    height: 330,
+  },
+  backdropSourceView:{
+    flex:1,
+    width:330,
+    height:330,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
+  },
+  backdropSourceViewHeadline:{
+    marginTop:-50,
+    marginBottom:20,
+    fontSize: 16,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: 'rgb(60,60,60)'
+  },
+  ImageShadow: {
+    width:'100%',
+    height:'100%',
+    borderWidth: 3,
+    borderColor:'rgba(252,252,252,0.5)',
+    borderRadius: 1,
+    shadowColor: "#000000",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 3,
+      width: 0
+    }
+  },
+  wrapper: {
+    paddingVertical: 30,
+  },
+  inputWrap: {
+    flexDirection: "row",
+    marginVertical: 10,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: "#CCC"
+  },
+  iconWrap: {
+    paddingHorizontal: 7,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    height: 20,
+    width: 20,
+  },
+  input: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
 });
+
+
+        //   <View style={{flex:1, width:'100%', justifyContent:'center'}}>
+        //     <Image
+        //       style={{width:300, height:300}}
+        //       source={require('../../images/BG_top.png')}
+        //     >
+        //       <View style={{width:300, height:300}}>
+        //         <Text
+        //         title={`Cancel`}
+        //         onPress={() => this.setState({isOpen: false})}>
+        //         </Text>
+        //      </View>
+        //     </Image>
+        //  </View>

@@ -18,11 +18,11 @@ const SideDrawer = (props) => {
     <View style={styles.DrawerContainer}>
       <View style={styles.drawerIconContainer}>
         <Image  
-          source={require('../images/galaxy.png')}
+          source={require('../images/Wealth.png')}
           style={styles.drawerIcon}
         />
       </View>
-      <View style={{height:1, width:'100%', backgroundColor:'black'}}></View>
+     
       <DrawerItems {...props} 
         onItemPress={(route) => {
           if (route.route.routeName === 'TabOneDrawerSix') {
@@ -55,10 +55,11 @@ const styles = StyleSheet.create({
       width: '100%',
       alignItems:'center',
       justifyContent:'center',
+      backgroundColor: 'rgb(165,186,194)'
     },
     drawerIcon: {
-        width: '100%',
-        height: '100%',
+        width: 150,
+        height: 150,
         // borderRadius:10,
     },
 });
@@ -107,6 +108,14 @@ const routeConfiguration = {
   TabOneDrawerFive: { screen: tabOneDrawerFive },
   TabOneDrawerSix: { screen: tabOneDrawerSix },
 }
+// const routeConfiguration = {
+//   TabOneDrawerOne: { screen: tabOneDrawerOne },
+//   TabOneDrawerTwo: { screen: tabOneDrawerTwo },
+//   TabOneDrawerThree: { screen: tabOneDrawerThree },
+//   TabOneDrawerFour: { screen: tabOneDrawerFour },
+//   TabOneDrawerFive: { screen: tabOneDrawerFive },
+//   TabOneDrawerSix: { screen: tabOneDrawerSix },
+// }
 // going to disable the header for now
 const DrawerNavigatorConfiguration = {
   initialRouteName: 'TabOneDrawerOne',

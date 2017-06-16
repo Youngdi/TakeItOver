@@ -1,6 +1,7 @@
 'use strict'
+import React from 'react';
 import { Platform } from 'react-native';
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { TabNavigator, StackNavigator, NavigationActions, TabView, TabBarBottom } from 'react-navigation';
 // Tab-Navigators
 import TabOneNavigation from '../tabOne/views/TabOneNavigation';
 import TabTwoNavigation from '../tabTwo/views/TabTwoNavigation';
@@ -18,6 +19,25 @@ const TabrouteConfiguration = {
 
 const tabBarConfiguration = {
   ...TabNavigator.Presets.AndroidTopTabs,
+  tabBarComponent: props => {
+    const {navigation, navigationState} = props
+    const jumpToIndex = index => {
+      const lastPosition = navigationState.index;
+      const tab = navigationState.routes[index];
+      const tabRoute = tab.routeName;
+      const tabAction = NavigationActions.navigate({ routeName: tabRoute });
+      if (lastPosition === index && tabRoute === 'TabOneNavigation') {
+        const HomeAction = NavigationActions.navigate({ routeName: 'TabOneDrawerOne' });
+        navigation.dispatch(HomeAction);
+      }
+      if (lastPosition === index && tabRoute === 'TabThreeNavigation') {
+        const HomeAction = NavigationActions.navigate({ routeName: 'TabThreeScreenOne' });
+        navigation.dispatch(HomeAction);
+      }
+      lastPosition !== index && navigation.dispatch(tabAction);
+    }
+    return <TabBarBottom {...props} jumpToIndex={jumpToIndex}/>
+  },
   swipeEnabled: false,
   lazyLoad: true,
   tabBarPosition: 'bottom',
