@@ -75,7 +75,7 @@ export async function api_giveScore(K, password, puzzle_result, puzzle) {
     });
     return response;
 }
-export async function api_buyResource(K, password, puzzle_result, puzzle) {
+export async function api_buyResource(Money, Resource, leftMoney) {
   const username = await AsyncStorage.getItem('@UserName');
   // const userCountry = await AsyncStorage.getItem('@UserCountry');
     let response = await fetch(
@@ -88,10 +88,9 @@ export async function api_buyResource(K, password, puzzle_result, puzzle) {
       },
         body: JSON.stringify({
           'name': username,
-          'K': K,
-          'password': password,
-          'puzzle_result': puzzle_result,
-          'puzzle': puzzle,
+          'K': Money,
+          'resource': Resource,
+          'leftK': leftMoney
         })
      }
     )

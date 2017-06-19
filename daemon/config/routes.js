@@ -367,6 +367,52 @@ module.exports = (app) => {
       res.end()
     }
   })
+  app.post('/buy_resource', (req, res) => {
+    var resourceUpdate = { $inc: {} }
+    resourceUpdate.$inc[req.body.resource] = req.body.K / 3
+    buyResource()
+    async function buyResource() {
+      User.find({name: req.body.name}, async (e, user) => {
+        if (e) {
+          console.log(e)
+        } else {
+          if (req.body.leftK >= 3 && req.body.K >= 3 && req.body.K % 3 === 0) {
+            await updateK()
+            await updateR()
+            res.send({data: true})
+            res.end()
+          } else {
+            res.send({data: false})
+            res.end()
+          }
+        }
+      })
+    }
+    function updateK() {
+      User.update(
+        {
+          name: req.body.name
+        },
+        {
+          $inc: {
+            K: -(+req.body.K)
+          }
+        },
+        (e, user) => {
+        if (e) console.log(e)
+      })
+    }
+    function updateR() {
+      User.update(
+        {
+          name: req.body.name
+        },
+        resourceUpdate,
+        (e, user) => {
+        if (e) console.log(e)
+      })
+    }
+  })
   app.post('/buy_hint', (req, res) => {
     var puzzleUpdate = { $set: {} }
     puzzleUpdate.$set[req.body.puzzle] = req.body.puzzle_result

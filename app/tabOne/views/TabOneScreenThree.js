@@ -30,7 +30,7 @@ export default class TabOneScreenThree extends React.Component {
   };
   render() {
     return(
-      <BackgroundImage url="Fire">
+      <BackgroundImage url="Water">
         <Text style={styles.text}>{ '國家歷史' }</Text>
       </BackgroundImage>
     )

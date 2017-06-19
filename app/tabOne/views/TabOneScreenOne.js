@@ -14,13 +14,19 @@ import {
   Button,
   AsyncStorage,
   Dimensions,
+  Alert,
 } from 'react-native';
 import Modal from 'react-native-modalbox';
 import * as Config from '../../constants/config';
+import imageFlags from '../../constants/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 import { getMyUser, api_buyResource } from '../../api/api';
+import Modaliconimage from '../../components/Modaliconimage';
+import HomeImage from '../../components/HomeImage.js';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 const { width, height } = Dimensions.get("window");
 
 async function getFlagFromSetting() {
@@ -68,8 +74,11 @@ export default class TabOneScreenOne extends React.Component {
       wood: 0,
       stone: 0,
       seed: 0,
-      shopIcon:'',
-      shopText:'',
+      shopIcon:'water',
+      shopText:'水',
+      shopMoney:0,
+      isOpen:false,
+      visible:false,
     };
   }
   async init() {
@@ -166,16 +175,73 @@ export default class TabOneScreenOne extends React.Component {
     });
   }
   onPressSourceButton(resource) {
+    let shopText = "";
+    switch (resource) {
+      case 'fire':
+        shopText = "火";
+        break;
+      case 'water':
+        shopText = "水";
+        break;
+      case 'seed':
+        shopText = "種子";
+        break;
+      case 'wood':
+        shopText = "木頭";
+        break;
+      case 'stone':
+        shopText = "石頭";
+        break;
+    }
     this.setState({
-
+      shopIcon: resource,
+      shopText: shopText,
     });
     this.refs.buy_modal.open();
-    //api_buyResource
   }
   onChangeText(val){
-    console.log(val)
+    this.setState({
+      shopMoney: val,
+      isOpen:true,
+    })
+  }
+  async buy() {
+    this.setState({
+      visible: true,
+    });
+    const flag = await api_buyResource(this.state.shopMoney, this.state.shopIcon, this.state.K);
+    if (flag.data) {
+      this.init();
+      Alert.alert(
+        '購買成功',
+        '歡迎下次再度光臨',
+        [
+          {text: '確定', onPress: () => {
+            this.setState({
+              isOpen: false,
+              visible: false,
+            });
+          }},
+        ],
+        { cancelable: false }
+      )
+    } else {
+      Alert.alert(
+        '購買失敗',
+        'K寶不足或請輸入可以被3整除的數',
+        [
+          {text: 'OK', onPress: () => {
+            this.setState({
+              visible: false,
+            })
+          }},
+        ],
+        { cancelable: false }
+      )
+    }
   }
   render() {
+
     return(
       <View
         style={{
@@ -197,10 +263,7 @@ export default class TabOneScreenOne extends React.Component {
           }
         >
             <View style={{width:'100%', height:height*0.5, marginBottom:15}} >
-              <Image 
-                style={{width:'100%', height:'100%'}} 
-                source={require('../../images/home/W1.png')}>
-              </Image>
+              <HomeImage url="BYT01"></HomeImage>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
@@ -219,7 +282,7 @@ export default class TabOneScreenOne extends React.Component {
                   <Image
                     style={styles.source}
                     source={require('../../images/home/k.png')}>
-                    <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'k')}>
+                    <TouchableOpacity onPress={() => alert('神祕的K寶石可以用來買各種資源')}>
                       <View style={styles.backdropView}>
                         <Text style={styles.headline}>{this.state.K}</Text>
                       </View>
@@ -286,8 +349,10 @@ export default class TabOneScreenOne extends React.Component {
             <Image 
               style={styles.backdrop} 
               source={require('../../images/BG_top.png')}>
+              
                 <View style={styles.backdropSourceView}>
-                  <Text style={styles.backdropSourceViewHeadline}>請問你是否要用3顆K寶石換1個木頭</Text>
+                  <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
+                  <Text style={styles.backdropSourceViewHeadline}>請問你是否要用3顆K寶石換1個{this.state.shopText}</Text>
                   <View style={{flexDirection:'row'}}>
                     <Text style={{fontSize:20,marginTop:18}}>3</Text>
                     <Text style={{fontSize:20,marginTop:18, marginLeft:10}}>X</Text>
@@ -296,28 +361,35 @@ export default class TabOneScreenOne extends React.Component {
                       source={require('../../images/modal/K_Jewelry.png')}
                     ></Image>
                     <Text style={{fontSize:20,marginTop:18, marginRight:10}}>=</Text>
-                    <Image
-                      style={{width:50, height:50}}
-                      source={require('../../images/modal/Wood.png')}
-                    ></Image>
+                    <Modaliconimage url={this.state.shopIcon}>
+                    </Modaliconimage>
                   </View>
-                  <View style={{width:250}}>
+                  <View style={{width:250, marginTop:20}}>
                       <View style={styles.inputWrap}>
                         <View style={styles.iconWrap}>
                           <Image source={require('../../images/modal/K_Jewelry.png')} style={styles.icon} resizeMode="contain" />
                         </View>
                         <TextInput
-                          placeholder="請輸入數量" 
+                          placeholder="請輸入數量"
+                          keyboardType="numeric"
                           placeholderTextColor="#FFF" 
                           style={styles.input}
                           onChangeText={(val) => this.onChangeText(val)}
                           />
                     </View>
                   </View>
+                  <View style={{top:20}}>
+                    <Button 
+                      title={"確定購買"}
+                      onPress={this.buy.bind(this)}
+                    >
+                    </Button>
+                  </View>
                 </View>
             </Image>
           </View>
         </Modal>
+        <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
       </View>
     )
   }
@@ -389,6 +461,13 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: 'rgb(60,60,60)'
   },
+  backdropSourceViewClose:{
+    left:135,
+    bottom:60,
+    fontSize: 20,
+    fontWeight: '800',
+    color: 'rgb(255,255,255)'
+  },
   ImageShadow: {
     width:'100%',
     height:'100%',
@@ -427,18 +506,3 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
-
-
-        //   <View style={{flex:1, width:'100%', justifyContent:'center'}}>
-        //     <Image
-        //       style={{width:300, height:300}}
-        //       source={require('../../images/BG_top.png')}
-        //     >
-        //       <View style={{width:300, height:300}}>
-        //         <Text
-        //         title={`Cancel`}
-        //         onPress={() => this.setState({isOpen: false})}>
-        //         </Text>
-        //      </View>
-        //     </Image>
-        //  </View>
