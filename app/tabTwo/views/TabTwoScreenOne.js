@@ -123,13 +123,14 @@ export default class TabTwoScreenOne extends React.Component {
           }
         >
           <View style={{flex:1, width:width, height:height, justifyContent:'center', alignItems:'center', backgroundColor:'rgb(164,183,192)'}}>
-            <View style={{width:'100%',height:height *0.3 - 100}}>
-              <Image
-                style={{width:'100%',height:height*0.3}}
-                source={require('../../images/puzzle/top.png')}
-              ></Image>
-            </View>
+            
             <View style={{flex:1, width:width*0.8, height:height, justifyContent:'center', alignItems:'center'}}>
+              <View style={{width:'100%',height:height * 0.25}}>
+                <Image
+                  style={{width:'100%',height:height * 0.25}}
+                  source={require('../../images/puzzle/top.png')}
+                ></Image>
+              </View>
               <View style={styles.row1}>
                 <Puzzle P_result={this.state.P1} P={'P1'} onClick={this.puzzle_click.bind(this, this.state.P1, 'P1')} />
                 <Puzzle P_result={this.state.P2} P={'P2'} onClick={this.puzzle_click.bind(this, this.state.P2, 'P2')} />
