@@ -21,7 +21,7 @@ export default class TabOneScreenFour extends React.Component {
       drawerLabel: '國家歷史',
       drawerIcon: ({ tintColor }) => (
         <Ionicons
-          name={'md-cloudy-night'}
+          name={'md-flag'}
           size={Platform == 'ios' ? 26 : 20}
           style={{ color: tintColor }}
         />

@@ -1,11 +1,13 @@
 'use strict'
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, Alert, Dimensions, Platform, ScrollView, Modal } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { Platform } from 'react-native';
 import BackgroundImage from '../../components/BackgroundImage';
-
+import ZoomImage from 'react-native-zoom-image';
+import ImageViewer from 'react-native-image-zoom-viewer';
+import {Easing} from 'react-native'; // import Easing if you want to customize easing function
+const { width, height } = Dimensions.get("window");
 export default class TabOneScreenThree extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -30,9 +32,13 @@ export default class TabOneScreenThree extends React.Component {
   };
   render() {
     return(
-      <BackgroundImage url="Water">
-        <Text style={styles.text}>{ '國家歷史' }</Text>
-      </BackgroundImage>
+      <ScrollView>
+        <Image
+          resizeMode='contain'
+          style={{width:width, height: height}}
+          source={require('../../images/schdule.png')}
+        ></Image>
+      </ScrollView>
     )
   }
 }
@@ -44,3 +50,6 @@ const styles = StyleSheet.create({
         fontSize: 32
     }
 });
+
+      // <BackgroundImage url="schdule">
+      // </BackgroundImage>

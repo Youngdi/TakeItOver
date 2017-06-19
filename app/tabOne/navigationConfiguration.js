@@ -10,6 +10,7 @@ import TabOneScreenThree from './views/TabOneScreenThree';
 import TabOneScreenFour from './views/TabOneScreenFour';
 import TabOneScreenFive from './views/TabOneScreenFive';
 import TabOneScreenSix from './views/TabOneScreenSix';
+import TabOneScreenSeven from './views/TabOneScreenSeven';
 import * as Config from '../constants/config';
 
 const SideDrawer = (props) => {
@@ -25,7 +26,7 @@ const SideDrawer = (props) => {
      
       <DrawerItems {...props} 
         onItemPress={(route) => {
-          if (route.route.routeName === 'TabOneDrawerSix') {
+          if (route.route.routeName === 'TabOneDrawerSeven') {
             AsyncStorage.setItem('@isLogined', 'N');
             fetch(`http://${Config.SERVER_IP}:${Config.PORT}/logout`);
             props.navigation.navigate('DrawerClose');
@@ -99,6 +100,11 @@ const tabOneDrawerSix = StackNavigator({
   },
   stackNavigatorConfiguration
 );
+const tabOneDrawerSeven = StackNavigator({
+  TabOneDrawerSeven: { screen: TabOneScreenSeven },
+  },
+  stackNavigatorConfiguration
+);
 
 const routeConfiguration = {
   TabOneDrawerOne: { screen: tabOneDrawerOne },
@@ -107,6 +113,7 @@ const routeConfiguration = {
   TabOneDrawerFour: { screen: tabOneDrawerFour },
   TabOneDrawerFive: { screen: tabOneDrawerFive },
   TabOneDrawerSix: { screen: tabOneDrawerSix },
+  TabOneDrawerSeven: { screen: tabOneDrawerSeven },
 }
 // const routeConfiguration = {
 //   TabOneDrawerOne: { screen: tabOneDrawerOne },

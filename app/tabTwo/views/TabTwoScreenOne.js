@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, RefreshControl, Button, Platform, AsyncStorage, Dimensions, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, StyleSheet, RefreshControl, Button, Platform, AsyncStorage, Dimensions, TextInput, Image} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { goSecond } from '../../actions/tabTwoAction';
 import Puzzle from '../../components/Puzzle';
@@ -111,38 +111,49 @@ export default class TabTwoScreenOne extends React.Component {
   }
   render() {
     return(
-      <View>
+      <View style={{backgroundColor:'rgb(164,183,192)'}}>
         <ScrollView
           contentContainerStyle={styles.contentContainer}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
               onRefresh={this._onRefresh.bind(this)}
-              //tintColor="#ff0000"
               title="Loading..."
-              //titleColor="#00ff00"
-              //colors={['#ff0000', '#00ff00', '#0000ff']}
-              //progressBackgroundColor="#ffff00"
             />
           }
         >
-          <View style={{flex:1, width:width, height:height, justifyContent:'center', alignItems:'center'}}>
-            <View style={styles.row1}>
-              <Puzzle P_result={this.state.P1} onClick={this.puzzle_click.bind(this, this.state.P1, 'P1')} />
-              <Puzzle P_result={this.state.P2} onClick={this.puzzle_click.bind(this, this.state.P2, 'P2')} />
-              <Puzzle P_result={this.state.P3} onClick={this.puzzle_click.bind(this, this.state.P3, 'P3')} />
+          <View style={{flex:1, width:width, height:height, justifyContent:'center', alignItems:'center', backgroundColor:'rgb(164,183,192)'}}>
+            <View style={{width:'100%',height:height *0.3 - 100}}>
+              <Image
+                style={{width:'100%',height:height*0.3}}
+                source={require('../../images/puzzle/top.png')}
+              ></Image>
             </View>
-            <View title="1" style={styles.row1}>
-              <Puzzle P_result={this.state.P4} onClick={this.puzzle_click.bind(this, this.state.P4, 'P4')} />
-              <Puzzle P_result={this.state.P5} onClick={this.puzzle_click.bind(this, this.state.P5, 'P5')} />
-              <Puzzle P_result={this.state.P6} onClick={this.puzzle_click.bind(this, this.state.P6, 'P6')} />
+            <View style={{flex:1, width:width*0.8, height:height, justifyContent:'center', alignItems:'center'}}>
+              <View style={styles.row1}>
+                <Puzzle P_result={this.state.P1} P={'P1'} onClick={this.puzzle_click.bind(this, this.state.P1, 'P1')} />
+                <Puzzle P_result={this.state.P2} P={'P2'} onClick={this.puzzle_click.bind(this, this.state.P2, 'P2')} />
+                <Puzzle P_result={this.state.P3} P={'P3'} onClick={this.puzzle_click.bind(this, this.state.P3, 'P3')} />
+              </View>
+              <View style={styles.row1}>
+                <Puzzle P_result={this.state.P4} P={'P4'} onClick={this.puzzle_click.bind(this, this.state.P4, 'P4')} />
+                <Puzzle P_result={this.state.P5} P={'P5'} onClick={this.puzzle_click.bind(this, this.state.P5, 'P5')} />
+                <Puzzle P_result={this.state.P6} P={'P6'} onClick={this.puzzle_click.bind(this, this.state.P6, 'P6')} />
+              </View>
+              <View style={styles.row1}>
+                <Puzzle P_result={this.state.P7} P={'P7'} onClick={this.puzzle_click.bind(this, this.state.P7, 'P7')} />
+                <Puzzle P_result={this.state.P8} P={'P8'} onClick={this.puzzle_click.bind(this, this.state.P8, 'P8')} />
+                <Puzzle P_result={this.state.P9} P={'P9'} onClick={this.puzzle_click.bind(this, this.state.P9, 'P9')} />
+              </View>
+              <Puzzle P_result={this.state.P10} P={'P10'} onClick={this.puzzle_click.bind(this, this.state.P10, 'P10')} />
+              <View style={{width:'100%',height:height*0.1}}>
+                <Image
+                  style={{width:'100%',height:height*0.1}}
+                  source={require('../../images/puzzle/buttom.png')}
+                ></Image>
+              </View>
             </View>
-            <View title="1" style={styles.row1}>
-              <Puzzle P_result={this.state.P7} onClick={this.puzzle_click.bind(this, this.state.P7, 'P7')} />
-              <Puzzle P_result={this.state.P8} onClick={this.puzzle_click.bind(this, this.state.P8, 'P8')} />
-              <Puzzle P_result={this.state.P9} onClick={this.puzzle_click.bind(this, this.state.P9, 'P9')} />
-            </View>
-            <Puzzle P_result={this.state.P10} onClick={this.puzzle_click.bind(this, this.state.P10, 'P10')} />
+
           </View>
         </ScrollView>
         <Modal
@@ -210,6 +221,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     paddingVertical: 1,
+    backgroundColor:'rgb(164,183,192)'
   },
   input: {
     flex: 1,
@@ -217,17 +229,10 @@ const styles = StyleSheet.create({
   },
   row1: {
     width: '100%',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     flexDirection: 'row',
     alignContent: 'center',
     flexWrap: 'nowrap',
-  },
-  row1Item: {
-    flexShrink:1,
-    width: '100%',
-    height: 50,
-    margin: 0.5,
-    backgroundColor: 'red',
   },
   baseText: {
    fontFamily: 'Cochin',

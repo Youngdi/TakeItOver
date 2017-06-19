@@ -89,13 +89,14 @@ export default class TabFourScreenOne extends React.Component {
              && this.state.my_seed >= this.state.seed
              && this.state.my_wood >= this.state.wood
             ) {
-              const flag = await api_buyLand(this.state.fire, this.state.water, this.state.wood, this.state.stone, this.state.seed, this.state.map_name)
-              this.init();
+              await api_buyLand(this.state.fire, this.state.water, this.state.wood, this.state.stone, this.state.seed, this.state.map_name)
+              // this.init();
               Alert.alert(
                 '購買成功',
                 '歡迎下次再度光臨',
                 [
                   {text: '確定', onPress: () => {
+                    this.context.socket.emit('message','refresh')
                     this.setState({
                       isOpen: false,
                       visible: false,
@@ -129,9 +130,8 @@ export default class TabFourScreenOne extends React.Component {
   }
   componentWillMount() {
     this.context.socket.on('message', (message) => {
-      this.setState({
-        title: message.A,
-      });
+      console.log(message);
+      this.init();
     });
   }
   _onRefresh() {
@@ -157,8 +157,6 @@ export default class TabFourScreenOne extends React.Component {
     
   }
   render() {
-    const { socket } = this.context;
-
     const listItems1 = this.state.lands.reduce((acc, current, index) => {
        let view;
         if (index < 7) {

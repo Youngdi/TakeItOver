@@ -33,17 +33,11 @@ export default class TabOneScreenFive extends React.Component {
         <WebView
           ref={'webview'}
           automaticallyAdjustContentInsets={false}
-          //style={styles.webView}
           source={{uri: 'https://billyoungdi.typeform.com/to/cHd1k0'}}
           javaScriptEnabled={true}
-          //onNavigationStateChange={this.onNavigationStateChange.bind(this)}
-          //startInLoadingState={true}
           scalesPageToFit={true}
         />
       </View>
-      /*<BackgroundImage url="Fire">
-        <Text style={styles.text}>{ '專包各種疑難雜症' }</Text>
-      </BackgroundImage>*/
     )
   }
 }
