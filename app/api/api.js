@@ -22,9 +22,39 @@ export async function getMyUser() {
     });
     return response[0];
 }
+export async function getLand() {
+    let response = await fetch(`http://${Config.SERVER_IP}:${Config.PORT}/get_map`,)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
+    return response;
+}
+export async function getMyCountry() {
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
+    let response = await fetch(
+      `http://${Config.SERVER_IP}:${Config.PORT}/get_my_country`,
+      {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          'country': userCountry,
+        })
+     }
+    )
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
+    return response[0];
+}
 export async function api_buyHint(cost, puzzle, puzzle_result) {
   const username = await AsyncStorage.getItem('@UserName');
-  // const userCountry = await AsyncStorage.getItem('@UserCountry');
     let response = await fetch(
       `http://${Config.SERVER_IP}:${Config.PORT}/buy_hint`,
       {
@@ -50,7 +80,6 @@ export async function api_buyHint(cost, puzzle, puzzle_result) {
 }
 export async function api_giveScore(K, password, puzzle_result, puzzle) {
   const username = await AsyncStorage.getItem('@UserName');
-  // const userCountry = await AsyncStorage.getItem('@UserCountry');
     let response = await fetch(
       `http://${Config.SERVER_IP}:${Config.PORT}/puzzle_give_score`,
       {
@@ -77,7 +106,7 @@ export async function api_giveScore(K, password, puzzle_result, puzzle) {
 }
 export async function api_buyResource(Money, Resource, leftMoney) {
   const username = await AsyncStorage.getItem('@UserName');
-  // const userCountry = await AsyncStorage.getItem('@UserCountry');
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
     let response = await fetch(
       `http://${Config.SERVER_IP}:${Config.PORT}/buy_resource`,
       {
@@ -88,9 +117,40 @@ export async function api_buyResource(Money, Resource, leftMoney) {
       },
         body: JSON.stringify({
           'name': username,
+          'country': userCountry,
           'K': Money,
           'resource': Resource,
           'leftK': leftMoney
+        })
+     }
+    )
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
+    return response;
+}
+export async function api_buyLand(fire, water, wood, stone, seed, map_name) {
+  const username = await AsyncStorage.getItem('@UserName');
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
+    let response = await fetch(
+      `http://${Config.SERVER_IP}:${Config.PORT}/buy_land`,
+      {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          'name': username,
+          'country': userCountry,
+          'mapName': map_name,
+          'fire': fire,
+          'water': water,
+          'wood': wood,
+          'stone': stone,
+          'seed': seed
         })
      }
     )

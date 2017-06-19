@@ -11,7 +11,13 @@ var CountrySchema = new mongoose.Schema({
   fire: Number,
   wood: Number,
   stone: Number,
-  seed: Number
+  seed: Number,
+  B1: Number,
+  B2: Number,
+  B3: Number,
+  B4: Number,
+  B5: Number,
+  B6: Number
 })
 
 module.exports = CountrySchema

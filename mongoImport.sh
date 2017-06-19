@@ -1,3 +1,4 @@
+mongo takeitover --eval "db.dropDatabase()"
 mongoimport --headerline -d takeitover -c maps --type csv --file ./csv/map.csv
 mongoimport --headerline -d takeitover -c users --type csv --file ./csv/user.csv
 mongoimport --headerline -d takeitover -c countries --type csv --file ./csv/country.csv

@@ -191,7 +191,7 @@ module.exports = (app) => {
         console.log(data)
     })
   })
-  app.get('/get_country', (req, res) => {
+  app.post('/get_my_country', (req, res) => {
     Country.find({country: req.body.country}, (e, country) => {
       if (e) {
         console.log(e)
@@ -201,7 +201,7 @@ module.exports = (app) => {
       }
     })
   })
-  app.post('/get_my_country', (req, res) => {
+  app.get('/get_country', (req, res) => {
     Country.find({}, (e, country) => {
       if (e) {
         console.log(e)
@@ -401,6 +401,18 @@ module.exports = (app) => {
         (e, user) => {
         if (e) console.log(e)
       })
+      Country.update(
+        {
+          country: req.body.country
+        },
+        {
+          $inc: {
+            K: -(+req.body.K)
+          }
+        },
+        (e, user) => {
+        if (e) console.log(e)
+      })
     }
     function updateR() {
       User.update(
@@ -408,6 +420,60 @@ module.exports = (app) => {
           name: req.body.name
         },
         resourceUpdate,
+        (e, user) => {
+        if (e) console.log(e)
+      })
+      Country.update(
+        {
+          country: req.body.country
+        },
+        resourceUpdate,
+        (e, user) => {
+        if (e) console.log(e)
+      })
+    }
+  })
+  app.post('/buy_land', (req, res) => {
+    var resourceUpdate = { $inc: {} }
+    resourceUpdate.$inc[req.body.fire] = -(req.body.fire)
+    resourceUpdate.$inc[req.body.water] = -(req.body.water)
+    resourceUpdate.$inc[req.body.wood] = -(req.body.wood)
+    resourceUpdate.$inc[req.body.stone] = -(req.body.stone)
+    resourceUpdate.$inc[req.body.seed] = -(req.body.seed)
+    buyLand()
+    async function buyLand() {
+        await updateC()
+        await updateM()
+        res.send({data: true})
+    }
+    function updateC() {
+      Country.update(
+        {
+          country: req.body.country
+        },
+        {
+          $inc: {
+            fire: -(+req.body.fire),
+            water: -(+req.body.water),
+            wood: -(+req.body.wood),
+            stone: -(+req.body.stone),
+            seed: -(+req.body.seed)
+          }
+        },
+        (e, user) => {
+        if (e) console.log(e)
+      })
+    }
+    function updateM() {
+      Map.update(
+        {
+          map_name: req.body.mapName
+        },
+        {
+          $set: {
+            country: req.body.country
+          }
+        },
         (e, user) => {
         if (e) console.log(e)
       })

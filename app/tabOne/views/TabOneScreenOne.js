@@ -22,7 +22,7 @@ import imageFlags from '../../constants/config';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-import { getMyUser, api_buyResource } from '../../api/api';
+import { getMyUser, getMyCountry, api_buyResource } from '../../api/api';
 import Modaliconimage from '../../components/Modaliconimage';
 import HomeImage from '../../components/HomeImage.js';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -31,28 +31,6 @@ const { width, height } = Dimensions.get("window");
 
 async function getFlagFromSetting() {
     let response = await fetch(`http://${Config.SERVER_IP}:${Config.PORT}/get_setting`)
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error(error);
-      return error;
-    });
-    return response[0];
-}
-async function getMyCountry() {
-  const userCountry = await AsyncStorage.getItem('@UserCountry');
-    let response = await fetch(
-      `http://${Config.SERVER_IP}:${Config.PORT}/get_my_country`,
-      {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-        body: JSON.stringify({
-          'country': userCountry,
-        })
-     }
-    )
     .then((response) => response.json())
     .catch((error) => {
       console.error(error);

@@ -12,7 +12,7 @@ export default class modaliconimage extends Component {
         return (
             <Image 
               source={imageFlags[this.props.url]}
-              style={styles.backgroundImage}
+              style={this.props.page4 ? styles.Page4_backgroundImage : styles.Page1_backgroundImage}
             >
             </Image>
         )
@@ -20,7 +20,12 @@ export default class modaliconimage extends Component {
 }
 
 const styles = StyleSheet.create({
-    backgroundImage: {
+    Page4_backgroundImage: {
+        width: 30,
+        height: 30,
+        marginRight:4,
+    },
+    Page1_backgroundImage: {
         width: 50,
         height: 50,
     },

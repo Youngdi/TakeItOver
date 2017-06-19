@@ -21,6 +21,7 @@ import Modal from 'react-native-modalbox';
 import Modaliconimage from '../../components/Modaliconimage';
 import BackgroundImage from '../../components/BackgroundImage';
 import HomeImage from '../../components/HomeImage.js';
+import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand} from '../../api/api';
 
 const { width, height } = Dimensions.get("window");
 
@@ -36,71 +37,95 @@ export default class TabFourScreenOne extends React.Component {
   }
   constructor(props) {
     super(props);
+    this.init();
     this.state = {
       isRefreshing: false,
-      title: '領土爭奪戰'
+      isOpen:false,
+      visible:false,
+      lands: [],
     };
   }
   async init() {
-    const table_flag = await getFlagFromSetting();
-    if (table_flag.changeToDay3 == 'T') {
-      const country = await getMyCountry();
-      this.setState({
-        K: country.K,
-        water: country.water,
-        fire: country.fire,
-        wood: country.wood,
-        stone: country.stone,
-        seed: country.seed,
-        isRefreshing: false
-      });
-    } else {
-      const user = await getMyUser();
-      this.setState({
-        K: user.K,
-        water: user.water,
-        fire: user.fire,
-        wood: user.wood,
-        stone: user.stone,
-        seed: user.seed,
-        isRefreshing: false
-      });
-    }
+    const country = await getMyCountry();
+    const land = await getLand();
+    this.setState({
+      isRefreshing: false,
+      isOpen:false,
+      visible:false,
+      my_K: country.K,
+      my_water: country.water,
+      my_fire: country.fire,
+      my_wood: country.wood,
+      my_stone: country.stone,
+      my_seed: country.seed,
+      K: 0,
+      water: 0,
+      fire: 0,
+      wood: 0,
+      stone: 0,
+      seed: 0,
+      B1:country.B1,
+      B2:country.B2,
+      B3:country.B3,
+      B4:country.B4,
+      B5:country.B5,
+      B6:country.B6,
+      lands: land,
+      map_name: '',
+    });
   }
   async buy() {
-    this.setState({
-      visible: true,
-    });
-    const flag = await api_buyResource(this.state.shopMoney, this.state.shopIcon, this.state.K);
-    if (flag.data) {
-      this.init();
       Alert.alert(
-        '購買成功',
-        '歡迎下次再度光臨',
+        '購買再次確定',
+        `此筆交易將花費\n火:${this.state.fire}, 水:${this.state.water}, 石:${this.state.stone}, 種子:${this.state.seed}, 木頭:${this.state.wood}`,
         [
-          {text: '確定', onPress: () => {
-            this.setState({
-              isOpen: false,
-              visible: false,
-            });
+          {text: '購買', onPress: async () => {
+              // this.setState({
+              //   visible: true,
+              // });
+            if (this.state.my_fire >= this.state.fire
+             && this.state.my_water >= this.state.water
+             && this.state.my_stone >= this.state.stone
+             && this.state.my_seed >= this.state.seed
+             && this.state.my_wood >= this.state.wood
+            ) {
+              const flag = await api_buyLand(this.state.fire, this.state.water, this.state.wood, this.state.stone, this.state.seed, this.state.map_name)
+              this.init();
+              Alert.alert(
+                '購買成功',
+                '歡迎下次再度光臨',
+                [
+                  {text: '確定', onPress: () => {
+                    this.setState({
+                      isOpen: false,
+                      visible: false,
+                    });
+                  }},
+                ],
+                { cancelable: false }
+              )
+            } else {
+              Alert.alert(
+                '購買失敗',
+                '資源不足',
+                [
+                  {text: '前往首頁購買', onPress: () => {
+                    
+                    this.setState({
+                       visible: false,
+                    })
+                   this.props.navigation.navigate('Home');
+                  }},
+                  {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                ],
+                { cancelable: false }
+              )
+            }
           }},
+          {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
         ],
         { cancelable: false }
       )
-    } else {
-      Alert.alert(
-        '購買失敗',
-        'K寶不足或請輸入可以被3整除的數',
-        [
-          {text: 'OK', onPress: () => {
-            this.setState({
-              visible: false,
-            })
-          }},
-        ],
-        { cancelable: false }
-      )
-    }
   }
   componentWillMount() {
     this.context.socket.on('message', (message) => {
@@ -115,13 +140,172 @@ export default class TabFourScreenOne extends React.Component {
       this.setState({isRefreshing: false});
     }, 500);
   }
-  onPressSourceButton() {
-    alert('A');
+  onPressSourceButton(water, fire, wood, stone, seed, map_name, country) {
+    this.setState({
+      water: water,
+      fire: fire,
+      wood: wood,
+      stone: stone,
+      seed: seed,
+      map_name: map_name,
+    });
+    if(country === 'N') {
+      this.refs.buy_modal.open();
+    } else {
+      alert('此地已被購買');
+    }
+    
   }
-  b
   render() {
-    console.log(height * 0.15);
     const { socket } = this.context;
+
+    const listItems1 = this.state.lands.reduce((acc, current, index) => {
+       let view;
+        if (index < 7) {
+          // 0-6
+          view = <View style={styles.sourceSize} key={index}>
+              <Image
+                style={styles.source}
+                source={require('../../images/home/water.png')}>
+                <TouchableHighlight 
+                  underlayColor={'rgba(252,252,252,0.5)'} 
+                  onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
+                  <View style={styles.backdropView}>
+                    <Text style={styles.headline}>{current.country}</Text>
+                  </View>
+                </TouchableHighlight>
+              </Image>
+            </View>;
+        }
+        acc.push(view);
+        return acc;
+      },[]);
+    const listItems2 = this.state.lands.reduce((acc, current, index) => {
+       let view;
+        if (index > 6 && index < 14) {
+          // 7-13
+          view = <View style={styles.sourceSize} key={index}>
+              <Image
+                style={styles.source}
+                source={require('../../images/home/water.png')}>
+                <TouchableHighlight 
+                  underlayColor={'rgba(252,252,252,0.5)'} 
+                  onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
+                  <View style={styles.backdropView}>
+                    <Text style={styles.headline}>{current.country}</Text>
+                  </View>
+                </TouchableHighlight>
+              </Image>
+            </View>;
+        }
+        acc.push(view);
+        return acc;
+      },[]);
+    const listItems3 = this.state.lands.reduce((acc, current, index) => {
+       let view;
+        if (index > 13 && index < 21) {
+          // 14-20
+          view = <View style={styles.sourceSize} key={index}>
+              <Image
+                style={styles.source}
+                source={require('../../images/home/water.png')}>
+                <TouchableHighlight 
+                  underlayColor={'rgba(252,252,252,0.5)'} 
+                  onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
+                  <View style={styles.backdropView}>
+                    <Text style={styles.headline}>{current.country}</Text>
+                  </View>
+                </TouchableHighlight>
+              </Image>
+            </View>;
+        }
+        acc.push(view);
+        return acc;
+      },[]);
+    const listItems4 = this.state.lands.reduce((acc, current, index) => {
+       let view;
+        if (index > 20 && index < 28) {
+          // 21-27
+          view = <View style={styles.sourceSize} key={index}>
+              <Image
+                style={styles.source}
+                source={require('../../images/home/water.png')}>
+                <TouchableHighlight 
+                  underlayColor={'rgba(252,252,252,0.5)'} 
+                  onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
+                  <View style={styles.backdropView}>
+                    <Text style={styles.headline}>{current.country}</Text>
+                  </View>
+                </TouchableHighlight>
+              </Image>
+            </View>;
+        }
+        acc.push(view);
+        return acc;
+      },[]);
+    const listItems5 = this.state.lands.reduce((acc, current, index) => {
+       let view;
+        if (index > 27 && index < 35) {
+          // 28-34
+          view = <View style={styles.sourceSize} key={index}>
+              <Image
+                style={styles.source}
+                source={require('../../images/home/water.png')}>
+                <TouchableHighlight 
+                  underlayColor={'rgba(252,252,252,0.5)'} 
+                  onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
+                  <View style={styles.backdropView}>
+                    <Text style={styles.headline}>{current.country}</Text>
+                  </View>
+                </TouchableHighlight>
+              </Image>
+            </View>;
+        }
+        acc.push(view);
+        return acc;
+      },[]);
+    const listItems6 = this.state.lands.reduce((acc, current, index) => {
+       let view;
+        if (index > 34 && index < 42) {
+          // 35-41
+          view = <View style={styles.sourceSize} key={index}>
+              <Image
+                style={styles.source}
+                source={require('../../images/home/water.png')}>
+                <TouchableHighlight 
+                  underlayColor={'rgba(252,252,252,0.5)'} 
+                  onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
+                  <View style={styles.backdropView}>
+                    <Text style={styles.headline}>{current.country}</Text>
+                  </View>
+                </TouchableHighlight>
+              </Image>
+            </View>;
+        }
+        acc.push(view);
+        return acc;
+      },[]);
+    const listItems7 = this.state.lands.reduce((acc, current, index) => {
+       let view;
+        if (index > 41) {
+          // 41-47
+          view = <View style={styles.sourceSize} key={index}>
+              <Image
+                style={styles.source}
+                source={require('../../images/home/water.png')}>
+                <TouchableHighlight 
+                  underlayColor={'rgba(252,252,252,0.5)'} 
+                  onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
+                  <View style={styles.backdropView}>
+                    <Text style={styles.headline}>{current.country}</Text>
+                  </View>
+                </TouchableHighlight>
+              </Image>
+            </View>;
+        }
+        acc.push(view);
+        return acc;
+      },[]);
     return(
       <View
         style={{
@@ -140,569 +324,37 @@ export default class TabFourScreenOne extends React.Component {
         >
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
+                  {listItems1}
               </View>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
+                  {listItems2}
               </View>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
+                  {listItems3}
               </View>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
+                  {listItems4}
               </View>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
+                  {listItems5}
               </View>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
+                  {listItems6}
               </View>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight underlayColor={'rgba(252,252,252,0.5)'} onPress={this.onPressSourceButton.bind(this, 'water')}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                </View>
+                  {listItems7}
               </View>
             </View>
         </ScrollView>
@@ -719,31 +371,23 @@ export default class TabFourScreenOne extends React.Component {
               
                 <View style={styles.backdropSourceView}>
                   <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
-                  <Text style={styles.backdropSourceViewHeadline}>請問你是否要用3顆K寶石換1個{this.state.shopText}</Text>
+                  <Text style={styles.backdropSourceViewHeadline}>購買此地需要花費</Text>
                   <View style={{flexDirection:'row'}}>
-                    <Text style={{fontSize:20,marginTop:18}}>3</Text>
-                    <Text style={{fontSize:20,marginTop:18, marginLeft:10}}>X</Text>
-                    <Image
-                      style={{width:50, height:50}}
-                      source={require('../../images/modal/K_Jewelry.png')}
-                    ></Image>
-                    <Text style={{fontSize:20,marginTop:18, marginRight:10}}>=</Text>
-                    <Modaliconimage url={this.state.shopIcon}>
+                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.fire}</Text>
+                    <Modaliconimage url={'fire'} page4={true}>
                     </Modaliconimage>
-                  </View>
-                  <View style={{width:250, marginTop:20}}>
-                      <View style={styles.inputWrap}>
-                        <View style={styles.iconWrap}>
-                          <Image source={require('../../images/modal/K_Jewelry.png')} style={styles.icon} resizeMode="contain" />
-                        </View>
-                        <TextInput
-                          placeholder="請輸入數量"
-                          keyboardType="numeric"
-                          placeholderTextColor="#FFF" 
-                          style={styles.input}
-                          onChangeText={(val) => this.onChangeText(val)}
-                          />
-                    </View>
+                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.water}</Text>
+                    <Modaliconimage url={'water'} page4={true}>
+                    </Modaliconimage>
+                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.stone}</Text>
+                    <Modaliconimage url={'stone'} page4={true}>
+                    </Modaliconimage>
+                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.seed}</Text>
+                    <Modaliconimage url={'seed'} page4={true}>
+                    </Modaliconimage>
+                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.wood}</Text>
+                    <Modaliconimage url={'wood'} page4={true}>
+                    </Modaliconimage>
                   </View>
                   <View style={{top:20}}>
                     <Button 
@@ -789,7 +433,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   headline: {
-    marginTop:70,
+    marginTop:0,
     fontSize: 20,
     fontWeight: '400',
     textAlign: 'center',
@@ -830,7 +474,7 @@ const styles = StyleSheet.create({
   },
   backdropSourceViewClose:{
     left:135,
-    bottom:60,
+    bottom:110,
     fontSize: 20,
     fontWeight: '800',
     color: 'rgb(255,255,255)'
