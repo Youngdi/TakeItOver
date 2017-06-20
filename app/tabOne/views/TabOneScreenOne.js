@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react';
-import { 
+import {
   View,
   Text,
   TouchableOpacity,
@@ -103,10 +103,10 @@ export default class TabOneScreenOne extends React.Component {
         marginLeft: -20,
       },
       headerLeft: (
-        <Ionicons.Button 
+        <Ionicons.Button
           name="ios-menu"
           color="#185ffe"
-          style={{marginLeft:13}} 
+          style={{marginLeft:13}}
           backgroundColor="#eeeef2"
           onPress={
             () => navigation.navigate('DrawerOpen')
@@ -231,7 +231,7 @@ export default class TabOneScreenOne extends React.Component {
           backgroundColor:'rgb(165,186,194)',
         }}>
         <ScrollView
-          style={styles.contentContainer}     
+          style={styles.contentContainer}
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
@@ -328,10 +328,9 @@ export default class TabOneScreenOne extends React.Component {
           isOpen={this.state.isOpen}
         >
           <View style={styles.ImageShadow}>
-            <Image 
-              style={styles.backdrop} 
+            <Image
+              style={styles.backdrop}
               source={require('../../images/BG_top.png')}>
-              
                 <View style={styles.backdropSourceView}>
                   <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
                   <Text style={styles.backdropSourceViewHeadline}>請問你是否要用3顆K寶石換1個{this.state.shopText}</Text>
@@ -354,14 +353,14 @@ export default class TabOneScreenOne extends React.Component {
                         <TextInput
                           placeholder="請輸入數量"
                           keyboardType="numeric"
-                          placeholderTextColor="#FFF" 
+                          placeholderTextColor="#FFF"
                           style={styles.input}
                           onChangeText={(val) => this.onChangeText(val)}
                           />
                     </View>
                   </View>
                   <View style={{top:20}}>
-                    <Button 
+                    <Button
                       title={"確定購買"}
                       onPress={this.buy.bind(this)}
                     >
@@ -376,8 +375,10 @@ export default class TabOneScreenOne extends React.Component {
     )
   }
 }
+console.log(height);
 const styles = StyleSheet.create({
   text: {
+    flex: 1,
     textAlign: 'center',
     color: 'red',
     fontSize: 32
