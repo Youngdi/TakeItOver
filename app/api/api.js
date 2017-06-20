@@ -34,6 +34,7 @@ export async function getLand() {
 }
 export async function getMyCountry() {
   const userCountry = await AsyncStorage.getItem('@UserCountry');
+  const username = await AsyncStorage.getItem('@UserName');
     let response = await fetch(
       `http://${Config.SERVER_IP}:${Config.PORT}/get_my_country`,
       {
@@ -82,6 +83,7 @@ export async function api_buyHint(cost, puzzle, puzzle_result) {
 }
 export async function api_giveScore(K, password, puzzle_result, puzzle) {
   const username = await AsyncStorage.getItem('@UserName');
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
     let response = await fetch(
       `http://${Config.SERVER_IP}:${Config.PORT}/puzzle_give_score`,
       {
@@ -92,6 +94,7 @@ export async function api_giveScore(K, password, puzzle_result, puzzle) {
       },
         body: JSON.stringify({
           'name': username,
+          'country': userCountry,
           'K': K,
           'password': password,
           'puzzle_result': puzzle_result,

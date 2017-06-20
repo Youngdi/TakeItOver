@@ -354,6 +354,18 @@ module.exports = (app) => {
         (e, user) => {
         if (e) console.log(e)
       })
+      Country.update(
+        {
+          country: req.body.country
+        },
+        {
+          $inc: {
+            K: req.body.K
+          }
+        },
+        (e, user) => {
+        if (e) console.log(e)
+      })
       Setting.update({}, {
           $push: {
               day1_puzzle: '時間為：' + new Date() + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result

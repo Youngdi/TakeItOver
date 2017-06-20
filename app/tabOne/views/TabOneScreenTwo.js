@@ -190,7 +190,7 @@ export default class TabOneScreenTwo extends React.Component {
                     style={styles.backdrop} 
                     source={require('../../images/workshop/長平.jpg')}>
                       <View style={styles.backdropView}>
-                        <Text style={styles.headline}>萬長平-台北旌旗青年牧區長</Text>
+                        <Text style={styles.headline}>萬長平-台北旌旗青年區牧</Text>
                       </View>
                   </Image>
                 </View>

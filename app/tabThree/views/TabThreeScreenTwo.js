@@ -1,22 +1,29 @@
-'use strict'
-import React from 'react';
-import { View, Text, TouchableOpacity, Button } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+'use strict';
+
+import React, { Component } from 'react';
+
+import {
+  AppRegistry,
+  StyleSheet,
+  Text,
+  NavigatorIOS,
+  TouchableOpacity,
+  Linking,
+  Platform,
+} from 'react-native';
+
+import QRCodeScanner from '../../components/QRCodeScanner';
+import { NavigationActions } from 'react-navigation';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export default class TabThreeScreenTwo extends React.Component {
+export default class ScanScreen extends Component {
   static navigationOptions = ({ navigation }) => {
-    
     const {state, setParams} = navigation;
-    //const isInfo = state.params.mode === 'info';
-    //const {user} = state.params;
     return {
-      //title: isInfo ? `${user}'s Contact Info` : `Chat with ${state.params.user}`,
-      title: '尋寶獵人2',
-      headerRight: (
-        <Icon.Button name="qrcode" color="#000" backgroundColor="#eeeef2" onPress={() => console.log(navigation)}>
-        </Icon.Button>
-      ),
+      title: '掃寶物',
+      titleStyle: {
+        textAlign: 'center',
+      },
       headerLeft: (
         <Ionicons
             name='ios-arrow-back'
@@ -25,43 +32,80 @@ export default class TabThreeScreenTwo extends React.Component {
             style={{marginLeft:13}}
             onPress={()=>{navigation.goBack();}}
         >
-        {state.params.titleName}
         </Ionicons>
       ),
     };
   };
-  render(){
-    return(
-      <View style={{
-        flex:1,
-        backgroundColor:'blue',
-        alignItems:'center',
-        justifyContent:'center'
-      }}>
-        <Text>{ 'Tab Three Screen Two' }</Text>
-        <TouchableOpacity
-          onPress={ () => this.props.navigation.navigate('TabThreeScreenThree') }
-          style={{
-            padding:20,
-            borderRadius:20,
-            backgroundColor:'yellow',
-            marginTop:20
-          }}>
-          <Text>{'Go to screen three'}</Text>
+  constructor(props) {
+    super(props);
+    this.state = {
+      isRefreshing: false,
+      board: '歡迎進入奇妙的世界！'
+    };
+  }
+  onSuccess(e) {
+    this.props.navigation.navigate('TabThreeScreenOne', e);
+    /*const setParamsAction = NavigationActions.setParams({
+      params: e,
+      key: 'TabOneScreenOne',
+    });*/
+    //this.props.navigation.dispatch(setParamsAction);
+    //this.props.navigation.dispatch({type:'JUMP_TO_TAB', payload:{e}});
+    // const resetAction = NavigationActions.reset({
+    //     index: 0,
+    //     actions: [
+    //         NavigationActions.navigate({ routeName: 'TabThreeScreenFour'}),
+    //         NavigationActions.navigate({ routeName: 'TabThreeScreenOne'})
+    //     ]
+    //   });
+    // this.props.navigation.dispatch(resetAction);
+    //Linking.openURL(e.data).catch(err => console.error('An error occured', err));
+    //console.log(e);
+  }
+  topContent() {
+    return (
+        <Text style={styles.centerText}>
+            scan the QR code
+        </Text>
+    );
+  }
+  bottomContent() {
+    return (
+        <TouchableOpacity style={styles.buttonTouchable}>
+          <Text style={styles.buttonText}>OK. Got it!</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          onPress={ () => this.props.navigation.goBack() }
-          style={{
-            padding:20,
-            borderRadius:20,
-            backgroundColor:'deeppink',
-            marginTop:20
-          }}>
-          <Text>{'Go back a screen this tab'}</Text>
-        </TouchableOpacity>
-
-      </View>
-    )
+    );
+  }
+  render() {
+    return (
+        <QRCodeScanner 
+            onRead={this.onSuccess.bind(this)} 
+            //topContent={this.topContent()} 
+            bottomContent={this.bottomContent()}
+        />
+    );
   }
 }
+
+const styles = StyleSheet.create({
+  centerText: {
+    flex: 1,
+    fontSize: 18,
+    padding: 32,
+    color: '#777',
+  },
+
+  textBold: {
+    fontWeight: '500',
+    color: '#000',
+  },
+
+  buttonText: {
+    fontSize: 21,
+    color: 'rgb(0,122,255)',
+  },
+
+  buttonTouchable: {
+    padding: 16,
+  },
+});

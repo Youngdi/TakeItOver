@@ -79,7 +79,6 @@ export default class ScanScreen extends Component {
   render() {
     return (
         <QRCodeScanner 
-            title={'123'} 
             onRead={this.onSuccess.bind(this)} 
             //topContent={this.topContent()} 
             bottomContent={this.bottomContent()}
