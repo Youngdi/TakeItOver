@@ -168,3 +168,33 @@ export async function api_buyLand(fire, water, wood, stone, seed, map_name) {
     });
     return response;
 }
+export async function api_qrcode(fire, water, wood, stone, seed, qrcodeName) {
+  const username = await AsyncStorage.getItem('@UserName');
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
+    let response = await fetch(
+      `http://${Config.SERVER_IP}:${Config.PORT}/scan_qrcode`,
+      {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          'name': username,
+          'country': userCountry,
+          'qrcodeName': qrcodeName,
+          'fire': fire,
+          'water': water,
+          'wood': wood,
+          'stone': stone,
+          'seed': seed
+        })
+     }
+    )
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
+    return response;
+}

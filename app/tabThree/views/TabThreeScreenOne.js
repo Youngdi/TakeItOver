@@ -23,8 +23,8 @@ import Modal from 'react-native-modalbox';
 import Modaliconimage from '../../components/Modaliconimage';
 import BackgroundImage from '../../components/BackgroundImage';
 import HomeImage from '../../components/HomeImage.js';
-import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand} from '../../api/api';
-
+import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand, api_qrcode} from '../../api/api';
+import QRCode from '../../constants/qrcode';
 const { width, height } = Dimensions.get("window");
 
 export default class TabThreeScreenOne extends React.Component {
@@ -37,30 +37,96 @@ export default class TabThreeScreenOne extends React.Component {
         alignSelf: 'center',
         marginRight: -20,
       },
-      headerRight: (
-        <Icon.Button 
-          name="qrcode" 
-          color="#000"
-          style={{alignItems:'center', justifyContent:'center' }}
-          backgroundColor="#eeeef2" 
-          onPress={() => 
-            navigation.navigate('TabThreeScreenFour') //QR code Page
-          }
-        />
-      ),
       headerLeft: null,
     };
   };
   constructor(props) {
     super(props);
+    this.init();
     this.state = {
       isRefreshing: false,
-      board: '歡迎進入奇妙的世界！'
+      country: '',
+      K: 0,
+      water: 0,
+      fire: 0,
+      wood: 0,
+      stone: 0,
+      seed: 0,
+      isOpen: false,
+      visible: false,
+      q_water:0,
+      q_fire:0,
+      q_wood:0,
+      q_stone:0,
+      q_seed:0,
+      q_source:'',
+      B1: 0,
+      B2: 0,
+      B3: 0,
+      B4: 0,
+      B5: 0,
+      B6: 0,
     };
+  }
+  async init() {
+    const country = await getMyCountry();
+    this.setState({
+      username: country.username,
+      K: country.K,
+      water: country.water,
+      fire: country.fire,
+      wood: country.wood,
+      stone: country.stone,
+      seed: country.seed,
+      B1: country.B1,
+      B2: country.B2,
+      B3: country.B3,
+      B4: country.B4,
+      B5: country.B5,
+      B6: country.B6,
+      isRefreshing: false,
+      visible: false,
+    });
   }
   componentWillMount() {
     if (this.props.navigation.state.params) {
-      alert(this.props.navigation.state.params.data);
+      function RemoveHTML(strText) {
+        return strText.replace('://', "").replace('.', "").replace('.', "").replace('/', "");
+      }
+      const QRcode_money = QRCode[RemoveHTML(this.props.navigation.state.params.data)];
+      const flag = api_qrcode(QRcode_money.fire, QRcode_money.water, QRcode_money.wood, QRcode_money.stone, QRcode_money.seed, QRcode_money.source)
+      flag.then((data) => {
+        if (data.data) {
+          this.setState({
+            visible: false,
+            q_source: QRcode_money.source,
+            q_water: QRcode_money.water,
+            q_fire: QRcode_money.fire,
+            q_stone: QRcode_money.stone,
+            q_wood: QRcode_money.wood,
+            q_seed: QRcode_money.seed,
+          });
+          Alert.alert(
+          '掃描成功',
+          `獲得資源能力加成\n火:${this.state.q_fire}x${data.B.B2}, 水:${this.state.q_water}x${data.B.B3}, 石:${this.state.q_stone}x${data.B.B4}\n木頭:${this.state.q_wood}x${data.B.B5}, 種子:${this.state.q_seed}x${data.B.B6}`,
+          [
+            {text: '確定', onPress: () => console.log('yes')},
+          ],
+            { cancelable: false }
+          )
+        } else {
+          alert('此資源已領取過');
+          this.setState({
+            visible: false,
+            q_source: QRcode_money.source,
+            q_water: QRcode_money.water,
+            q_fire: QRcode_money.fire,
+            q_stone: QRcode_money.stone,
+            q_wood: QRcode_money.wood,
+            q_seed: QRcode_money.seed,
+          });
+        }
+      })
     }
   }
   _onRefresh() {
@@ -76,6 +142,7 @@ export default class TabThreeScreenOne extends React.Component {
     alert('123');
   }
   render() {
+    console.log(this.state);
     return (
       <View
         style={{
@@ -92,21 +159,75 @@ export default class TabThreeScreenOne extends React.Component {
             />
           }
         >
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                <View style={styles.sourceSize}>
-                  <Image
-                    style={styles.source}
-                    source={require('../../images/home/water.png')}>
-                    <TouchableHighlight 
-                      underlayColor={'rgba(252,252,252,0.5)'} 
-                      onPress={this.onPressSourceButton.bind(this)}>
-                      <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{' '}</Text>
-                      </View>
-                    </TouchableHighlight>
-                  </Image>
-                 </View>
+            <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height*0.7}}>
+              <View style={{width:'100%'}}>
+                <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                  <View style={styles.sourceSize}>
+                    <Image
+                      style={styles.source}
+                      source={require('../../images/home/water.png')}>
+                      <TouchableHighlight 
+                        underlayColor={'rgba(252,252,252,0.5)'} 
+                        onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                        <View style={styles.backdropView}>
+                          <Text style={styles.headline}>{' '}</Text>
+                        </View>
+                      </TouchableHighlight>
+                    </Image>
+                  </View>
+                  <View style={styles.sourceSize}>
+                    <Image
+                      style={styles.source}
+                      source={require('../../images/home/water.png')}>
+                      <TouchableHighlight 
+                        underlayColor={'rgba(252,252,252,0.5)'} 
+                        onPress={this.onPressSourceButton.bind(this)}>
+                        <View style={styles.backdropView}>
+                          <Text style={styles.headline}>{' '}</Text>
+                        </View>
+                      </TouchableHighlight>
+                    </Image>
+                  </View>
+                  <View style={styles.sourceSize}>
+                    <Image
+                      style={styles.source}
+                      source={require('../../images/home/water.png')}>
+                      <TouchableHighlight 
+                        underlayColor={'rgba(252,252,252,0.5)'} 
+                        onPress={this.onPressSourceButton.bind(this)}>
+                        <View style={styles.backdropView}>
+                          <Text style={styles.headline}>{' '}</Text>
+                        </View>
+                      </TouchableHighlight>
+                    </Image>
+                  </View>
+                  <View style={styles.sourceSize}>
+                    <Image
+                      style={styles.source}
+                      source={require('../../images/home/water.png')}>
+                      <TouchableHighlight 
+                        underlayColor={'rgba(252,252,252,0.5)'} 
+                        onPress={this.onPressSourceButton.bind(this)}>
+                        <View style={styles.backdropView}>
+                          <Text style={styles.headline}>{' '}</Text>
+                        </View>
+                      </TouchableHighlight>
+                    </Image>
+                  </View>
+                  <View style={styles.sourceSize}>
+                    <Image
+                      style={styles.source}
+                      source={require('../../images/home/water.png')}>
+                      <TouchableHighlight 
+                        underlayColor={'rgba(252,252,252,0.5)'} 
+                        onPress={this.onPressSourceButton.bind(this)}>
+                        <View style={styles.backdropView}>
+                          <Text style={styles.headline}>{' '}</Text>
+                        </View>
+                      </TouchableHighlight>
+                    </Image>
+                  </View>
+                </View>
               </View>
             </View>
         </ScrollView>

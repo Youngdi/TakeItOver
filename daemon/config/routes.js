@@ -491,6 +491,64 @@ module.exports = (app) => {
       })
     }
   })
+  app.post('/scan_qrcode', (req, res) => {
+    var resourceUpdate = { $set: {} }
+    resourceUpdate.$set[req.body.qrcodeName] = 'T'
+    scanQRcode()
+    async function scanQRcode() {
+      User.find({name: req.body.name}, async (e, user) => {
+        if (e) {
+          console.log(e)
+        } else {
+          if (user[0][req.body.qrcodeName] === 'F') {
+            const B = {}
+            B.B1 = user[0].B1
+            B.B2 = user[0].B2
+            B.B3 = user[0].B3
+            B.B4 = user[0].B4
+            B.B5 = user[0].B5
+            B.B6 = user[0].B6
+            await updateC(user[0].B2, user[0].B3, user[0].B4, user[0].B5, user[0].B6)
+            await updateM()
+            res.send({data: true, B})
+            res.end()
+          } else {
+            res.send({data: false})
+            res.end()
+          }
+        }
+      })
+    }
+    function updateC(B2, B3, B4, B5, B6) {
+      Country.update(
+        {
+          country: req.body.country
+        },
+        {
+          $inc: {
+            fire: req.body.fire * B2,
+            water: req.body.water * B3,
+            wood: req.body.wood * B4,
+            stone: req.body.stone * B5,
+            seed: req.body.seed * B6
+          }
+        },
+        (e, user) => {
+        if (e) console.log(e)
+      })
+    }
+    function updateM() {
+      User.update(
+        {
+          name: req.body.name
+        },
+        resourceUpdate,
+        (e, user) => {
+        if (e) console.log(e)
+      })
+    }
+  })
+
   app.post('/buy_hint', (req, res) => {
     var puzzleUpdate = { $set: {} }
     puzzleUpdate.$set[req.body.puzzle] = req.body.puzzle_result
