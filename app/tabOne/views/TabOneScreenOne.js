@@ -245,7 +245,9 @@ export default class TabOneScreenOne extends React.Component {
           }
         >
             <View style={{width:'100%', height:height*0.5, marginBottom:15}} >
-              <HomeImage url={this.state.username} navigation={this.props.navigation}></HomeImage>
+              <TouchableOpacity onPress={() => this.refs.history_modal.open()}>
+               <HomeImage url={this.state.username} navigation={this.props.navigation}></HomeImage>
+              </TouchableOpacity>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
@@ -367,6 +369,22 @@ export default class TabOneScreenOne extends React.Component {
                     >
                     </Button>
                   </View>
+                </View>
+            </Image>
+          </View>
+        </Modal>
+        <Modal
+          style={[styles.modal]}
+          position={"center"}
+          ref={"history_modal"}
+          isOpen={this.state.isOpen}
+        >
+          <View style={styles.ImageShadow}>
+            <Image 
+              style={styles.backdrop} 
+              source={require('../../images/BG_top.png')}>
+                <View style={styles.backdropSourceView}>
+                  <Text>{'人物歷史'}</Text>
                 </View>
             </Image>
           </View>
