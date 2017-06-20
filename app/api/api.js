@@ -20,6 +20,7 @@ export async function getMyUser() {
       console.error(error);
       return error;
     });
+    response[0].username = username;
     return response[0];
 }
 export async function getLand() {
@@ -51,6 +52,7 @@ export async function getMyCountry() {
       console.error(error);
       return error;
     });
+    response[0].username = username;
     return response[0];
 }
 export async function api_buyHint(cost, puzzle, puzzle_result) {

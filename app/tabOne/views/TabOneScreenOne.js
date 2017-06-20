@@ -56,7 +56,7 @@ export default class TabOneScreenOne extends React.Component {
       shopText:'水',
       shopMoney:0,
       isOpen:false,
-      visible:false,
+      visible:true,
     };
   }
   async init() {
@@ -64,24 +64,28 @@ export default class TabOneScreenOne extends React.Component {
     if (table_flag.changeToDay3 == 'T') {
       const country = await getMyCountry();
       this.setState({
+        username: country.username,
         K: country.K,
         water: country.water,
         fire: country.fire,
         wood: country.wood,
         stone: country.stone,
         seed: country.seed,
-        isRefreshing: false
+        isRefreshing: false,
+        visible: false,
       });
     } else {
       const user = await getMyUser();
       this.setState({
+        username: user.username,
         K: user.K,
         water: user.water,
         fire: user.fire,
         wood: user.wood,
         stone: user.stone,
         seed: user.seed,
-        isRefreshing: false
+        isRefreshing: false,
+        visible: false,
       });
     }
   }
@@ -241,7 +245,7 @@ export default class TabOneScreenOne extends React.Component {
           }
         >
             <View style={{width:'100%', height:height*0.5, marginBottom:15}} >
-              <HomeImage url="BYT01"></HomeImage>
+              <HomeImage url={this.state.username} navigation={this.props.navigation}></HomeImage>
             </View>
             <View style={{width:'100%'}}>
               <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
