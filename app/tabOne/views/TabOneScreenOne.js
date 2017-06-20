@@ -375,8 +375,10 @@ export default class TabOneScreenOne extends React.Component {
     )
   }
 }
+console.log(height);
 const styles = StyleSheet.create({
   text: {
+    flex: 1,
     textAlign: 'center',
     color: 'red',
     fontSize: 32
