@@ -1,7 +1,9 @@
 'use strict'
 import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, StyleSheet, RefreshControl, Button, Platform, AsyncStorage, Dimensions, TextInput, Image} from 'react-native';
+import { TouchableWithoutFeedback, View, Text, TouchableOpacity, ScrollView, StyleSheet, RefreshControl, Button, Platform, AsyncStorage, Dimensions, TextInput, Image, Picker} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Divider, CheckBox } from 'react-native-elements';
+import { RadioButtons, SegmentedControls } from 'react-native-radio-buttons'
 import { goSecond } from '../../actions/tabTwoAction';
 import Puzzle from '../../components/Puzzle';
 import Modal from 'react-native-modalbox';
@@ -41,9 +43,11 @@ export default class TabTwoScreenOne extends React.Component {
       character: "",
       hint: "",
       isOpen: false,
+      score_isOpen:false,
       isDisabled: false,
       cost: "0",
       puzzle:"",
+      puzzle_result:false,
     };
   }
   async init() {
@@ -60,6 +64,8 @@ export default class TabTwoScreenOne extends React.Component {
       P9: user.P9,
       P10: user.P10,
       isRefreshing: false,
+      isOpen: false,
+      score_isOpen: false,
       cost: user.country == 'M' ? "25" : "30",
     });
   }
@@ -75,11 +81,15 @@ export default class TabTwoScreenOne extends React.Component {
     if (P_result == 'W') {
       this.setState({
         character: puzzle[P].character,
-        hint: puzzle[P].hint
+        hint: puzzle[P].hint,
+        score_isOpen: false,
       })
       this.refs.W_modal.open();
     }
     if (P_result == "L") {
+      this.setState({
+        score_isOpen: false,
+      })
       this.refs.L_modal.open();
     }
     if (P_result == "N") {
@@ -87,9 +97,9 @@ export default class TabTwoScreenOne extends React.Component {
     }
   }
   async giveScore(value) {
-    const flag = await api_giveScore(value.K, value.password, value.puzzle_result, this.state.puzzle);
+    const flag = await api_giveScore(value.K, value.password, this.state.puzzle_result, this.state.puzzle);
     if (flag.data) {
-      alert('輸入成功');
+      alert('給分成功');
       this.init();
     } else {
       alert('密碼錯誤別亂試～');
@@ -107,7 +117,30 @@ export default class TabTwoScreenOne extends React.Component {
     this.setState({isOpen: false});
   }
   render() {
-    return(
+    console.log(this.state);
+    const options = [
+      "W",
+      "L"
+    ];
+    function setSelectedOption(selectedOption){
+      this.setState({
+        puzzle_result: selectedOption,
+        isOpen: false,
+        score_isOpen: true,
+      });
+    }
+    function renderOption(option, selected, onSelect, index){
+      const style = selected ? { fontWeight: 'bold'} : {};
+      return (
+        <TouchableWithoutFeedback onPress={onSelect} key={index}>
+          <Text style={style}>{option}</Text>
+        </TouchableWithoutFeedback>
+      );
+    }
+    function renderContainer(optionNodes){
+      return <View>{optionNodes}</View>;
+    }
+    return (
       <View style={{backgroundColor:'rgb(164,183,192)'}}>
         <ScrollView
           contentContainerStyle={styles.contentContainer}
@@ -209,22 +242,39 @@ export default class TabTwoScreenOne extends React.Component {
           style={[styles.modal]}
           position={"center"}
           ref={"N_modal"}
-          isOpen={this.state.isOpen}
+          isOpen={this.state.score_isOpen}
         >
-          <View style={{flex:1, width:'100%', justifyContent:'center'}}>
-            <ScorePuzzle Submit={this.giveScore.bind(this)}/>
-            <Button
-              title={`Cancel`}
-              onPress={() => this.setState({isOpen: false})}
-              style={styles.btn}>
-           </Button>
-         </View>
+          <View style={styles.ImageShadow}>
+            <Image
+            style={styles.backdrop}
+            source={require('../../images/BG_top.png')}>
+              <View style={styles.backdropSourceView}>
+                <Text onPress={() => this.setState({score_isOpen:false})} style={styles.backdropSourceViewClose2}>X</Text>
+                <View style={{flex:1, width:'70%', marginTop:50}}>
+                  <SegmentedControls
+                    tint={'#f80046'}
+                    selectedTint= {'white'}
+                    backTint= {'#1e2126'}
+                    options={ options }
+                    allowFontScaling={ false } // default: true
+                    onSelection={ setSelectedOption.bind(this) }
+                    selectedOption={ this.state.puzzle_result }
+                    optionStyle={{fontFamily: 'AvenirNext-Medium'}}
+                    optionContainerStyle={{flex: 1}}
+                  />
+                  <ScorePuzzle Submit={this.giveScore.bind(this)}/>
+                </View>
+              </View>
+            </Image>
+          </View>
+    
+
+
         </Modal>
       </View>
     )
   }
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -299,6 +349,13 @@ const styles = StyleSheet.create({
     textAlign:'right',
     marginRight:35,
     height: 40,
+    fontSize: 20,
+    fontWeight: '800',
+    color: 'rgb(255,255,255)'
+  },
+  backdropSourceViewClose2:{
+    left: 140,
+    top: 10,
     fontSize: 20,
     fontWeight: '800',
     color: 'rgb(255,255,255)'

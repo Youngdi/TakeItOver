@@ -17,16 +17,14 @@ const { width, height } = Dimensions.get("window");
 const background = require("../images/login1_bg.png");
 const mark = require("../images/login1_mark.png");
 const lockIcon = require("../images/login1_lock.png");
+const K_Jewelry = require("../images/modal/K_Jewelry.png");
 const personIcon = require("../images/login1_person.png");
 
 const renderPassWordInput = ({ input: { onChange, ...restInput }}) => {
   return <TextInput placeholder="關主密碼" placeholderTextColor="#000" style={styles.input} secureTextEntry onChangeText={onChange} {...restInput} />
 }
 const renderKInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'email-address'} placeholder="K寶" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
-}
-const renderPuzzleResultInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput placeholder="Win or Lose" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="K寶" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 class ScorePuzzle extends React.Component {
   constructor(props) {
@@ -35,15 +33,10 @@ class ScorePuzzle extends React.Component {
   render() {
   return (
       <View style={styles.container}>  
+
         <View style={styles.inputWrap}>
           <View style={styles.iconWrap}>
-            <Image source={lockIcon} style={styles.icon} resizeMode="contain" />
-          </View>
-          <Field name="puzzle_result" component={renderPuzzleResultInput} />
-        </View>
-        <View style={styles.inputWrap}>
-          <View style={styles.iconWrap}>
-            <Image source={lockIcon} style={styles.icon} resizeMode="contain" />
+            <Image source={K_Jewelry} style={styles.icon} resizeMode="contain" />
           </View>
           <Field name="K" component={renderKInput} />
         </View>
@@ -104,8 +97,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    backgroundColor: 'black',
-    paddingVertical: 20,
     alignItems: "center",
     justifyContent: "center",
     marginTop: 30,
