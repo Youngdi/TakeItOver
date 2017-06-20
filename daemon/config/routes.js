@@ -532,6 +532,18 @@ module.exports = (app) => {
         (e, user) => {
         if (e) console.log(e)
       })
+      Country.update(
+        {
+          country: req.body.country
+        },
+        {
+          $inc: {
+            K: -(+req.body.cost)
+          }
+        },
+        (e, user) => {
+        if (e) console.log(e)
+      })
     }
     function updateP() {
       User.update(

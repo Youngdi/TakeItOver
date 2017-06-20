@@ -57,6 +57,7 @@ export async function getMyCountry() {
     return response[0];
 }
 export async function api_buyHint(cost, puzzle, puzzle_result) {
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
   const username = await AsyncStorage.getItem('@UserName');
     let response = await fetch(
       `http://${Config.SERVER_IP}:${Config.PORT}/buy_hint`,
@@ -68,6 +69,7 @@ export async function api_buyHint(cost, puzzle, puzzle_result) {
       },
         body: JSON.stringify({
           'name': username,
+          'country': userCountry,
           'puzzle': puzzle,
           'puzzle_result': puzzle_result,
           'cost': cost,

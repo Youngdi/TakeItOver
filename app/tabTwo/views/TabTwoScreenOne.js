@@ -9,6 +9,8 @@ import * as puzzle from '../../constants/puzzle';
 import * as Config from '../../constants/config';
 import { getMyUser, api_buyHint, api_giveScore } from '../../api/api';
 import ScorePuzzle from '../../components/ScorePuzzle';
+import PuzzleIcon from '../../components/PuzzleIcon.js';
+
 const { width, height } = Dimensions.get("window");
 
 export default class TabTwoScreenOne extends React.Component {
@@ -84,11 +86,6 @@ export default class TabTwoScreenOne extends React.Component {
       this.refs.N_modal.open();
     }
   }
-
-  getHint() {
-    alert('提示');
-    this.setState({isOpen: false});
-  }
   async giveScore(value) {
     const flag = await api_giveScore(value.K, value.password, value.puzzle_result, this.state.puzzle);
     if (flag.data) {
@@ -122,9 +119,8 @@ export default class TabTwoScreenOne extends React.Component {
             />
           }
         >
-          <View style={{flex:1, width:width, height:height, justifyContent:'center', alignItems:'center', backgroundColor:'rgb(164,183,192)'}}>
-
-            <View style={{flex:1, width:width*0.8, height:height, justifyContent:'center', alignItems:'center'}}>
+          <View style={{flex:1, width:width, height:height * 0.93, justifyContent:'center', alignItems:'center', backgroundColor:'rgb(164,183,192)'}}>
+            <View style={{flex:1, width:width*0.8, height:height, justifyContent:'center', alignItems:'center', backgroundColor:'rgb(164,183,192)'}}>
               <View style={{width:'100%',height:height * 0.25}}>
                 <Image
                   style={{width:'100%',height:height * 0.25}}
@@ -146,7 +142,16 @@ export default class TabTwoScreenOne extends React.Component {
                 <Puzzle P_result={this.state.P8} P={'P8'} onClick={this.puzzle_click.bind(this, this.state.P8, 'P8')} />
                 <Puzzle P_result={this.state.P9} P={'P9'} onClick={this.puzzle_click.bind(this, this.state.P9, 'P9')} />
               </View>
-              <Puzzle P_result={this.state.P10} P={'P10'} onClick={this.puzzle_click.bind(this, this.state.P10, 'P10')} />
+              <TouchableOpacity
+                onPress={this.puzzle_click.bind(this, this.state.P10, 'P10')}
+                style={{
+                  flexShrink:1,
+                  width: '100%',
+                  height: 200,
+                  margin: 5,
+                }}>
+                  <PuzzleIcon url={this.state.P10 == 'N' ? 'P10W': 'P10W'}></PuzzleIcon>
+              </TouchableOpacity>
               <View style={{width:'100%',height:height*0.1}}>
                 <Image
                   style={{width:'100%',height:height*0.1}}
@@ -154,7 +159,6 @@ export default class TabTwoScreenOne extends React.Component {
                 ></Image>
               </View>
             </View>
-
           </View>
         </ScrollView>
         <Modal
@@ -314,7 +318,7 @@ const styles = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
     letterSpacing:0.5,
-    lineHeight: Platform.OS === 'ios' ? 25 : 25
+    lineHeight: Platform.OS === 'ios' ? 25 : 30
   },
   text2: {
     color: "#ff4a4a",
@@ -340,7 +344,7 @@ const styles = StyleSheet.create({
     width: 100,
     color: 'white',
     letterSpacing: 2,
-    lineHeight: Platform.OS === 'ios' ? 30 : 32
+    lineHeight: Platform.OS === 'ios' ? 30 : 40
   },
   btnModal: {
     position: "absolute",

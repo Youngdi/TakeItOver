@@ -52,11 +52,12 @@ export default class TabOneScreenOne extends React.Component {
       wood: 0,
       stone: 0,
       seed: 0,
-      shopIcon:'water',
-      shopText:'水',
-      shopMoney:0,
-      isOpen:false,
-      visible:true,
+      shopIcon: 'water',
+      shopText: '水',
+      shopMoney: 0,
+      isOpen: false,
+      visible: true,
+      history_isOpen: false
     };
   }
   async init() {
@@ -377,13 +378,14 @@ export default class TabOneScreenOne extends React.Component {
           style={[styles.modal]}
           position={"center"}
           ref={"history_modal"}
-          isOpen={this.state.isOpen}
+          isOpen={this.state.history_isOpen}
         >
           <View style={styles.ImageShadow}>
             <Image 
               style={styles.backdrop} 
               source={require('../../images/BG_top.png')}>
                 <View style={styles.backdropSourceView}>
+                  <Text onPress={() => this.setState({history_isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
                   <Text>{'人物歷史'}</Text>
                 </View>
             </Image>

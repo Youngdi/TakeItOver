@@ -23,7 +23,7 @@ export default class Puzzle extends Component {
               style={{
                 flexShrink:1,
                 width: '100%',
-                height: height*0.135,
+                height: height*0.14,
                 margin: 5,
               }}>
               {
