@@ -123,7 +123,7 @@ export default class TabTwoScreenOne extends React.Component {
           }
         >
           <View style={{flex:1, width:width, height:height, justifyContent:'center', alignItems:'center', backgroundColor:'rgb(164,183,192)'}}>
-            
+
             <View style={{flex:1, width:width*0.8, height:height, justifyContent:'center', alignItems:'center'}}>
               <View style={{width:'100%',height:height * 0.25}}>
                 <Image
@@ -158,18 +158,22 @@ export default class TabTwoScreenOne extends React.Component {
           </View>
         </ScrollView>
         <Modal
-          style={[styles.modal]}
-          position={"center"}
-          ref={"W_modal"}
-          isOpen={this.state.isOpen}
+        style={[styles.modal]}
+        position={"center"}
+        ref={"W_modal"}
+        isOpen={this.state.isOpen}
         >
-          <Text style={styles.text}>{this.state.character}</Text>
-          <Text style={styles.text}>{this.state.hint}</Text>
-          <Button
-            title={`Cancel`}
-            onPress={() => this.setState({isOpen: false})}
-            style={styles.btn}>
-         </Button>
+          <View style={styles.ImageShadow}>
+            <Image
+            style={styles.backdrop}
+            source={require('../../images/BG_top.png')}>
+              <View style={styles.backdropSourceView}>
+                <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose1}>X</Text>
+                <Text style={styles.backdropSourceViewHeadline1}>{this.state.character}</Text>
+                <Text style={styles.text1}>{this.state.hint}</Text>
+              </View>
+            </Image>
+          </View>
         </Modal>
         <Modal
           style={[styles.modal]}
@@ -177,17 +181,25 @@ export default class TabTwoScreenOne extends React.Component {
           ref={"L_modal"}
           isOpen={this.state.isOpen}
         >
-           <Text style={styles.text}>Lose, 是否花{this.state.cost}個K寶石購買提示</Text>
-           <Button
-             title={`OK`}
-             onPress={this.buyHint.bind(this)}
-             style={styles.btn}>
-          </Button>
-          <Button
-            title={`Cancel`}
-            onPress={() => this.setState({isOpen: false})}
-            style={styles.btn}>
-         </Button>
+          <View style={styles.ImageShadow}>
+            <Image
+            style={styles.backdrop}
+            source={require('../../images/BG_top.png')}>
+              <View style={styles.backdropSourceView}>
+                <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose1}>X</Text>
+                <Text style={styles.backdropSourceViewHeadline1}>Lose</Text>
+                <Text style={styles.text2}>是否花 {this.state.cost} 個K寶石購買提示?</Text>
+                <View style={styles.btnContainer}>
+                  <TouchableOpacity onPress={() => this.setState({isOpen: false})}>
+                    <Text style={styles.btn}>取消</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity onPress={this.buyHint.bind(this)}>
+                    <Text style={styles.btn}>確認</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Image>
+          </View>
         </Modal>
         <Modal
           style={[styles.modal]}
@@ -244,78 +256,24 @@ const styles = StyleSheet.create({
      fontSize: 20,
      fontWeight: 'bold',
   },
-  diamondContainer: {
-    flex: 1,
-    // width: '100%',
-    // justifyContent: 'flex-start',
-    flexDirection: 'row',
-    // alignContent: 'center',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    backgroundColor: '#EDE7C9',
-    marginTop: 3,
-    marginBottom: 3,
-    marginLeft: 3,
-    marginRight: 3,
-    borderWidth: 5,
-    borderColor: '#F9CF7A',
-  },
-  diamondText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    flexShrink:1,
-    width: '100%',
-    backgroundColor: '#D25141',
-    color: '#F9CF7A',
-    fontSize: 16,
-    lineHeight: 32,
-    borderRadius: 10,
-    padding: 10,
-  },
-  resourceContainer1: {
-    flex: 1,
-    // width: '100%',
-    // justifyContent: 'flex-start',
-    flexDirection: 'row',
-    // alignContent: 'center',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    marginLeft: 3,
-    marginRight: 3,
-    borderRadius: 10,
-    paddingTop: 10,
-    backgroundColor: '#D25141',
-  },
-  resourceContainer2: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    alignItems: 'center',
-    marginLeft: 3,
-    marginRight: 3,
-    borderRadius: 10,
-    paddingBottom: 10,
-    backgroundColor: '#D25141',
-  },
-  resourceText: {
-    textAlign: 'center',
-    fontWeight: 'bold',
-    flexShrink:1,
-    width: '100%',
-    backgroundColor: '#D25141',
-    color: '#F9CF7A',
-    fontSize: 16,
-    lineHeight: 32,
-    padding: 0,
-  },
   modal: {
     justifyContent: 'center',
     alignItems: 'center',
     width:300,
     height:300,
+  },
+  backdrop: {
+    left:-16,
+    top:-15,
+    width: 330,
+    height: 330,
+  },
+  ImageShadow: {
+    width:'100%',
+    height:'100%',
     borderWidth: 3,
     borderColor:'rgba(252,252,252,0.5)',
-    borderRadius: 10,
+    borderRadius: 1,
     shadowColor: "#000000",
     shadowOpacity: 0.8,
     shadowRadius: 2,
@@ -324,13 +282,64 @@ const styles = StyleSheet.create({
       width: 0
     }
   },
-  btn: {
-    margin: 10,
-    backgroundColor: "#3B5998",
-    color: "white",
-    padding: 10
+  backdropSourceView:{
+    flex:1,
+    width:330,
+    height:330,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
-
+  backdropSourceViewClose1:{
+    width:'100%',
+    textAlign:'right',
+    marginRight:35,
+    height: 40,
+    fontSize: 20,
+    fontWeight: '800',
+    color: 'rgb(255,255,255)'
+  },
+  backdropSourceViewHeadline1:{
+    marginTop: 20,
+    height: 50,
+    fontSize: 24,
+    fontWeight: '800',
+    textAlign: 'center',
+    color: 'rgb(60,60,60)'
+  },
+  text1: {
+    color: "black",
+    height: 200,
+    fontSize: 18,
+    paddingLeft: 40,
+    paddingRight: 40,
+  },
+  text2: {
+    color: "#ff4a4a",
+    marginTop: 30,
+    height: 90,
+    fontSize: 18,
+    paddingLeft: 40,
+    paddingRight: 40,
+    textAlign: 'center'
+  },
+  btnContainer: {
+    height: 80,
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+  },
+  btn: {
+    fontSize: 20,
+    fontWeight: '400',
+    textAlign: 'center',
+    height: 30,
+    width: 100,
+    color: 'white',
+    letterSpacing: 2,
+    lineHeight: Platform.OS === 'ios' ? 30 : 32
+  },
   btnModal: {
     position: "absolute",
     top: 0,
@@ -339,8 +348,4 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "transparent"
   },
-  text: {
-    color: "black",
-    fontSize: 14
-  }
 });
