@@ -24,25 +24,25 @@ const Stone = require('../images/modal/Rock.png');
 
 
 const renderPassWordInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput placeholder="關主密碼" placeholderTextColor="#000" style={styles.input} secureTextEntry onChangeText={onChange} {...restInput} />
+  return <TextInput placeholder="關主密碼" placeholderTextColor="#8495a0" style={styles.input} secureTextEntry onChangeText={onChange} {...restInput} />
 }
 const renderKInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'numeric'} placeholder="K寶" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="K寶石" placeholderTextColor="#8495a0"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 const renderFireInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'numeric'} placeholder="火寶石" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="火寶石" placeholderTextColor="#8495a0"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 const renderWaterInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'numeric'} placeholder="水寶石" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="水寶石" placeholderTextColor="#8495a0"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 const renderWoodInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'numeric'} placeholder="木寶石" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="木寶石" placeholderTextColor="#8495a0"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 const renderStoneInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'numeric'} placeholder="地寶石" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="地寶石" placeholderTextColor="#8495a0"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 const renderSeedInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'numeric'} placeholder="種子" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="種子" placeholderTextColor="#8495a0"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 
 class GiveScoreDay3 extends React.Component {

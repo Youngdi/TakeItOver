@@ -15,6 +15,7 @@ import {
   AsyncStorage,
   Dimensions,
   Alert,
+  KeyboardAvoidingView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -88,6 +89,7 @@ export default class TabThreeScreenOne extends React.Component {
       B6: country.B6,
       isRefreshing: false,
       visible: false,
+      score_modal_isOpen:false,
     });
   }
   componentWillMount() {
@@ -141,23 +143,40 @@ export default class TabThreeScreenOne extends React.Component {
     this.refs.score_modal.open();
   }
   async giveScore(value) {
+    this.setState({
+      visible: true,
+      score_modal_isOpen:true,
+    });
     const flag = await api_giveScoreDay3(value.K, value.Fire, value.Water, value.Wood, value.Stone, value.Seed, value.password);
     if (flag.data) {
       Alert.alert(
       '給分成功',
       `獲得資源能力加成\nK寶石:${value.K}x${flag.B.B1}, 火寶石:${value.Fire}x${flag.B.B2}, 水寶石:${value.Water}x${flag.B.B3}\n土寶石:${value.Stone}x${flag.B.B4}, 木寶石:${value.Wood}x${flag.B.B5}, 種子:${value.Seed}x${flag.B.B6}`,
       [
-        {text: '確定', onPress: () => console.log('yes')},
+        {text: '確定', onPress: () => this.init()},
+        {text: '前往首頁查看資源', onPress: () => {
+          this.setState({
+            visible: false,
+            score_modal_isOpen:false,
+          });
+          this.props.navigation.navigate('Home');
+        }},
       ],
         { cancelable: false }
       )
     } else {
-      alert('密碼錯誤別亂試～');
+      Alert.alert(
+        '密碼錯誤別亂試～',
+        '再亂試也沒有用拉～',
+        [
+          {text: '確定', onPress: () => this.setState({visible: false, score_modal_isOpen:true})}
+        ],
+          { cancelable: false }
+      )
     }
     this.setState({isOpen: false});
   }
   render() {
-    console.log(this.state);
     return (
       <View
         style={{
@@ -196,7 +215,7 @@ export default class TabThreeScreenOne extends React.Component {
                       source={require('../../images/home/water.png')}>
                       <TouchableHighlight 
                         underlayColor={'rgba(252,252,252,0.5)'} 
-                        onPress={this.onPressSourceButton.bind(this)}>
+                        onPress={() => this.props.navigation.navigate('TabThreeScreenThree')}>
                         <View style={styles.backdropView}>
                           <Text style={styles.headline}>{' '}</Text>
                         </View>
@@ -248,7 +267,7 @@ export default class TabThreeScreenOne extends React.Component {
         </ScrollView>
         <Modal
           style={[styles.modal]}
-          position={"center"}
+          position={"top"}
           ref={"score_modal"}
           isOpen={this.state.score_modal_isOpen}
         >
@@ -315,6 +334,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width:300,
     height:300,
+    marginTop: Platform.OS == 'ios' ? 25 : 0,
   },
   backdrop: {
     left:-16,

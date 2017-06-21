@@ -21,10 +21,10 @@ const K_Jewelry = require("../images/modal/K_Jewelry.png");
 const personIcon = require("../images/login1_person.png");
 
 const renderPassWordInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput placeholder="關主密碼" placeholderTextColor="#000" style={styles.input} secureTextEntry onChangeText={onChange} {...restInput} />
+  return <TextInput placeholder="關主密碼" placeholderTextColor="#8495a0" style={styles.input} secureTextEntry onChangeText={onChange} {...restInput} />
 }
 const renderKInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput keyboardType={'numeric'} placeholder="K寶" placeholderTextColor="#000"  style={styles.input}  onChangeText={onChange} {...restInput} />
+  return <TextInput keyboardType={'numeric'} placeholder="K寶石" placeholderTextColor="#8495a0"  style={styles.input}  onChangeText={onChange} {...restInput} />
 }
 class ScorePuzzle extends React.Component {
   constructor(props) {

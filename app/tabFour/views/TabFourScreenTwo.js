@@ -18,7 +18,7 @@ export default class TabFourScreenTwo extends React.Component {
       messages: [
         {
           _id: 1,
-          text: 'Take Over 傾城而出，歡迎你的加入',
+          text: '你好我是NPC，你可以跟我聊天，但是我都會亂說話',
           createdAt: new Date(),
           user: {
             _id: 2,
@@ -61,8 +61,8 @@ export default class TabFourScreenTwo extends React.Component {
           createdAt: new Date(),
           user: {
             _id: 2,
-            name: '長平',
-            avatar: 'https://scontent.xx.fbcdn.net/v/t1.0-9/1185131_10151777143846435_1112463788_n.jpg?oh=8373e9bcba028812e44166c631e1ad1b&oe=59D91B8B',
+            name: '大天團英雄',
+            avatar: 'http://imgur.com/a/fRHFF',
           },
         }
         return {

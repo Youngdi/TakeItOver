@@ -40,8 +40,8 @@ export default class TabFourScreenOne extends React.Component {
     this.init();
     this.state = {
       isRefreshing: false,
-      isOpen:false,
-      visible:false,
+      isOpen: false,
+      visible1: false,
       lands: [],
     };
   }
@@ -51,7 +51,7 @@ export default class TabFourScreenOne extends React.Component {
     this.setState({
       isRefreshing: false,
       isOpen:false,
-      visible:false,
+      visible1:false,
       my_K: country.K,
       my_water: country.water,
       my_fire: country.fire,
@@ -75,58 +75,57 @@ export default class TabFourScreenOne extends React.Component {
     });
   }
   async buy() {
-      Alert.alert(
-        '購買再次確定',
-        `此筆交易將花費\n火:${this.state.fire}, 水:${this.state.water}, 石:${this.state.stone}, 種子:${this.state.seed}, 木頭:${this.state.wood}`,
-        [
-          {text: '購買', onPress: async () => {
-              // this.setState({
-              //   visible: true,
-              // });
-            if (this.state.my_fire >= this.state.fire
-             && this.state.my_water >= this.state.water
-             && this.state.my_stone >= this.state.stone
-             && this.state.my_seed >= this.state.seed
-             && this.state.my_wood >= this.state.wood
-            ) {
-              await api_buyLand(this.state.fire, this.state.water, this.state.wood, this.state.stone, this.state.seed, this.state.map_name)
-              // this.init();
-              Alert.alert(
-                '購買成功',
-                '歡迎下次再度光臨',
-                [
-                  {text: '確定', onPress: () => {
-                    this.context.socket.emit('message','refresh')
-                    this.setState({
-                      isOpen: false,
-                      visible: false,
-                    });
-                  }},
-                ],
-                { cancelable: false }
-              )
-            } else {
-              Alert.alert(
-                '購買失敗',
-                '資源不足',
-                [
-                  {text: '前往首頁購買', onPress: () => {
-                    
-                    this.setState({
-                       visible: false,
-                    })
-                   this.props.navigation.navigate('Home');
-                  }},
-                  {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                ],
-                { cancelable: false }
-              )
-            }
-          }},
-          {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-        ],
-        { cancelable: false }
-      )
+    this.setState({
+      isOpen: true,
+      visible1: true,
+    });
+    Alert.alert(
+      '購買再次確定',
+      `此筆交易將花費\n火:${this.state.fire}, 水:${this.state.water}, 石:${this.state.stone}, 種子:${this.state.seed}, 木頭:${this.state.wood}`,
+      [
+        {text: '購買', onPress: async () => {
+          if (this.state.my_fire >= this.state.fire
+           && this.state.my_water >= this.state.water
+           && this.state.my_stone >= this.state.stone
+           && this.state.my_seed >= this.state.seed
+           && this.state.my_wood >= this.state.wood
+          ) {
+            await api_buyLand(this.state.fire, this.state.water, this.state.wood, this.state.stone, this.state.seed, this.state.map_name)
+            Alert.alert(
+              '購買成功',
+              '歡迎下次再度光臨',
+              [
+                {text: '確定', onPress: () => {
+                  this.context.socket.emit('message','refresh')
+                  this.setState({
+                    isOpen: false,
+                    visible1: false,
+                  });
+                }},
+              ],
+              { cancelable: false }
+            )
+          } else {
+            Alert.alert(
+              '購買失敗',
+              '資源不足',
+              [
+                {text: '前往首頁購買', onPress: () => {
+                  this.setState({
+                     visible1: false,
+                  })
+                 this.props.navigation.navigate('Home');
+                }},
+                {text: '取消', onPress: () => this.setState({visible1: false,}), style: 'cancel'},
+              ],
+              { cancelable: false }
+            )
+          }
+        }},
+        {text: '取消', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+      ],
+      { cancelable: false }
+    )
   }
   componentWillMount() {
     this.context.socket.on('message', (message) => {
@@ -136,9 +135,7 @@ export default class TabFourScreenOne extends React.Component {
   }
   _onRefresh() {
     this.setState({isRefreshing: true});
-    setTimeout(() => {
-      this.setState({isRefreshing: false});
-    }, 500);
+    this.init();
   }
   onPressSourceButton(water, fire, wood, stone, seed, map_name, country) {
     this.setState({
@@ -154,9 +151,9 @@ export default class TabFourScreenOne extends React.Component {
     } else {
       alert('此地已被購買');
     }
-    
   }
   render() {
+    console.log(this.state);
     const listItems1 = this.state.lands.reduce((acc, current, index) => {
        let view;
         if (index < 7) {
@@ -398,7 +395,7 @@ export default class TabFourScreenOne extends React.Component {
             </Image>
           </View>
         </Modal>
-        <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
+        <Spinner visible={this.state.visible1} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
       </View>
     )
   }

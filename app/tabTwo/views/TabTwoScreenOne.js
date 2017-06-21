@@ -1,6 +1,7 @@
 'use strict'
 import React from 'react';
-import { TouchableWithoutFeedback, View, Text, TouchableOpacity, ScrollView, StyleSheet, RefreshControl, Button, Platform, AsyncStorage, Dimensions, TextInput, Image, Picker} from 'react-native';
+import { TouchableWithoutFeedback, View, Text, TouchableOpacity, ScrollView, StyleSheet, RefreshControl, Button, Platform, AsyncStorage, Dimensions, TextInput, Image, Picker, Alert} from 'react-native';
+import Spinner from 'react-native-loading-spinner-overlay';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { Divider, CheckBox } from 'react-native-elements';
 import { RadioButtons, SegmentedControls } from 'react-native-radio-buttons'
@@ -44,6 +45,7 @@ export default class TabTwoScreenOne extends React.Component {
       hint: "",
       isOpen: false,
       score_isOpen:false,
+      visible: false,
       isDisabled: false,
       cost: "0",
       puzzle:"",
@@ -66,6 +68,7 @@ export default class TabTwoScreenOne extends React.Component {
       isRefreshing: false,
       isOpen: false,
       score_isOpen: false,
+      visible:false,
       cost: user.country == 'M' ? "25" : "30",
     });
   }
@@ -97,12 +100,35 @@ export default class TabTwoScreenOne extends React.Component {
     }
   }
   async giveScore(value) {
+    this.setState({
+      visible: true,
+    });
     const flag = await api_giveScore(value.K, value.password, this.state.puzzle_result, this.state.puzzle);
     if (flag.data) {
-      alert('給分成功');
-      this.init();
+      Alert.alert(
+        '給分成功',
+        this.state.puzzle_result == 'W' ? `闖關成功恭喜獲得資源\nK寶石:${value.K}`: `闖關失敗，真可惜，沒關係還有參加獎，資源K寶石:${value.K}`,
+        [
+          {text: '確定', onPress: () => this.init()},
+          {text: '前往首頁查看資源', onPress: () => {
+            this.setState({
+              visible: false,
+            });
+            this.props.navigation.navigate('Home');
+          }},
+        ],
+          { cancelable: false }
+      )
+      
     } else {
-      alert('密碼錯誤別亂試～');
+      Alert.alert(
+        '密碼錯誤別亂試～',
+        '再亂試也沒有用拉～',
+        [
+          {text: '確定', onPress: () => this.setState({visible: false,})}
+        ],
+          { cancelable: false }
+      )
     }
     this.setState({isOpen: false});
   }
@@ -266,6 +292,7 @@ export default class TabTwoScreenOne extends React.Component {
             </Image>
           </View>
         </Modal>
+        <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />
       </View>
     )
   }

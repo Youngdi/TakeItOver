@@ -85,7 +85,7 @@ export default class LoginScreen extends React.Component {
     login.bind(this, value)();
   }
   render() {
-    return(
+    return (
       <ScrollView style={[styles.container]}>
         <LoginForm Submit={this.submit.bind(this)} wrong={this.state.wrong}/>
         <Spinner visible={this.state.visible} textContent={"Loading..."} textStyle={{color: '#FFF'}} />

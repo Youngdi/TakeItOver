@@ -25,7 +25,7 @@ const renderNameInput = ({ input: { onChange, ...restInput }}) => {
   return <TextInput placeholder="Username" placeholderTextColor="#FFF" style={styles.input} onChangeText={onChange} {...restInput} />
 }
 const renderPassWordInput = ({ input: { onChange, ...restInput }}) => {
-  return <TextInput placeholderTextColor="#FFF" placeholder="Password" style={styles.input} secureTextEntry onChangeText={onChange} {...restInput} />
+  return <TextInput  placeholder="Password" placeholderTextColor="#FFF" style={styles.input} secureTextEntry onChangeText={onChange} {...restInput} />
 }
 
 class LoginForm extends React.Component {
