@@ -277,7 +277,7 @@ export default class TabThreeScreenOne extends React.Component {
             source={require('../../images/BG_top.png')}>
               <View style={styles.backdropSourceView}>
                 <Text onPress={() => this.setState({score_modal_isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
-                <View style={{flex:1, width:'80%', marginTop:15}}>
+                <View style={{flex:1, width:'80%', marginTop:0}}>
                   <GiveScoreDay3 Submit={this.giveScore.bind(this)}/>
                 </View>
               </View>
@@ -333,19 +333,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     width:300,
-    height:300,
+    height:400,
     marginTop: Platform.OS == 'ios' ? 25 : 0,
   },
   backdrop: {
     left:-16,
     top:-15,
     width: 330,
-    height: 400,
+    height: 450,
   },
   backdropSourceView:{
     flex:1,
     width:330,
-    height:400,
+    height:450,
     justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
     color: 'rgb(60,60,60)'
   },
   backdropSourceViewClose:{
-    left:150,
+    left: Platform.OS == 'ios' ? 150 : 135,
     top:15,
     fontSize: 20,
     fontWeight: '800',

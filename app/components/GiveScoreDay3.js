@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   inputWrap: {
     flexDirection: "row",
     marginVertical: 10,
-    height: 23,
+    height: 30,
     borderBottomWidth: 1,
     borderBottomColor: "#CCC"
   },
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   button: {
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 5,
+    marginTop: 0,
   },
   buttonText: {
     color: "#FFF",

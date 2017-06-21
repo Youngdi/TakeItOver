@@ -75,15 +75,15 @@ export default class TabFourScreenOne extends React.Component {
     });
   }
   async buy() {
-    this.setState({
-      isOpen: true,
-      visible1: true,
-    });
     Alert.alert(
       '購買再次確定',
       `此筆交易將花費\n火:${this.state.fire}, 水:${this.state.water}, 石:${this.state.stone}, 種子:${this.state.seed}, 木頭:${this.state.wood}`,
       [
         {text: '購買', onPress: async () => {
+          this.setState({
+            isOpen: true,
+            visible1: true,
+          });
           if (this.state.my_fire >= this.state.fire
            && this.state.my_water >= this.state.water
            && this.state.my_stone >= this.state.stone
@@ -153,7 +153,6 @@ export default class TabFourScreenOne extends React.Component {
     }
   }
   render() {
-    console.log(this.state);
     const listItems1 = this.state.lands.reduce((acc, current, index) => {
        let view;
         if (index < 7) {

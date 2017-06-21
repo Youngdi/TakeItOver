@@ -367,10 +367,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0)',
   },
   backdropSourceViewClose1:{
-    width:'100%',
-    textAlign:'right',
-    marginRight:35,
-    height: 40,
+    top:-50,
+    left:135,
     fontSize: 20,
     fontWeight: '800',
     color: 'rgb(255,255,255)'
@@ -383,11 +381,9 @@ const styles = StyleSheet.create({
     color: 'rgb(255,255,255)'
   },
   backdropSourceViewHeadline1:{
-    marginTop: 0,
-    height: 50,
+    top:-50,
     fontSize: 24,
     fontWeight: '800',
-    textAlign: 'center',
     color: 'rgb(60,60,60)'
   },
   text1: {
@@ -401,15 +397,10 @@ const styles = StyleSheet.create({
   },
   text2: {
     color: "#ff4a4a",
-    marginTop: 30,
-    height: 90,
     fontSize: 18,
-    paddingLeft: 40,
-    paddingRight: 40,
-    textAlign: 'center'
   },
   btnContainer: {
-    height: 80,
+    marginTop:50,
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -419,11 +410,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '400',
     textAlign: 'center',
-    height: 30,
     width: 100,
     color: 'white',
     letterSpacing: 2,
-    lineHeight: Platform.OS === 'ios' ? 30 : 40
   },
   btnModal: {
     position: "absolute",
