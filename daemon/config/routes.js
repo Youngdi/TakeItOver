@@ -1,15 +1,15 @@
+const superagent = require('superagent')
+const moment = require('moment')
+const tz = require('moment-timezone')
+var OpenCC = require('opencc')
+var openst = new OpenCC('s2t.json')
+var opents = new OpenCC('t2s.json')
 const User = require('../models/user')
 const Map = require('../models/map')
 const Country = require('../models/country')
 const Setting = require('../models/setting')
 const Question = require('../models/question')
 const Feedback = require('../models/feedback')
-const superagent = require('superagent')
-var OpenCC = require('opencc')
-var openst = new OpenCC('s2t.json')
-var opents = new OpenCC('t2s.json')
-
-
   // COPY Release/s2t.json
   // COPY Release/t2s.json
   // COPY Release/s2tw.json
@@ -20,6 +20,8 @@ var opents = new OpenCC('t2s.json')
   // COPY Release/s2hk.json
   // COPY Release/hk2s.json
   // COPY Release/t2hk.json
+moment.locale('zh-tw')
+
 module.exports = (app) => {
   app.use((req, res, next) => {
      next()
@@ -31,7 +33,7 @@ module.exports = (app) => {
       } else {
         var data = {}
         data.day1_resource = Setting[0].day1_resource
-        data.day1_pizzle = Setting[0].day1_pizzle
+        data.day1_puzzle = Setting[0].day1_puzzle
         data.day3_land = Setting[0].day3_land
         data.day3_resource = Setting[0].day3_resource
         res.send(data)
@@ -185,7 +187,7 @@ module.exports = (app) => {
     })
     Setting.update({}, {
         $push: {
-            day3_land: '時間為：' + new Date() + ' /地圖名稱：' + req.body.map_name + ' /country:' + req.body.country
+            day3_land: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /地圖名稱：' + req.body.map_name + ' /country:' + req.body.country
         }
     }, function(e, data) {
         console.log(data)
@@ -234,7 +236,7 @@ module.exports = (app) => {
     })
     Setting.update({}, {
         $push: {
-            day3_resource: '時間為：' + new Date() + ' /國家：' + req.body.name + ' /K寶石:' + req.body.K + ' /水：' + req.body.water + ' /火：' + req.body.fire + ' /木頭：' + req.body.wood + ' /石頭：' + req.body.stone + ' /種子：' + req.body.seed
+            day3_resource: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /國家：' + req.body.name + ' /K寶石:' + req.body.K + ' /水：' + req.body.water + ' /火：' + req.body.fire + ' /木頭：' + req.body.wood + ' /石頭：' + req.body.stone + ' /種子：' + req.body.seed
         }
     }, function(e, data) {
         console.log(data)
@@ -301,7 +303,7 @@ module.exports = (app) => {
     })
     Setting.update({}, {
         $push: {
-            day1_pizzle: '時間為：' + new Date() + ' /組別：' + req.body.name + ' /P1:' + req.body.P1 + ' /P2：' + req.body.P2 + ' /P3：' + req.body.P3 + ' /P4：' + req.body.P4 + ' /P5：' + req.body.P5 + ' /P6：' + req.body.P6 + ' /P7：' + req.body.P7 + ' /P8：' + req.body.P8 + ' /P9：' + req.body.P9 + ' /P10：' + req.body.P10
+            day1_puzzle: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /組別：' + req.body.name + ' /P1:' + req.body.P1 + ' /P2：' + req.body.P2 + ' /P3：' + req.body.P3 + ' /P4：' + req.body.P4 + ' /P5：' + req.body.P5 + ' /P6：' + req.body.P6 + ' /P7：' + req.body.P7 + ' /P8：' + req.body.P8 + ' /P9：' + req.body.P9 + ' /P10：' + req.body.P10
         }
     }, function(e, data) {
         console.log(data)
@@ -324,7 +326,7 @@ module.exports = (app) => {
     })
     Setting.update({}, {
         $push: {
-            day1_puzzle: '時間為：' + new Date() + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result
+            day1_puzzle: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result
         }
     }, function(e, data) {
         console.log(data)
@@ -368,7 +370,7 @@ module.exports = (app) => {
       })
       Setting.update({}, {
           $push: {
-              day1_puzzle: '時間為：' + new Date() + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result
+              day1_puzzle: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result + '/K寶:' + req.body.K
           }
       }, function(e, data) {
       })
@@ -377,6 +379,58 @@ module.exports = (app) => {
     } else {
       res.send({data: false})
       res.end()
+    }
+  })
+  app.post('/give_score_day3', (req, res) => {
+    GiveScore()
+    async function GiveScore() {
+      User.find({name: req.body.name}, async (e, user) => {
+        if (e) {
+          console.log(e)
+        } else {
+          if (req.body.password === '1X4QWE') {
+            const B = {}
+            B.B1 = user[0].B1
+            B.B2 = user[0].B2
+            B.B3 = user[0].B3
+            B.B4 = user[0].B4
+            B.B5 = user[0].B5
+            B.B6 = user[0].B6
+            await updateC(user[0].B1, user[0].B2, user[0].B3, user[0].B4, user[0].B5, user[0].B6)
+            res.send({data: true, B})
+            res.end()
+          } else {
+            res.send({data: false})
+            res.end()
+          }
+        }
+      })
+    }
+    function updateC(B1, B2, B3, B4, B5, B6) {
+      Country.update(
+        {
+          country: req.body.country
+        },
+        {
+          $inc: {
+            K: req.body.K * B1,
+            fire: req.body.fire * B2,
+            water: req.body.water * B3,
+            wood: req.body.wood * B4,
+            stone: req.body.stone * B5,
+            seed: req.body.seed * B6
+          }
+        },
+        (e, user) => {
+        if (e) console.log(e)
+      })
+      Setting.update({}, {
+        $push: {
+            day3_resource: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /國家：' + req.body.name + ' /K寶石:' + req.body.K * B1 + ' /水：' + req.body.water * B3 + ' /火：' + req.body.fire * B2 + ' /木頭：' + req.body.wood * B4 + ' /石頭：' + req.body.stone * B5 + ' /種子：' + req.body.seed * B6
+        }
+      }, function(e, data) {
+          console.log(data)
+      })
     }
   })
   app.post('/buy_resource', (req, res) => {
@@ -616,7 +670,7 @@ module.exports = (app) => {
     function record() {
       Setting.update({}, {
         $push: {
-            day1_puzzle: '時間為：' + new Date() + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result
+            day1_puzzle: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result
         }
       }, function(e, data) {
           // console.log(data)
@@ -666,7 +720,7 @@ module.exports = (app) => {
     })
     Setting.update({}, {
         $push: {
-            day1_resource: '時間為：' + new Date() + ' /組別：' + req.body.name + ' /K寶石:' + req.body.K + ' /水：' + req.body.water + ' /火：' + req.body.fire + ' /木頭：' + req.body.wood + ' /石頭：' + req.body.stone + ' /種子：' + req.body.seed
+            day1_resource: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /組別：' + req.body.name + ' /K寶石:' + req.body.K + ' /水：' + req.body.water + ' /火：' + req.body.fire + ' /木頭：' + req.body.wood + ' /石頭：' + req.body.stone + ' /種子：' + req.body.seed
         }
     }, function(e, data) {
         console.log(data)

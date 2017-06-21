@@ -22,8 +22,9 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modalbox';
 import Modaliconimage from '../../components/Modaliconimage';
 import BackgroundImage from '../../components/BackgroundImage';
-import HomeImage from '../../components/HomeImage.js';
-import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand, api_qrcode} from '../../api/api';
+import HomeImage from '../../components/HomeImage';
+import GiveScoreDay3 from '../../components/GiveScoreDay3';
+import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand, api_qrcode, api_giveScoreDay3} from '../../api/api';
 import QRCode from '../../constants/qrcode';
 const { width, height } = Dimensions.get("window");
 
@@ -66,6 +67,7 @@ export default class TabThreeScreenOne extends React.Component {
       B4: 0,
       B5: 0,
       B6: 0,
+      score_modal_isOpen:false,
     };
   }
   async init() {
@@ -108,7 +110,7 @@ export default class TabThreeScreenOne extends React.Component {
           });
           Alert.alert(
           '掃描成功',
-          `獲得資源能力加成\n火:${this.state.q_fire}x${data.B.B2}, 水:${this.state.q_water}x${data.B.B3}, 石:${this.state.q_stone}x${data.B.B4}\n木頭:${this.state.q_wood}x${data.B.B5}, 種子:${this.state.q_seed}x${data.B.B6}`,
+          `獲得資源能力加成\n火寶石:${this.state.q_fire}x${data.B.B2}, 水寶石:${this.state.q_water}x${data.B.B3}, 土寶石:${this.state.q_stone}x${data.B.B4}\n木寶石:${this.state.q_wood}x${data.B.B5}, 種子:${this.state.q_seed}x${data.B.B6}`,
           [
             {text: '確定', onPress: () => console.log('yes')},
           ],
@@ -136,10 +138,23 @@ export default class TabThreeScreenOne extends React.Component {
     },500);
   }
   onPressSourceButton() {
-    alert('123');
+    this.refs.score_modal.open();
   }
-  buy() {
-    alert('123');
+  async giveScore(value) {
+    const flag = await api_giveScoreDay3(value.K, value.Fire, value.Water, value.Wood, value.Stone, value.Seed, value.password);
+    if (flag.data) {
+      Alert.alert(
+      '給分成功',
+      `獲得資源能力加成\nK寶石:${value.K}x${flag.B.B1}, 火寶石:${value.Fire}x${flag.B.B2}, 水寶石:${value.Water}x${flag.B.B3}\n土寶石:${value.Stone}x${flag.B.B4}, 木寶石:${value.Wood}x${flag.B.B5}, 種子:${value.Seed}x${flag.B.B6}`,
+      [
+        {text: '確定', onPress: () => console.log('yes')},
+      ],
+        { cancelable: false }
+      )
+    } else {
+      alert('密碼錯誤別亂試～');
+    }
+    this.setState({isOpen: false});
   }
   render() {
     console.log(this.state);
@@ -234,42 +249,19 @@ export default class TabThreeScreenOne extends React.Component {
         <Modal
           style={[styles.modal]}
           position={"center"}
-          ref={"buy_modal"}
-          isOpen={this.state.isOpen}
+          ref={"score_modal"}
+          isOpen={this.state.score_modal_isOpen}
         >
           <View style={styles.ImageShadow}>
-            <Image 
-              style={styles.backdrop} 
-              source={require('../../images/BG_top.png')}>
-              
-                <View style={styles.backdropSourceView}>
-                  <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
-                  <Text style={styles.backdropSourceViewHeadline}>購買此地需要花費</Text>
-                  <View style={{flexDirection:'row'}}>
-                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.fire}</Text>
-                    <Modaliconimage url={'fire'} page4={true}>
-                    </Modaliconimage>
-                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.water}</Text>
-                    <Modaliconimage url={'water'} page4={true}>
-                    </Modaliconimage>
-                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.stone}</Text>
-                    <Modaliconimage url={'stone'} page4={true}>
-                    </Modaliconimage>
-                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.seed}</Text>
-                    <Modaliconimage url={'seed'} page4={true}>
-                    </Modaliconimage>
-                    <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.wood}</Text>
-                    <Modaliconimage url={'wood'} page4={true}>
-                    </Modaliconimage>
-                  </View>
-                  <View style={{top:20}}>
-                    <Button 
-                      title={"確定購買"}
-                      onPress={this.buy.bind(this)}
-                    >
-                    </Button>
-                  </View>
+            <Image
+            style={styles.backdrop}
+            source={require('../../images/BG_top.png')}>
+              <View style={styles.backdropSourceView}>
+                <Text onPress={() => this.setState({score_modal_isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
+                <View style={{flex:1, width:'80%', marginTop:15}}>
+                  <GiveScoreDay3 Submit={this.giveScore.bind(this)}/>
                 </View>
+              </View>
             </Image>
           </View>
         </Modal>
@@ -328,13 +320,13 @@ const styles = StyleSheet.create({
     left:-16,
     top:-15,
     width: 330,
-    height: 330,
+    height: 400,
   },
   backdropSourceView:{
     flex:1,
     width:330,
-    height:330,
-    justifyContent: 'center',
+    height:400,
+    justifyContent: 'flex-start',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
@@ -347,8 +339,8 @@ const styles = StyleSheet.create({
     color: 'rgb(60,60,60)'
   },
   backdropSourceViewClose:{
-    left:135,
-    bottom:110,
+    left:150,
+    top:15,
     fontSize: 20,
     fontWeight: '800',
     color: 'rgb(255,255,255)'

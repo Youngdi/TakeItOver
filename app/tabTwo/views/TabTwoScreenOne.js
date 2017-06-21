@@ -117,7 +117,6 @@ export default class TabTwoScreenOne extends React.Component {
     this.setState({isOpen: false});
   }
   render() {
-    console.log(this.state);
     const options = [
       "W",
       "L"
@@ -178,12 +177,11 @@ export default class TabTwoScreenOne extends React.Component {
               <TouchableOpacity
                 onPress={this.puzzle_click.bind(this, this.state.P10, 'P10')}
                 style={{
-                  flexShrink:1,
                   width: '100%',
-                  height: 200,
+                  height: 90,
                   margin: 5,
                 }}>
-                  <PuzzleIcon url={this.state.P10 == 'N' ? 'P10W': 'P10W'}></PuzzleIcon>
+                  <PuzzleIcon url={this.state.P10 == 'N' ? 'P10': 'P10W'}></PuzzleIcon>
               </TouchableOpacity>
               <View style={{width:'100%',height:height*0.1}}>
                 <Image
@@ -267,9 +265,6 @@ export default class TabTwoScreenOne extends React.Component {
               </View>
             </Image>
           </View>
-    
-
-
         </Modal>
       </View>
     )
@@ -361,7 +356,7 @@ const styles = StyleSheet.create({
     color: 'rgb(255,255,255)'
   },
   backdropSourceViewHeadline1:{
-    marginTop: 20,
+    marginTop: 0,
     height: 50,
     fontSize: 24,
     fontWeight: '800',

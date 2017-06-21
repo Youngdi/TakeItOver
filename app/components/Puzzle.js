@@ -29,7 +29,7 @@ export default class Puzzle extends Component {
               {
                 this.props.P != 'P10' ? 
                 <PuzzleIcon url={this.props.P_result == 'N' ? this.props.P : this.props.P_result}></PuzzleIcon> :
-                <PuzzleIcon url={this.props.P_result == 'N' ? 'P10W': 'P10W'}></PuzzleIcon>
+                <PuzzleIcon url={this.props.P_result == 'N' ? 'P10': 'P10W'}></PuzzleIcon>
               }
             </TouchableOpacity>
         )

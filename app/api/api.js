@@ -111,6 +111,37 @@ export async function api_giveScore(K, password, puzzle_result, puzzle) {
     });
     return response;
 }
+export async function api_giveScoreDay3(K, Fire, Water, Wood, Stone, Seed, password) {
+  const username = await AsyncStorage.getItem('@UserName');
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
+    let response = await fetch(
+      `http://${Config.SERVER_IP}:${Config.PORT}/give_score_day3`,
+      {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+        body: JSON.stringify({
+          'name': username,
+          'country': userCountry,
+          'K': K,
+          'fire': Fire,
+          'water': Water,
+          'wood': Wood,
+          'stone': Stone,
+          'seed': Seed,
+          'password': password
+        })
+     }
+    )
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
+    return response;
+}
 export async function api_buyResource(Money, Resource, leftMoney) {
   const username = await AsyncStorage.getItem('@UserName');
   const userCountry = await AsyncStorage.getItem('@UserCountry');
