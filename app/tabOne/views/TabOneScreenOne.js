@@ -74,6 +74,7 @@ export default class TabOneScreenOne extends React.Component {
         seed: country.seed,
         isRefreshing: false,
         visible: false,
+        isOpen: false,
       });
     } else {
       const user = await getMyUser();
@@ -87,6 +88,7 @@ export default class TabOneScreenOne extends React.Component {
         seed: user.seed,
         isRefreshing: false,
         visible: false,
+        isOpen: false,
       });
     }
   }
@@ -194,16 +196,17 @@ export default class TabOneScreenOne extends React.Component {
     });
     const flag = await api_buyResource(this.state.shopMoney, this.state.shopIcon, this.state.K);
     if (flag.data) {
-      this.init();
+      
       Alert.alert(
         '購買成功',
         '歡迎下次再度光臨',
         [
           {text: '確定', onPress: () => {
-            this.setState({
-              isOpen: false,
-              visible: false,
-            });
+            this.init();
+            // this.setState({
+            //   isOpen: false,
+            //   visible: false,
+            // });
           }},
         ],
         { cancelable: false }

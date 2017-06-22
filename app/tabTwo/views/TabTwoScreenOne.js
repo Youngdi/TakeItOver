@@ -229,8 +229,8 @@ export default class TabTwoScreenOne extends React.Component {
             style={styles.backdrop}
             source={require('../../images/BG_top.png')}>
               <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose1}>X</Text>
-                <Text style={styles.backdropSourceViewHeadline1}>{this.state.character}</Text>
+                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-10,left:135, fontSize: 20, fontWeight: '800'}}>X</Text>
+                <Text style={{fontSize: 24,fontWeight: '800', color: 'rgb(60,60,60)', marginBottom:25}}>{this.state.character}</Text>
                 <Text style={styles.text1}>{this.state.hint}</Text>
               </View>
             </Image>
@@ -247,16 +247,20 @@ export default class TabTwoScreenOne extends React.Component {
             style={styles.backdrop}
             source={require('../../images/BG_top.png')}>
               <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose1}>X</Text>
-                <Text style={styles.backdropSourceViewHeadline1}>Lose</Text>
-                <Text style={styles.text2}>是否花 {this.state.cost} 個K寶石購買提示?</Text>
+                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-40,left:135, fontSize: 20, fontWeight: '800'}}>X</Text>
+                <Text style={{fontSize:24, marginBottom:50, fontWeight: '800',color: 'rgb(60,60,60)'}}>Lose</Text>
+                <Text style={{fontSize:18, color: "#ff4a4a",}}>是否花 {this.state.cost} 個K寶石購買提示?</Text>
                 <View style={styles.btnContainer}>
-                  <TouchableOpacity onPress={() => this.setState({isOpen: false})}>
-                    <Text style={styles.btn}>取消</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity onPress={this.buyHint.bind(this)}>
-                    <Text style={styles.btn}>確認</Text>
-                  </TouchableOpacity>
+                  <Button 
+                    title={"取消"}
+                    onPress={() => this.setState({isOpen: false})}
+                  >
+                  </Button>
+                  <Button 
+                    title={"確定購買"}
+                    onPress={this.buyHint.bind(this)}
+                  >
+                  </Button>
                 </View>
               </View>
             </Image>
@@ -366,16 +370,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
+  backdropSourceViewClose:{
+    left:135,
+    bottom:60,
+    fontSize: 20,
+    fontWeight: '800',
+    color: 'rgb(255,255,255)'
+  },
   backdropSourceViewClose1:{
-    top:-50,
+    top:50,
     left:135,
     fontSize: 20,
     fontWeight: '800',
     color: 'rgb(255,255,255)'
   },
   backdropSourceViewClose2:{
-    left: 140,
-    top: 10,
+    left: 135,
+    top: 15,
     fontSize: 20,
     fontWeight: '800',
     color: 'rgb(255,255,255)'
