@@ -33,7 +33,6 @@ class ScorePuzzle extends React.Component {
   render() {
   return (
       <View style={styles.container}>  
-
         <View style={styles.inputWrap}>
           <View style={styles.iconWrap}>
             <Image source={K_Jewelry} style={styles.icon} resizeMode="contain" />
@@ -46,11 +45,13 @@ class ScorePuzzle extends React.Component {
           </View>
           <Field name="password" component={renderPassWordInput} />
         </View>
-        <TouchableOpacity activeOpacity={.5} onPress={this.props.handleSubmit(this.props.Submit)}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>確定</Text>
-            </View>
-        </TouchableOpacity>
+        <View style={{marginTop:10}}>
+          <Button 
+            title={"確定給分"}
+            onPress={this.props.handleSubmit(this.props.Submit)}
+          >
+          </Button>
+        </View>
       </View>
     )
   }

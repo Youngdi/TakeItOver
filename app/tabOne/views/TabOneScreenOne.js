@@ -368,8 +368,9 @@ export default class TabOneScreenOne extends React.Component {
                           />
                     </View>
                   </View>
-                  <View style={{top:20}}>
-                    <Button 
+                  <View style={{top:20, width:200}}>
+                    <Button
+                      style={{width:100}}
                       title={"確定購買"}
                       onPress={this.buy.bind(this)}
                     >
@@ -415,6 +416,7 @@ export default class TabOneScreenOne extends React.Component {
                   <View style={{width:width * 0.8}}>
                     <Text style={{fontSize:20, fontWeight:'400', color:'rgb(60,60,60)', marginBottom:30}}>{history[this.state.country].ability}</Text>
                   </View>
+                  <View style={{width:1,height:50}}></View>
                 </ScrollView>
             </Image>
           </View>

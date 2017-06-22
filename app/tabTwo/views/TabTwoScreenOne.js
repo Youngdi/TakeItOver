@@ -251,16 +251,20 @@ export default class TabTwoScreenOne extends React.Component {
                 <Text style={{fontSize:24, marginBottom:50, fontWeight: '800',color: 'rgb(60,60,60)'}}>Lose</Text>
                 <Text style={{fontSize:18, color: "#ff4a4a",}}>是否花 {this.state.cost} 個K寶石購買提示?</Text>
                 <View style={styles.btnContainer}>
-                  <Button 
-                    title={"取消"}
-                    onPress={() => this.setState({isOpen: false})}
-                  >
-                  </Button>
-                  <Button 
-                    title={"確定購買"}
-                    onPress={this.buyHint.bind(this)}
-                  >
-                  </Button>
+                  <View style={{marginRight:60}}>
+                    <Button 
+                      title={"考慮一下"}
+                      onPress={() => this.setState({isOpen: false})}
+                    >
+                    </Button>
+                  </View>
+                  <View>
+                    <Button 
+                      title={"確定購買"}
+                      onPress={this.buyHint.bind(this)}
+                    >
+                    </Button>
+                  </View>
                 </View>
               </View>
             </Image>
@@ -412,7 +416,6 @@ const styles = StyleSheet.create({
   },
   btnContainer: {
     marginTop:50,
-    width: '100%',
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'flex-start',
