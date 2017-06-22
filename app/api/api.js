@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 import * as Config from '../constants/config';
 export async function getMyUser() {
   const username = await AsyncStorage.getItem('@UserName');
+  const userCountry = await AsyncStorage.getItem('@UserCountry');
     let response = await fetch(
       `http://${Config.SERVER_IP}:${Config.PORT}/get_my_user`,
       {
@@ -21,6 +22,7 @@ export async function getMyUser() {
       return error;
     });
     response[0].username = username;
+    response[0].country = userCountry;
     return response[0];
 }
 export async function getLand() {
@@ -54,6 +56,7 @@ export async function getMyCountry() {
       return error;
     });
     response[0].username = username;
+    response[0].country = userCountry;
     return response[0];
 }
 export async function api_buyHint(cost, puzzle, puzzle_result) {

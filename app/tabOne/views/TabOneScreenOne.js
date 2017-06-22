@@ -19,6 +19,7 @@ import {
 import Modal from 'react-native-modalbox';
 import * as Config from '../../constants/config';
 import imageFlags from '../../constants/config';
+import history from '../../constants/history';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
@@ -45,7 +46,7 @@ export default class TabOneScreenOne extends React.Component {
     this.state = {
       isRefreshing: false,
       board: '',
-      country: '',
+      country:'M',
       K: 0,
       water: 0,
       fire: 0,
@@ -57,7 +58,7 @@ export default class TabOneScreenOne extends React.Component {
       shopMoney: 0,
       isOpen: false,
       visible: true,
-      history_isOpen: false
+      history_isOpen: false,
     };
   }
   async init() {
@@ -66,6 +67,7 @@ export default class TabOneScreenOne extends React.Component {
       const country = await getMyCountry();
       this.setState({
         username: country.username,
+        country: country.country,
         K: country.K,
         water: country.water,
         fire: country.fire,
@@ -80,6 +82,7 @@ export default class TabOneScreenOne extends React.Component {
       const user = await getMyUser();
       this.setState({
         username: user.username,
+        country: user.country,
         K: user.K,
         water: user.water,
         fire: user.fire,
@@ -227,7 +230,6 @@ export default class TabOneScreenOne extends React.Component {
     }
   }
   render() {
-
     return(
       <View
         style={{
@@ -378,19 +380,42 @@ export default class TabOneScreenOne extends React.Component {
           </View>
         </Modal>
         <Modal
-          style={[styles.modal]}
           position={"center"}
           ref={"history_modal"}
           isOpen={this.state.history_isOpen}
+          swipeToClose={false}
         >
           <View style={styles.ImageShadow}>
             <Image 
-              style={styles.backdrop} 
+              style={{width:width,height:height +30, top: -30}}
               source={require('../../images/BG_top.png')}>
-                <View style={styles.backdropSourceView}>
-                  <Text onPress={() => this.setState({history_isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
-                  <Text>{'人物歷史'}</Text>
-                </View>
+              <Text onPress={() => this.setState({history_isOpen:false})} style={{color:'white', backgroundColor:'rgba(255,255,255,0)',position:'absolute',right:15,top:Platform == 'ios' ? 50: 40, fontSize:20}}>X</Text>
+                <ScrollView 
+                  style={{
+                    flex:1,
+                    width:width,
+                    height:height,
+                    backgroundColor: 'rgba(0,0,0,0)',
+                    marginTop:80,
+                  }}
+                  contentContainerStyle={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                >
+                  <View>
+                    <Text style={{fontSize:30, fontWeight:'800', color:'rgb(120,120,120)', marginBottom:30}}>{'國家歷史'}</Text>
+                  </View>
+                  <View style={{width:width * 0.8}}>
+                    <Text style={{fontSize:20, fontWeight:'400', color:'rgb(60,60,60)', marginBottom:30}}>{history[this.state.country].history}</Text>
+                  </View>
+                  <View>
+                    <Text style={{fontSize:30, fontWeight:'800', color:'rgb(120,120,120)', marginBottom:30}}>{'特殊能力'}</Text>
+                  </View>
+                  <View style={{width:width * 0.8}}>
+                    <Text style={{fontSize:20, fontWeight:'400', color:'rgb(60,60,60)', marginBottom:30}}>{history[this.state.country].ability}</Text>
+                  </View>
+                </ScrollView>
             </Image>
           </View>
         </Modal>
