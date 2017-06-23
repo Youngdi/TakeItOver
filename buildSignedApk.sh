@@ -1,6 +1,7 @@
 rm takeitover.apk
 rm takeitover_singed.apk
-cd android && ./gradlew assembleRelease
+cd android && ./gradlew clean
+./gradlew assembleRelease
 cd ../
 cp ./android/app/build/outputs/apk/app-release-unsigned.apk ./
 mv app-release-unsigned.apk takeitover.apk
