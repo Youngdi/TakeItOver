@@ -12,34 +12,77 @@ import TabOneScreenFive from './views/TabOneScreenFive';
 import TabOneScreenSix from './views/TabOneScreenSix';
 import TabOneScreenSeven from './views/TabOneScreenSeven';
 import * as Config from '../constants/config';
-
-const SideDrawer = (props) => {
-  return (
-    <ScrollView>
-    <View style={styles.DrawerContainer}>
-      <View style={styles.drawerIconContainer}>
-        <Image  
-          source={require('../images/Wealth.png')}
-          style={styles.drawerIcon}
-        />
+import imageFlag from '../constants/imageFlags';
+class SideDrawer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      url: require('../images/A.png'),
+    }
+    this.init();
+  }
+  async init() {
+    const userCountry = await AsyncStorage.getItem('@UserCountry');
+    const username = await AsyncStorage.getItem('@UserName');
+    this.setState({
+      url: imageFlag[username],
+    })
+  }
+  render() {
+    return(
+      <ScrollView>
+      <View style={styles.DrawerContainer}>
+        <View style={styles.drawerIconContainer}>
+          <Image  
+            source={this.state.url}
+            style={styles.drawerIcon}
+          />
+        </View>
+      
+        <DrawerItems {...this.props} 
+          onItemPress={(route) => {
+            if (route.route.routeName === 'TabOneDrawerSeven') {
+              AsyncStorage.setItem('@isLogined', 'N');
+              fetch(`http://${Config.SERVER_IP}:${Config.PORT}/logout`);
+              this.props.navigation.navigate('DrawerClose');
+              this.props.navigation.navigate('Login');
+            } else {
+              this.props.navigation.navigate('DrawerClose');
+              this.props.navigation.navigate(route.route.routeName);
+            }
+          }}/>
       </View>
+      </ScrollView>
+    )
+  }
+}
+// const SideDrawer = (props) => {
+//   return (
+//     <ScrollView>
+//     <View style={styles.DrawerContainer}>
+//       <View style={styles.drawerIconContainer}>
+//         <Image  
+//           source={require('../images/Wealth.png')}
+//           style={styles.drawerIcon}
+//         />
+//       </View>
      
-      <DrawerItems {...props} 
-        onItemPress={(route) => {
-          if (route.route.routeName === 'TabOneDrawerSeven') {
-            AsyncStorage.setItem('@isLogined', 'N');
-            fetch(`http://${Config.SERVER_IP}:${Config.PORT}/logout`);
-            props.navigation.navigate('DrawerClose');
-            props.navigation.navigate('Login');
-          } else {
-            props.navigation.navigate('DrawerClose');
-            props.navigation.navigate(route.route.routeName);
-          }
-        }}/>
-    </View>
-    </ScrollView>
-  )
-};
+//       <DrawerItems {...props} 
+//         onItemPress={(route) => {
+//           if (route.route.routeName === 'TabOneDrawerSeven') {
+//             AsyncStorage.setItem('@isLogined', 'N');
+//             fetch(`http://${Config.SERVER_IP}:${Config.PORT}/logout`);
+//             props.navigation.navigate('DrawerClose');
+//             props.navigation.navigate('Login');
+//           } else {
+//             props.navigation.navigate('DrawerClose');
+//             props.navigation.navigate(route.route.routeName);
+//           }
+//         }}/>
+//     </View>
+//     </ScrollView>
+//   )
+// };
 
 
 const styles = StyleSheet.create({

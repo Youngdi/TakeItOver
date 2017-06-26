@@ -134,7 +134,6 @@ export default class TabFourScreenOne extends React.Component {
   }
   componentWillMount() {
     this.context.socket.on('message', (message) => {
-      console.log(message);
       this.init();
     });
   }
@@ -172,7 +171,7 @@ export default class TabFourScreenOne extends React.Component {
                   <View style={styles.backdropView}>
                     <Image
                       source={landFlag[current.country]}
-                      style={{width:43, height:43}}
+                      style={{width:width * 0.113, height:width * 0.113}}
                     ></Image>
                   </View>
                 </TouchableHighlight>
@@ -196,7 +195,7 @@ export default class TabFourScreenOne extends React.Component {
                   <View style={styles.backdropView}>
                     <Image
                       source={landFlag[current.country]}
-                      style={{width:43, height:43}}
+                      style={{width:width * 0.113, height:width * 0.113}}
                     ></Image>
                   </View>
                 </TouchableHighlight>
@@ -220,7 +219,7 @@ export default class TabFourScreenOne extends React.Component {
                   <View style={styles.backdropView}>
                     <Image
                       source={landFlag[current.country]}
-                      style={{width:43, height:43}}
+                      style={{width:width * 0.113, height:width * 0.113}}
                     ></Image>
                   </View>
                 </TouchableHighlight>
@@ -244,7 +243,7 @@ export default class TabFourScreenOne extends React.Component {
                   <View style={styles.backdropView}>
                     <Image
                       source={landFlag[current.country]}
-                      style={{width:43, height:43}}
+                      style={{width:width * 0.113, height:width * 0.113}}
                     ></Image>
                   </View>
                 </TouchableHighlight>
@@ -268,7 +267,7 @@ export default class TabFourScreenOne extends React.Component {
                   <View style={styles.backdropView}>
                     <Image
                       source={landFlag[current.country]}
-                      style={{width:43, height:43}}
+                      style={{width:width * 0.113, height:width * 0.113}}
                     ></Image>
                   </View>
                 </TouchableHighlight>
@@ -292,7 +291,7 @@ export default class TabFourScreenOne extends React.Component {
                   <View style={styles.backdropView}>
                     <Image
                       source={landFlag[current.country]}
-                      style={{width:43, height:43}}
+                      style={{width:width * 0.113, height:width * 0.113}}
                     ></Image>
                   </View>
                 </TouchableHighlight>
@@ -316,7 +315,7 @@ export default class TabFourScreenOne extends React.Component {
                   <View style={styles.backdropView}>
                     <Image
                       source={landFlag[current.country]}
-                      style={{width:43, height:43}}
+                      style={{width:width * 0.113, height:width * 0.113}}
                     ></Image>
                   </View>
                 </TouchableHighlight>
@@ -342,8 +341,8 @@ export default class TabFourScreenOne extends React.Component {
             />
           }
         >
-        <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height, top:-30}}>
-          <View style={{width: width*0.6,height:height * 0.05, top:40}}>
+        <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height, top: Platform.OS == 'ios'? -30 : 0}}>
+          <View style={{width: width*0.6,height:height * 0.05, top: Platform.OS == 'ios'? 40 : 10}}>
             <Image
               style={{width:'100%',height:height * 0.05}}
               source={require('../../images/land/top.png')}
@@ -390,7 +389,7 @@ export default class TabFourScreenOne extends React.Component {
               </View>
             </View>
           </LandBG>
-          <View style={{top:-15}}>
+          <View style={{top:Platform.OS == 'ios'? -15 : 10}}>
             <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap'}}>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                     <Image
@@ -535,8 +534,8 @@ const styles = StyleSheet.create({
   },
   backdropView: {
     flex:1,
-    width: 43,
-    height: 43,
+    width: width * 0.113,
+    height: width * 0.113,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
@@ -550,7 +549,7 @@ const styles = StyleSheet.create({
   },
   sourceSize: {
     width:'100%',
-    height: 43,
+    height: width * 0.113,
     flexShrink:1
   },
   modal: {

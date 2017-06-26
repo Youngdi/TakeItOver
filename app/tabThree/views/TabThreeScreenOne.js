@@ -23,6 +23,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modalbox';
 import Day3bg from '../../components/day3bg';
 import Modaliconimage from '../../components/Modaliconimage';
+import bibleFlag from '../../constants/bible';
 import BackgroundImage from '../../components/BackgroundImage';
 import HomeImage from '../../components/HomeImage';
 import GiveScoreDay3 from '../../components/GiveScoreDay3';
@@ -177,6 +178,19 @@ export default class TabThreeScreenOne extends React.Component {
     }
     this.setState({isOpen: false});
   }
+  bible() {
+    let number = Math.floor(Math.random() * 74) + 1;
+    let bible_number = `B${number}`;
+    console.log(bible_number);
+    Alert.alert(
+    `每日一經文\n${bibleFlag[bible_number].chapter}`,
+    `${bibleFlag[bible_number].verse}`,
+    [
+      {text: '確定', onPress: () => {}},
+    ],
+      { cancelable: false }
+    )
+  }
   render() {
     return (
       <View
@@ -211,7 +225,7 @@ export default class TabThreeScreenOne extends React.Component {
                             source={require('../../images/day3/M1.png')}>
                             <TouchableHighlight
                               underlayColor={'rgba(252,252,252,0.5)'} 
-                              onPress={() => {}}>
+                              onPress={() => this.bible.bind(this)()}>
                               <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
                             </TouchableHighlight>
                           </Image>
@@ -269,7 +283,7 @@ export default class TabThreeScreenOne extends React.Component {
                             source={require('../../images/day3/M7.png')}>
                             <TouchableHighlight
                               underlayColor={'rgba(252,252,252,0.5)'} 
-                              onPress={() => {}}>
+                              onPress={() => this.bible.bind(this)()}>
                               <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
                             </TouchableHighlight>
                           </Image>
@@ -278,7 +292,7 @@ export default class TabThreeScreenOne extends React.Component {
                             source={require('../../images/day3/M8.png')}>
                             <TouchableHighlight
                               underlayColor={'rgba(252,252,252,0.5)'} 
-                              onPress={() => {}}>
+                              onPress={() => this.bible.bind(this)()}>
                               <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
                             </TouchableHighlight>
                           </Image>
@@ -309,7 +323,7 @@ export default class TabThreeScreenOne extends React.Component {
                             source={require('../../images/day3/M11.png')}>
                             <TouchableHighlight
                               underlayColor={'rgba(252,252,252,0.5)'} 
-                              onPress={() => {}}>
+                              onPress={() => this.bible.bind(this)()}>
                               <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
                             </TouchableHighlight>
                           </Image>
@@ -416,7 +430,7 @@ export default class TabThreeScreenOne extends React.Component {
                             source={require('../../images/day3/M22.png')}>
                             <TouchableHighlight
                               underlayColor={'rgba(252,252,252,0.5)'} 
-                              onPress={() => {}}>
+                              onPress={() => this.bible.bind(this)()}>
                               <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
                             </TouchableHighlight>
                           </Image>
@@ -434,7 +448,7 @@ export default class TabThreeScreenOne extends React.Component {
                             source={require('../../images/day3/M24.png')}>
                             <TouchableHighlight
                               underlayColor={'rgba(252,252,252,0.5)'} 
-                              onPress={() => {}}>
+                              onPress={() => this.bible.bind(this)()}>
                               <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
                             </TouchableHighlight>
                           </Image>
