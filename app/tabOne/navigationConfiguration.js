@@ -11,21 +11,24 @@ import TabOneScreenFour from './views/TabOneScreenFour';
 import TabOneScreenFive from './views/TabOneScreenFive';
 import TabOneScreenSix from './views/TabOneScreenSix';
 import TabOneScreenSeven from './views/TabOneScreenSeven';
+import TabOneScreenEight from './views/TabOneScreenEight.js';
 import * as Config from '../constants/config';
-import imageFlag from '../constants/imageFlags';
+import drawerFlag from '../constants/drawer';
 class SideDrawer extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       url: require('../images/A.png'),
     }
-    this.init();
+    setTimeout(() => {
+      this.init();
+    }, 1500)
   }
   async init() {
     const userCountry = await AsyncStorage.getItem('@UserCountry');
     const username = await AsyncStorage.getItem('@UserName');
     this.setState({
-      url: imageFlag[username],
+      url: drawerFlag[userCountry],
     })
   }
   render() {
@@ -36,12 +39,13 @@ class SideDrawer extends React.Component {
           <Image  
             source={this.state.url}
             style={styles.drawerIcon}
+            resizeMode={'contain'}
           />
         </View>
       
         <DrawerItems {...this.props} 
           onItemPress={(route) => {
-            if (route.route.routeName === 'TabOneDrawerSeven') {
+            if (route.route.routeName === 'TabOneDrawerEight') {
               AsyncStorage.setItem('@isLogined', 'N');
               fetch(`http://${Config.SERVER_IP}:${Config.PORT}/logout`);
               this.props.navigation.navigate('DrawerClose');
@@ -56,34 +60,6 @@ class SideDrawer extends React.Component {
     )
   }
 }
-// const SideDrawer = (props) => {
-//   return (
-//     <ScrollView>
-//     <View style={styles.DrawerContainer}>
-//       <View style={styles.drawerIconContainer}>
-//         <Image  
-//           source={require('../images/Wealth.png')}
-//           style={styles.drawerIcon}
-//         />
-//       </View>
-     
-//       <DrawerItems {...props} 
-//         onItemPress={(route) => {
-//           if (route.route.routeName === 'TabOneDrawerSeven') {
-//             AsyncStorage.setItem('@isLogined', 'N');
-//             fetch(`http://${Config.SERVER_IP}:${Config.PORT}/logout`);
-//             props.navigation.navigate('DrawerClose');
-//             props.navigation.navigate('Login');
-//           } else {
-//             props.navigation.navigate('DrawerClose');
-//             props.navigation.navigate(route.route.routeName);
-//           }
-//         }}/>
-//     </View>
-//     </ScrollView>
-//   )
-// };
-
 
 const styles = StyleSheet.create({
     DrawerContainer: {
@@ -148,7 +124,11 @@ const tabOneDrawerSeven = StackNavigator({
   },
   stackNavigatorConfiguration
 );
-
+const tabOneDrawerEight = StackNavigator({
+  TabOneDrawerEight: { screen: TabOneScreenEight },
+  },
+  stackNavigatorConfiguration
+);
 const routeConfiguration = {
   TabOneDrawerOne: { screen: tabOneDrawerOne },
   TabOneDrawerTwo: { screen: tabOneDrawerTwo },
@@ -157,6 +137,7 @@ const routeConfiguration = {
   TabOneDrawerFive: { screen: tabOneDrawerFive },
   TabOneDrawerSix: { screen: tabOneDrawerSix },
   TabOneDrawerSeven: { screen: tabOneDrawerSeven },
+  TabOneDrawerEight: { screen: tabOneDrawerEight },
 }
 // const routeConfiguration = {
 //   TabOneDrawerOne: { screen: tabOneDrawerOne },
