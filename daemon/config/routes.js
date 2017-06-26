@@ -442,7 +442,7 @@ module.exports = (app) => {
         if (e) {
           console.log(e)
         } else {
-          if (req.body.leftK >= 3 && req.body.K >= 3 && req.body.K % 3 === 0) {
+          if (req.body.leftK >= 3 && req.body.K >= 3 && req.body.K % 3 === 0 && req.body.leftK >= req.body.K) {
             await updateK()
             await updateR()
             res.send({data: true})

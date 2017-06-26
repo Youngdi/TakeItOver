@@ -21,6 +21,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modalbox';
+import Day3bg from '../../components/day3bg';
 import Modaliconimage from '../../components/Modaliconimage';
 import BackgroundImage from '../../components/BackgroundImage';
 import HomeImage from '../../components/HomeImage';
@@ -193,94 +194,296 @@ export default class TabThreeScreenOne extends React.Component {
             />
           }
         >
-            <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height*0.7}}>
-              <View style={{width:'100%'}}>
-                <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  <View style={styles.sourceSize}>
-                    <Image
-                      style={styles.source}
-                      source={require('../../images/home/water.png')}>
-                      <TouchableHighlight 
-                        underlayColor={'rgba(252,252,252,0.5)'} 
-                        onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
-                        <View style={styles.backdropView}>
-                          <Text style={styles.headline}>{' '}</Text>
-                        </View>
-                      </TouchableHighlight>
-                    </Image>
-                  </View>
-                  <View style={styles.sourceSize}>
-                    <Image
-                      style={styles.source}
-                      source={require('../../images/home/water.png')}>
-                      <TouchableHighlight 
-                        underlayColor={'rgba(252,252,252,0.5)'} 
-                        onPress={() => this.props.navigation.navigate('TabThreeScreenThree')}>
-                        <View style={styles.backdropView}>
-                          <Text style={styles.headline}>{' '}</Text>
-                        </View>
-                      </TouchableHighlight>
-                    </Image>
-                  </View>
-                  <View style={styles.sourceSize}>
-                    <Image
-                      style={styles.source}
-                      source={require('../../images/home/water.png')}>
-                      <TouchableHighlight 
-                        underlayColor={'rgba(252,252,252,0.5)'} 
-                        onPress={this.onPressSourceButton.bind(this)}>
-                        <View style={styles.backdropView}>
-                          <Text style={styles.headline}>{' '}</Text>
-                        </View>
-                      </TouchableHighlight>
-                    </Image>
-                  </View>
-                  <View style={styles.sourceSize}>
-                    <Image
-                      style={styles.source}
-                      source={require('../../images/home/water.png')}>
-                      <TouchableHighlight 
-                        underlayColor={'rgba(252,252,252,0.5)'} 
-                        onPress={this.onPressSourceButton.bind(this)}>
-                        <View style={styles.backdropView}>
-                          <Text style={styles.headline}>{' '}</Text>
-                        </View>
-                      </TouchableHighlight>
-                    </Image>
-                  </View>
-                  <View style={styles.sourceSize}>
-                    <Image
-                      style={styles.source}
-                      source={require('../../images/home/water.png')}>
-                      <TouchableHighlight 
-                        underlayColor={'rgba(252,252,252,0.5)'} 
-                        onPress={this.onPressSourceButton.bind(this)}>
-                        <View style={styles.backdropView}>
-                          <Text style={styles.headline}>{' '}</Text>
-                        </View>
-                      </TouchableHighlight>
-                    </Image>
+          <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height*0.8}}>
+              <Day3bg url={'bg'}>
+                <View style={{flex:1, width:width, height:height * 0.93, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(255,255,255,0)'}}>
+                  <View style={{flex:1, width:width*0.8, height:height, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(255,255,255,0)'}}>
+                    <View style={{width:'100%',height:height * 0.07, marginBottom:20}}>
+                      <Image
+                        style={{width:'100%',height:height * 0.07}}
+                        source={require('../../images/day3/top.png')}
+                      ></Image>
+                    </View>
+                    <View style={styles.row1}>
+                      <View style={{flexDirection:'row',flexWrap:'nowrap',flex:1, width:'100%'}}>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M1.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => {}}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M2.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M3.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M4.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M5.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                      </View>
+                    </View>
+                    <View style={styles.row1}>
+                      <View style={{flexDirection:'row',flexWrap:'nowrap',flex:1, width:'100%'}}>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M6.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M7.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => {}}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M8.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => {}}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M9.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M10.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                      </View>
+                    </View>
+                    <View style={styles.row1}>
+                      <View style={{flexDirection:'row',flexWrap:'nowrap',flex:1, width:'100%'}}>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M11.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => {}}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M12.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M13.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M14.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M15.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                      </View>
+                    </View>
+                    <View style={styles.row1}>
+                      <View style={{flexDirection:'row',flexWrap:'nowrap',flex:1, width:'100%'}}>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M16.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M17.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M18.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M19.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M20.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.refs.score_modal.open()}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                      </View>
+                    </View>
+                    <View style={styles.row1}>
+                      <View style={{flexDirection:'row',flexWrap:'nowrap',flex:1, width:'100%'}}>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M21.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M22.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => {}}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M23.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenTwo')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M24.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => {}}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                          <Image
+                            style={{flexShrink:1, height:height * 0.09, margin:0.5}}
+                            source={require('../../images/day3/M25.png')}>
+                            <TouchableHighlight
+                              underlayColor={'rgba(252,252,252,0.5)'} 
+                              onPress={() => this.props.navigation.navigate('TabThreeScreenThree')}>
+                              <View style={{width:'100%',height:height * 0.09, margin:0.5}}></View>
+                            </TouchableHighlight>
+                          </Image>
+                      </View>
+                    </View>
+                    <View style={{width:'100%',height:height*0.1, marginTop:20}}>
+                      <Image
+                        style={{width:'100%',height:height*0.1}}
+                        source={require('../../images/day3/bottom.png')}
+                      ></Image>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </View>
+              </Day3bg>
+          </View>
         </ScrollView>
         <Modal
           style={[styles.modal]}
-          position={"top"}
+          position={"center"}
           ref={"score_modal"}
           isOpen={this.state.score_modal_isOpen}
+          swipeToClose={false}
         >
           <View style={styles.ImageShadow}>
             <Image
             style={styles.backdrop}
-            source={require('../../images/BG_top.png')}>
-              <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({score_modal_isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
-                <View style={{flex:1, width:'80%', marginTop:0}}>
-                  <GiveScoreDay3 Submit={this.giveScore.bind(this)}/>
+            resizeMode={'stretch'}
+            source={require('../../images/long_modal_bg.png')}>
+          
+              <Text onPress={() => this.setState({score_modal_isOpen:false})} 
+                style={{color:'white', backgroundColor:'rgba(255,255,255,0)',right:-280,top:10, width:50, height:50,fontSize: 20,fontWeight: '800',}}>{''}
+              </Text>
+              <Text style={{color:'rgb(60,60,60)',backgroundColor:'rgba(255,255,255,0)',textAlign:'center',fontSize: 20,fontWeight: '800', top:-20}}>{'挑戰關主'}</Text>
+              <ScrollView style={{width:'100%',height:'100%'}}>
+                <View style={styles.backdropSourceView}>
+                  <View style={{flex:1, width:'80%', marginTop:0}}>
+                    <GiveScoreDay3 Submit={this.giveScore.bind(this)}/>
+                  </View>
                 </View>
-              </View>
+              </ScrollView>
             </Image>
           </View>
         </Modal>
@@ -292,9 +495,22 @@ export default class TabThreeScreenOne extends React.Component {
 
 const styles = StyleSheet.create({
   text: {
-    textAlign: 'center',
-    color: 'red',
-    fontSize: 32
+      //textAlign: 'center',
+      color: 'black',
+      backgroundColor: 'rgba(0,0,0,0)',
+      fontSize: 32
+  },
+  row1: {
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignContent: 'center',
+    flexWrap: 'nowrap',
+  },
+  box: {
+    height: '80%',
+    width: '100%',
+    backgroundColor: "#ffffff",
   },
   contentContainer: {
     flex: 1,

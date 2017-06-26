@@ -21,7 +21,7 @@ import Modal from 'react-native-modalbox';
 import Modaliconimage from '../../components/Modaliconimage';
 import BackgroundImage from '../../components/BackgroundImage';
 import HomeImage from '../../components/HomeImage.js';
-import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand} from '../../api/api';
+import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand, getFlagFromSetting} from '../../api/api';
 
 const { width, height } = Dimensions.get("window");
 
@@ -43,11 +43,13 @@ export default class TabFourScreenOne extends React.Component {
       isOpen: false,
       visible1: false,
       lands: [],
+      reference:9999,
     };
   }
   async init() {
     const country = await getMyCountry();
     const land = await getLand();
+    const setting = await getFlagFromSetting();
     this.setState({
       isRefreshing: false,
       isOpen:false,
@@ -72,6 +74,7 @@ export default class TabFourScreenOne extends React.Component {
       B6:country.B6,
       lands: land,
       map_name: '',
+      reference: setting.reference
     });
   }
   async buy() {
@@ -137,13 +140,13 @@ export default class TabFourScreenOne extends React.Component {
     this.setState({isRefreshing: true});
     this.init();
   }
-  onPressSourceButton(water, fire, wood, stone, seed, map_name, country) {
+  onPressSourceButton(fire, water, wood, stone, seed, map_name, country) {
     this.setState({
-      water: water,
-      fire: fire,
-      wood: wood,
-      stone: stone,
-      seed: seed,
+      water: water * this.state.reference,
+      fire: fire * this.state.reference,
+      wood: wood * this.state.reference,
+      stone: stone * this.state.reference,
+      seed: seed * this.state.reference,
       map_name: map_name,
     });
     if(country === 'N') {
@@ -361,10 +364,10 @@ export default class TabFourScreenOne extends React.Component {
           <View style={styles.ImageShadow}>
             <Image 
               style={styles.backdrop} 
-              source={require('../../images/BG_top.png')}>
+              source={require('../../images/short_modal_bg.png')}>
               
                 <View style={styles.backdropSourceView}>
-                  <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
+                  <Text onPress={() => this.setState({history_isOpen:false})} style={{color:'white', backgroundColor:'rgba(255,255,255,0)',position:'absolute',right:0,top:10, width:50, height:50}}>{' '}</Text>
                   <Text style={styles.backdropSourceViewHeadline}>購買此地需要花費</Text>
                   <View style={{flexDirection:'row'}}>
                     <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.fire}</Text>

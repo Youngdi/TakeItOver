@@ -3,6 +3,7 @@ import React from 'react';
 import { TouchableWithoutFeedback, View, Text, TouchableOpacity, ScrollView, StyleSheet, RefreshControl, Button, Platform, AsyncStorage, Dimensions, TextInput, Image, Picker, Alert} from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import modalC from '../../constants/modalC';
 import { Divider, CheckBox } from 'react-native-elements';
 import { RadioButtons, SegmentedControls } from 'react-native-radio-buttons'
 import { goSecond } from '../../actions/tabTwoAction';
@@ -50,6 +51,7 @@ export default class TabTwoScreenOne extends React.Component {
       cost: "0",
       puzzle:"",
       puzzle_result:false,
+      country:'W'
     };
   }
   async init() {
@@ -65,6 +67,7 @@ export default class TabTwoScreenOne extends React.Component {
       P8: user.P8,
       P9: user.P9,
       P10: user.P10,
+      country: user.country,
       isRefreshing: false,
       isOpen: false,
       score_isOpen: false,
@@ -227,10 +230,16 @@ export default class TabTwoScreenOne extends React.Component {
           <View style={styles.ImageShadow}>
             <Image
             style={styles.backdrop}
-            source={require('../../images/BG_top.png')}>
+            source={require('../../images/short_modal_bg.png')}>
               <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-10,left:135, fontSize: 20, fontWeight: '800'}}>X</Text>
-                <Text style={{fontSize: 24,fontWeight: '800', color: 'rgb(60,60,60)', marginBottom:25}}>{this.state.character}</Text>
+                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-10,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{' '}</Text>
+                <View style={{flex:1, flexWrap:'nowrap', flexDirection:'row', justifyContent:'center', alignItems:'center',right:6}}>
+                  <Image
+                    style={{width:30,height:70, marginRight:20}}
+                    source={modalC[this.state.country]}
+                  ></Image>
+                  <Text style={{fontSize: 24,fontWeight: '800', color: 'rgb(60,60,60)', marginBottom:25}}>{this.state.character}</Text>
+                </View>
                 <Text style={styles.text1}>{this.state.hint}</Text>
               </View>
             </Image>
@@ -245,9 +254,9 @@ export default class TabTwoScreenOne extends React.Component {
           <View style={styles.ImageShadow}>
             <Image
             style={styles.backdrop}
-            source={require('../../images/BG_top.png')}>
+            source={require('../../images/short_modal_bg.png')}>
               <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-40,left:135, fontSize: 20, fontWeight: '800'}}>X</Text>
+                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-10,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{' '}</Text>
                 <Text style={{fontSize:24, marginBottom:50, fontWeight: '800',color: 'rgb(60,60,60)'}}>Lose</Text>
                 <Text style={{fontSize:18, color: "#ff4a4a",}}>是否花 {this.state.cost} 個K寶石購買提示?</Text>
                 <View style={styles.btnContainer}>
@@ -279,14 +288,14 @@ export default class TabTwoScreenOne extends React.Component {
           <View style={styles.ImageShadow}>
             <Image
             style={styles.backdrop}
-            source={require('../../images/BG_top.png')}>
+            source={require('../../images/short_modal_bg.png')}>
               <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({score_isOpen:false})} style={styles.backdropSourceViewClose2}>X</Text>
-                <View style={{flex:1, width:'70%', marginTop:50}}>
+                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:10,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{' '}</Text>
+                <View style={{flex:1, width:'70%', marginTop:20}}>
                   <SegmentedControls
                     tint={'#f80046'}
                     selectedTint= {'white'}
-                    backTint= {'#1e2126'}
+                    backTint= {'white'}
                     options={ options }
                     allowFontScaling={ false } // default: true
                     onSelection={ setSelectedOption.bind(this) }

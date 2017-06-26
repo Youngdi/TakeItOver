@@ -94,11 +94,11 @@ class GiveScoreDay3 extends React.Component {
           </View>
           <Field name="password" component={renderPassWordInput} />
         </View>
-        <TouchableOpacity activeOpacity={.5} onPress={this.props.handleSubmit(this.props.Submit)}>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>確定</Text>
-            </View>
-        </TouchableOpacity>
+        <Button
+          onPress={this.props.handleSubmit(this.props.Submit)}
+          title={'確定給分'}
+        >
+        </Button>
       </View>
     )
   }

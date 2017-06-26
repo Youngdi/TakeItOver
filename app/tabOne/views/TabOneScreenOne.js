@@ -23,22 +23,14 @@ import history from '../../constants/history';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
-import { getMyUser, getMyCountry, api_buyResource } from '../../api/api';
+import { getMyUser, getMyCountry, api_buyResource, getFlagFromSetting } from '../../api/api';
 import Modaliconimage from '../../components/Modaliconimage';
 import HomeImage from '../../components/HomeImage.js';
 import Spinner from 'react-native-loading-spinner-overlay';
 
 const { width, height } = Dimensions.get("window");
 
-async function getFlagFromSetting() {
-    let response = await fetch(`http://${Config.SERVER_IP}:${Config.PORT}/get_setting`)
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error(error);
-      return error;
-    });
-    return response[0];
-}
+
 export default class TabOneScreenOne extends React.Component {
   constructor(props) {
     super(props);
@@ -199,17 +191,12 @@ export default class TabOneScreenOne extends React.Component {
     });
     const flag = await api_buyResource(this.state.shopMoney, this.state.shopIcon, this.state.K);
     if (flag.data) {
-      
       Alert.alert(
         '購買成功',
         '歡迎下次再度光臨',
         [
           {text: '確定', onPress: () => {
             this.init();
-            // this.setState({
-            //   isOpen: false,
-            //   visible: false,
-            // });
           }},
         ],
         { cancelable: false }
@@ -338,10 +325,10 @@ export default class TabOneScreenOne extends React.Component {
           <View style={styles.ImageShadow}>
             <Image 
               style={styles.backdrop} 
-              source={require('../../images/BG_top.png')}>
+              source={require('../../images/short_modal_bg.png')}>
               
                 <View style={styles.backdropSourceView}>
-                  <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>X</Text>
+                  <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>{''}</Text>
                   <Text style={styles.backdropSourceViewHeadline}>請問你是否要用3顆K寶石換1個{this.state.shopText}</Text>
                   <View style={{flexDirection:'row'}}>
                     <Text style={{fontSize:20,marginTop:18}}>3</Text>
@@ -362,7 +349,7 @@ export default class TabOneScreenOne extends React.Component {
                         <TextInput
                           placeholder="請輸入數量"
                           keyboardType="numeric"
-                          placeholderTextColor="#FFF" 
+                          placeholderTextColor="#8495a0" 
                           style={styles.input}
                           onChangeText={(val) => this.onChangeText(val)}
                           />
@@ -389,8 +376,8 @@ export default class TabOneScreenOne extends React.Component {
           <View style={styles.ImageShadow}>
             <Image 
               style={{width:width,height:height +30, top: -30}}
-              source={require('../../images/BG_top.png')}>
-              <Text onPress={() => this.setState({history_isOpen:false})} style={{color:'white', backgroundColor:'rgba(255,255,255,0)',position:'absolute',right:15,top:Platform == 'ios' ? 50: 40, fontSize:20}}>X</Text>
+              source={require('../../images/long_modal_bg.png')}>
+              <Text onPress={() => this.setState({history_isOpen:false})} style={{color:'white', backgroundColor:'rgba(255,255,255,0)',position:'absolute',right:0,top:40, width:50, height:50}}>{' '}</Text>
                 <ScrollView 
                   style={{
                     flex:1,
@@ -494,11 +481,13 @@ const styles = StyleSheet.create({
     color: 'rgb(60,60,60)'
   },
   backdropSourceViewClose:{
-    left:135,
-    bottom:60,
+    left:130,
+    bottom:50,
     fontSize: 20,
+    width:50,
+    height:50,
     fontWeight: '800',
-    color: 'rgb(255,255,255)'
+    backgroundColor: 'rgba(255,255,255,0)'
   },
   ImageShadow: {
     width:'100%',

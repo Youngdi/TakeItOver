@@ -36,7 +36,7 @@ export default class TabOneScreenThree extends React.Component {
         <Image
           resizeMode='contain'
           style={{width:width, height: height}}
-          source={require('../../images/schdule.png')}
+          source={require('../../images/schdule1.jpg')}
         ></Image>
       </ScrollView>
     )

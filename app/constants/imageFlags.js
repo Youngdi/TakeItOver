@@ -5,7 +5,6 @@ exports.water = require('../images/modal/Water.png');
 exports.seed = require('../images/modal/Seed.png');
 exports.stone = require('../images/modal/Rock.png');
 exports.wood = require('../images/modal/Wood.png');
-exports.schdule = require('../images/schdule.png');
 exports.BYT01 = require('../images/home/M1.png');
 exports.BYT02 = require('../images/home/M2.png');
 exports.BYT03 = require('../images/home/M3.png');

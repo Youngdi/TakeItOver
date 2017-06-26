@@ -232,3 +232,12 @@ export async function api_qrcode(fire, water, wood, stone, seed, qrcodeName) {
     });
     return response;
 }
+export async function getFlagFromSetting() {
+    let response = await fetch(`http://${Config.SERVER_IP}:${Config.PORT}/get_setting`)
+    .then((response) => response.json())
+    .catch((error) => {
+      console.error(error);
+      return error;
+    });
+    return response[0];
+}

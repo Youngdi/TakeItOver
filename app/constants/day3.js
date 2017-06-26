@@ -1,0 +1,1 @@
+exports.bg = require('../images/day3/bg.png');
