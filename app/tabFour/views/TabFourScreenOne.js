@@ -18,9 +18,11 @@ import {
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Modal from 'react-native-modalbox';
+import LandBG from '../../components/land';
 import Modaliconimage from '../../components/Modaliconimage';
 import BackgroundImage from '../../components/BackgroundImage';
 import HomeImage from '../../components/HomeImage.js';
+import landFlag from '../../constants/land';
 import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand, getFlagFromSetting} from '../../api/api';
 
 const { width, height } = Dimensions.get("window");
@@ -163,12 +165,15 @@ export default class TabFourScreenOne extends React.Component {
           view = <View style={styles.sourceSize} key={index}>
               <Image
                 style={styles.source}
-                source={require('../../images/home/water.png')}>
+                source={landFlag[`P${index+1}`]}>
                 <TouchableHighlight 
                   underlayColor={'rgba(252,252,252,0.5)'} 
                   onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
                   <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{current.country}</Text>
+                    <Image
+                      source={landFlag[current.country]}
+                      style={{width:43, height:43}}
+                    ></Image>
                   </View>
                 </TouchableHighlight>
               </Image>
@@ -184,12 +189,15 @@ export default class TabFourScreenOne extends React.Component {
           view = <View style={styles.sourceSize} key={index}>
               <Image
                 style={styles.source}
-                source={require('../../images/home/water.png')}>
+                source={landFlag[`P${index+1}`]}>
                 <TouchableHighlight 
                   underlayColor={'rgba(252,252,252,0.5)'} 
                   onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
                   <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{current.country}</Text>
+                    <Image
+                      source={landFlag[current.country]}
+                      style={{width:43, height:43}}
+                    ></Image>
                   </View>
                 </TouchableHighlight>
               </Image>
@@ -205,12 +213,15 @@ export default class TabFourScreenOne extends React.Component {
           view = <View style={styles.sourceSize} key={index}>
               <Image
                 style={styles.source}
-                source={require('../../images/home/water.png')}>
+                source={landFlag[`P${index+1}`]}>
                 <TouchableHighlight 
                   underlayColor={'rgba(252,252,252,0.5)'} 
                   onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
                   <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{current.country}</Text>
+                    <Image
+                      source={landFlag[current.country]}
+                      style={{width:43, height:43}}
+                    ></Image>
                   </View>
                 </TouchableHighlight>
               </Image>
@@ -226,12 +237,15 @@ export default class TabFourScreenOne extends React.Component {
           view = <View style={styles.sourceSize} key={index}>
               <Image
                 style={styles.source}
-                source={require('../../images/home/water.png')}>
+                source={landFlag[`P${index+1}`]}>
                 <TouchableHighlight 
                   underlayColor={'rgba(252,252,252,0.5)'} 
                   onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
                   <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{current.country}</Text>
+                    <Image
+                      source={landFlag[current.country]}
+                      style={{width:43, height:43}}
+                    ></Image>
                   </View>
                 </TouchableHighlight>
               </Image>
@@ -247,12 +261,15 @@ export default class TabFourScreenOne extends React.Component {
           view = <View style={styles.sourceSize} key={index}>
               <Image
                 style={styles.source}
-                source={require('../../images/home/water.png')}>
+                source={landFlag[`P${index+1}`]}>
                 <TouchableHighlight 
                   underlayColor={'rgba(252,252,252,0.5)'} 
                   onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
                   <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{current.country}</Text>
+                    <Image
+                      source={landFlag[current.country]}
+                      style={{width:43, height:43}}
+                    ></Image>
                   </View>
                 </TouchableHighlight>
               </Image>
@@ -268,12 +285,15 @@ export default class TabFourScreenOne extends React.Component {
           view = <View style={styles.sourceSize} key={index}>
               <Image
                 style={styles.source}
-                source={require('../../images/home/water.png')}>
+                source={landFlag[`P${index+1}`]}>
                 <TouchableHighlight 
                   underlayColor={'rgba(252,252,252,0.5)'} 
                   onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
                   <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{current.country}</Text>
+                    <Image
+                      source={landFlag[current.country]}
+                      style={{width:43, height:43}}
+                    ></Image>
                   </View>
                 </TouchableHighlight>
               </Image>
@@ -289,12 +309,15 @@ export default class TabFourScreenOne extends React.Component {
           view = <View style={styles.sourceSize} key={index}>
               <Image
                 style={styles.source}
-                source={require('../../images/home/water.png')}>
+                source={landFlag[`P${index+1}`]}>
                 <TouchableHighlight 
                   underlayColor={'rgba(252,252,252,0.5)'} 
                   onPress={this.onPressSourceButton.bind(this, current.fire, current.water, current.wood, current.stone, current.seed, `M${index+1}`, current.country)}>
                   <View style={styles.backdropView}>
-                    <Text style={styles.headline}>{current.country}</Text>
+                    <Image
+                      source={landFlag[current.country]}
+                      style={{width:43, height:43}}
+                    ></Image>
                   </View>
                 </TouchableHighlight>
               </Image>
@@ -319,41 +342,131 @@ export default class TabFourScreenOne extends React.Component {
             />
           }
         >
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  {listItems1}
+        <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height, top:-30}}>
+          <View style={{width: width*0.6,height:height * 0.05, top:40}}>
+            <Image
+              style={{width:'100%',height:height * 0.05}}
+              source={require('../../images/land/top.png')}
+            ></Image>
+          </View>
+          <LandBG url={'landBG'}>
+            <View style={{flex:1, width:width, height:height * 0.93, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(255,255,255,0)'}}>
+              <View style={{flex:1, width:width*0.8, height:height, justifyContent:'center', alignItems:'center', backgroundColor:'rgba(255,255,255,0)'}}>
+                <View style={styles.row1}>
+                  <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                      {listItems1}
+                  </View>
+                </View>
+                <View style={styles.row1}>
+                  <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                      {listItems2}
+                  </View>
+                </View>
+                <View style={styles.row1}>
+                  <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                      {listItems3}
+                  </View>
+                </View>
+                <View style={styles.row1}>
+                  <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                      {listItems4}
+                  </View>
+                </View>
+                <View style={styles.row1}>
+                  <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                      {listItems5}
+                  </View>
+                </View>
+                <View style={styles.row1}>
+                  <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                      {listItems6}
+                  </View>
+                </View>
+                <View style={styles.row1}>
+                  <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
+                      {listItems7}
+                  </View>
+                </View>
               </View>
             </View>
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  {listItems2}
-              </View>
+          </LandBG>
+          <View style={{top:-15}}>
+            <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap'}}>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={landFlag[`k`]}>
+                    </Image>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={landFlag[`fire`]}>
+                    </Image>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={landFlag[`water`]}>
+                    </Image>
+                </View>
             </View>
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  {listItems3}
-              </View>
+            <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap'}}>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                  <View style={{width:50, height:50}}>
+                    <Text style={styles.headline}>{this.state.my_fire}</Text>
+                  </View>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                  <View style={{width:50, height:50}}>
+                    <Text style={styles.headline}>{this.state.my_K}</Text>
+                  </View>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                  <View style={{width:50, height:50}}>
+                    <Text style={styles.headline}>{this.state.my_water}</Text>
+                  </View>
+                </View>
             </View>
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  {listItems4}
-              </View>
+            <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap', top:-20}}>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={landFlag[`stone`]}>
+                    </Image>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={landFlag[`seed`]}>
+                    </Image>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                    <Image
+                      style={{width:50, height:50}}
+                      source={landFlag[`wood`]}>
+                    </Image>
+                </View>
             </View>
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  {listItems5}
-              </View>
+            <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap', top:-20}}>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                  <View style={{width:50, height:50}}>
+                    <Text style={styles.headline}>{this.state.my_stone}</Text>
+                  </View>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                  <View style={{width:50, height:50}}>
+                    <Text style={styles.headline}>{this.state.my_seed}</Text>
+                  </View>
+                </View>
+                <View style={{width:50,height: 50,flexShrink:1}}>
+                  <View style={{width:50, height:50}}>
+                    <Text style={styles.headline}>{this.state.my_wood}</Text>
+                  </View>
+                </View>
             </View>
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  {listItems6}
-              </View>
-            </View>
-            <View style={{width:'100%'}}>
-              <View style={{flex:1, width:'100%', height: '100%', flexDirection:'row', flexWrap: 'nowrap'}}>
-                  {listItems7}
-              </View>
-            </View>
+          </View>
+        </View>
         </ScrollView>
         <Modal
           style={[styles.modal]}
@@ -365,7 +478,6 @@ export default class TabFourScreenOne extends React.Component {
             <Image 
               style={styles.backdrop} 
               source={require('../../images/short_modal_bg.png')}>
-              
                 <View style={styles.backdropSourceView}>
                   <Text onPress={() => this.setState({history_isOpen:false})} style={{color:'white', backgroundColor:'rgba(255,255,255,0)',position:'absolute',right:0,top:10, width:50, height:50}}>{' '}</Text>
                   <Text style={styles.backdropSourceViewHeadline}>購買此地需要花費</Text>
@@ -423,22 +535,22 @@ const styles = StyleSheet.create({
   },
   backdropView: {
     flex:1,
-    width: width*0.155,
-    height: width*0.155,
+    width: 43,
+    height: 43,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
   },
   headline: {
-    marginTop:0,
-    fontSize: 20,
-    fontWeight: '400',
+    top:0,
+    fontSize: 16,
+    fontWeight: '200',
     textAlign: 'center',
-    color: 'rgb(255,255,255)'
+    color: 'rgb(0,0,0)'
   },
   sourceSize: {
     width:'100%',
-    height: width*0.155,
+    height: 43,
     flexShrink:1
   },
   modal: {
@@ -512,5 +624,12 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingHorizontal: 10,
+  },
+  row1: {
+    width: '100%',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignContent: 'center',
+    flexWrap: 'nowrap',
   },
 });

@@ -321,13 +321,13 @@ export default class TabOneScreenOne extends React.Component {
           position={"center"}
           ref={"buy_modal"}
           isOpen={this.state.isOpen}
+          swipeToClose={false}
         >
           <View style={styles.ImageShadow}>
             <Image 
               style={styles.backdrop} 
               source={require('../../images/short_modal_bg.png')}>
-              
-                <View style={styles.backdropSourceView}>
+                <ScrollView contentContainerStyle={styles.backdropSourceView}>
                   <Text onPress={() => this.setState({isOpen:false})} style={styles.backdropSourceViewClose}>{''}</Text>
                   <Text style={styles.backdropSourceViewHeadline}>請問你是否要用3顆K寶石換1個{this.state.shopText}</Text>
                   <View style={{flexDirection:'row'}}>
@@ -355,7 +355,7 @@ export default class TabOneScreenOne extends React.Component {
                           />
                     </View>
                   </View>
-                  <View style={{top:20, width:200}}>
+                  <View style={{top:5, width:200}}>
                     <Button
                       style={{width:100}}
                       title={"確定購買"}
@@ -363,7 +363,7 @@ export default class TabOneScreenOne extends React.Component {
                     >
                     </Button>
                   </View>
-                </View>
+                </ScrollView>
             </Image>
           </View>
         </Modal>

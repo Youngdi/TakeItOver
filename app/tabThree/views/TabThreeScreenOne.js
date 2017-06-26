@@ -483,6 +483,7 @@ export default class TabThreeScreenOne extends React.Component {
                     <GiveScoreDay3 Submit={this.giveScore.bind(this)}/>
                   </View>
                 </View>
+                <View style={{width:1,height:300}}></View>
               </ScrollView>
             </Image>
           </View>

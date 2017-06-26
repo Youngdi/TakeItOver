@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
   inputWrap: {
     flexDirection: "row",
     marginVertical: 10,
-    height: 30,
+    height: 40,
     borderBottomWidth: 1,
     borderBottomColor: "#CCC"
   },
