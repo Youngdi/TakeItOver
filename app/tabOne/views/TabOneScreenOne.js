@@ -54,6 +54,7 @@ export default class TabOneScreenOne extends React.Component {
     };
   }
   async init() {
+    
     const table_flag = await getFlagFromSetting();
     if (table_flag.changeToDay3 == 'T') {
       const country = await getMyCountry();

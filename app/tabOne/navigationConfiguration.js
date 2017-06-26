@@ -51,8 +51,13 @@ class SideDrawer extends React.Component {
               this.props.navigation.navigate('DrawerClose');
               this.props.navigation.navigate('Login');
             } else {
-              this.props.navigation.navigate('DrawerClose');
-              this.props.navigation.navigate(route.route.routeName);
+              if (route.route.routeName === 'TabOneDrawerFive'){
+                this.props.navigation.navigate('DrawerClose');
+                alert('請去找小隊輔');
+              } else {
+                this.props.navigation.navigate('DrawerClose');
+                this.props.navigation.navigate(route.route.routeName);
+              }
             }
           }}/>
       </View>
