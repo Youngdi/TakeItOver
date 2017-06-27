@@ -486,10 +486,10 @@ export default class TabThreeScreenOne extends React.Component {
             style={styles.backdrop}
             resizeMode={'stretch'}
             source={require('../../images/long_modal_bg.png')}>
-          
-              <Text onPress={() => this.setState({score_modal_isOpen:false})} 
-                style={{color:'white', backgroundColor:'rgba(255,255,255,0)',right:-280,top:10, width:50, height:50,fontSize: 20,fontWeight: '800',}}>{''}
-              </Text>
+              <TouchableOpacity onPress={() => this.setState({score_modal_isOpen:false})} 
+                style={{right:-250,top:10, width:100, height:50}}>
+                <View></View>
+              </TouchableOpacity>
               <Text style={{color:'rgb(60,60,60)',backgroundColor:'rgba(255,255,255,0)',textAlign:'center',fontSize: 20,fontWeight: '800', top:-20}}>{'挑戰關主'}</Text>
               <ScrollView style={{width:'100%',height:'100%'}}>
                 <View style={styles.backdropSourceView}>

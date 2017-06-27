@@ -226,21 +226,24 @@ export default class TabTwoScreenOne extends React.Component {
         position={"center"}
         ref={"W_modal"}
         isOpen={this.state.isOpen}
+        swipeToClose={false}
         >
           <View style={styles.ImageShadow}>
             <Image
             style={styles.backdrop}
             source={require('../../images/short_modal_bg.png')}>
-              <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-10,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{' '}</Text>
-                <View style={{flex:1, flexWrap:'nowrap', flexDirection:'row', justifyContent:'center', alignItems:'center',right:6}}>
+              <View style={{flex:1,width:330,height:400,justifyContent: 'flex-start',alignItems: 'center',backgroundColor: 'rgba(0,0,0,0)',}}>
+                <Text onPress={() => this.setState({isOpen:false})} style={{top:10,left:130, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{''}</Text>
+                <View style={{flex:1, flexWrap:'nowrap', flexDirection:'row', justifyContent:'center', alignItems:'center',right:6, top:-40}}>
                   <Image
                     style={{width:30,height:70, marginRight:20}}
                     source={modalC[this.state.country]}
                   ></Image>
                   <Text style={{fontSize: 24,fontWeight: '800', color: 'rgb(60,60,60)', marginBottom:25}}>{this.state.character}</Text>
                 </View>
-                <Text style={styles.text1}>{this.state.hint}</Text>
+                <ScrollView style={{top:-50,paddingLeft: 40,paddingRight: 40}}>
+                  <Text style={{color: "black",fontSize: 18,letterSpacing:0.5,lineHeight: Platform.OS === 'ios' ? 25 : 30}}>{this.state.hint}</Text>
+                </ScrollView>
               </View>
             </Image>
           </View>
@@ -256,7 +259,7 @@ export default class TabTwoScreenOne extends React.Component {
             style={styles.backdrop}
             source={require('../../images/short_modal_bg.png')}>
               <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:-10,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{' '}</Text>
+                <Text onPress={() => this.setState({isOpen:false})} style={{top:-35,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{''}</Text>
                 <Text style={{fontSize:24, marginBottom:50, fontWeight: '800',color: 'rgb(60,60,60)'}}>Lose</Text>
                 <Text style={{fontSize:18, color: "#ff4a4a",}}>是否花 {this.state.cost} 個K寶石購買提示?</Text>
                 <View style={styles.btnContainer}>
@@ -290,7 +293,7 @@ export default class TabTwoScreenOne extends React.Component {
             style={styles.backdrop}
             source={require('../../images/short_modal_bg.png')}>
               <View style={styles.backdropSourceView}>
-                <Text onPress={() => this.setState({isOpen:false})} style={{color:'white',top:10,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{' '}</Text>
+                <Text onPress={() => this.setState({isOpen:false})} style={{top:10,left:135, fontSize: 20, width:50, height:50, fontWeight: '800'}}>{''}</Text>
                 <View style={{flex:1, width:'70%', marginTop:20}}>
                   <SegmentedControls
                     tint={'#f80046'}
@@ -414,6 +417,7 @@ const styles = StyleSheet.create({
     color: "black",
     height: 200,
     fontSize: 18,
+    top:-30,
     paddingLeft: 40,
     paddingRight: 40,
     letterSpacing:0.5,

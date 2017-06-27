@@ -478,7 +478,10 @@ export default class TabFourScreenOne extends React.Component {
               style={styles.backdrop} 
               source={require('../../images/short_modal_bg.png')}>
                 <View style={styles.backdropSourceView}>
-                  <Text onPress={() => this.setState({history_isOpen:false})} style={{color:'white', backgroundColor:'rgba(255,255,255,0)',position:'absolute',right:0,top:10, width:50, height:50}}>{' '}</Text>
+                  <TouchableOpacity onPress={() => this.setState({history_isOpen:false})} style={{position:'absolute',right:0,top:10, width:50, height:50}}
+                  >
+                    <View></View>
+                  </TouchableOpacity>
                   <Text style={styles.backdropSourceViewHeadline}>購買此地需要花費</Text>
                   <View style={{flexDirection:'row'}}>
                     <Text style={{fontSize:14,marginTop:10, marginRight:4}}>{this.state.fire}</Text>

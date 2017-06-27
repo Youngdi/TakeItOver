@@ -378,7 +378,9 @@ export default class TabOneScreenOne extends React.Component {
             <Image 
               style={{width:width,height:height +30, top: -30}}
               source={require('../../images/long_modal_bg.png')}>
-              <Text onPress={() => this.setState({history_isOpen:false})} style={{color:'white', backgroundColor:'rgba(255,255,255,0)',position:'absolute',right:0,top:40, width:50, height:50}}>{' '}</Text>
+              <TouchableOpacity onPress={() => this.setState({history_isOpen:false})} style={{position:'absolute',right:0,top:30, width:50, height:50}}>
+              <View></View>
+              </TouchableOpacity>
                 <ScrollView 
                   style={{
                     flex:1,
