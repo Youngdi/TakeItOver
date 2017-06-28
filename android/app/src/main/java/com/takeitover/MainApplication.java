@@ -37,7 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
             new FIRMessagingPackage(),
             new RCTCameraPackage(),
             new RNSpinkitPackage(),
-            new CodePush("HaXD2GrmobDFrXeWyCbJ7bJY6tdic5a64ba8-c46e-44a1-a546-41de22ffbd48", MainApplication.this, BuildConfig.DEBUG)
+            new CodePush("NgEBCPrbMqx3hSIBLbUv3Clstc4Xc5a64ba8-c46e-44a1-a546-41de22ffbd48", MainApplication.this, BuildConfig.DEBUG)
       );
     }
   };

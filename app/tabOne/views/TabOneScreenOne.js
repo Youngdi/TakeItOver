@@ -251,7 +251,7 @@ export default class TabOneScreenOne extends React.Component {
                     source={require('../../images/home/fire.png')}>
                     <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'fire')}>
                       <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.fire}</Text>
+                        <Text style={styles.headline}>{Math.floor(this.state.fire)}</Text>
                       </View>
                     </TouchableOpacity>
                   </Image>
@@ -262,7 +262,7 @@ export default class TabOneScreenOne extends React.Component {
                     source={require('../../images/home/k.png')}>
                     <TouchableOpacity onPress={() => alert('神祕的K寶石可以用來買各種資源')}>
                       <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.K}</Text>
+                        <Text style={styles.headline}>{Math.floor(this.state.K)}</Text>
                       </View>
                     </TouchableOpacity>
                   </Image>
@@ -273,7 +273,7 @@ export default class TabOneScreenOne extends React.Component {
                     source={require('../../images/home/water.png')}>
                     <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'water')}>
                       <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.water}</Text>
+                        <Text style={styles.headline}>{Math.floor(this.state.water)}</Text>
                       </View>
                     </TouchableOpacity>
                   </Image>
@@ -286,7 +286,7 @@ export default class TabOneScreenOne extends React.Component {
                     source={require('../../images/home/stone.png')}>
                     <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'stone')}>
                       <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.stone}</Text>
+                        <Text style={styles.headline}>{Math.floor(this.state.stone)}</Text>
                       </View>
                     </TouchableOpacity>
                   </Image>
@@ -297,7 +297,7 @@ export default class TabOneScreenOne extends React.Component {
                     source={require('../../images/home/seed.png')}>
                     <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'seed')}>
                       <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.seed}</Text>
+                        <Text style={styles.headline}>{Math.floor(this.state.seed)}</Text>
                       </View>
                     </TouchableOpacity>
                   </Image>
@@ -308,7 +308,7 @@ export default class TabOneScreenOne extends React.Component {
                     source={require('../../images/home/wood.png')}>
                     <TouchableOpacity onPress={this.onPressSourceButton.bind(this, 'wood')}>
                       <View style={styles.backdropView}>
-                        <Text style={styles.headline}>{this.state.wood}</Text>
+                        <Text style={styles.headline}>{Math.floor(this.state.wood)}</Text>
                       </View>
                     </TouchableOpacity>
                   </Image>

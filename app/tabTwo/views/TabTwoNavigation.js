@@ -17,7 +17,6 @@ const mapStateToProps = (state) => {
     form: state.form,
   }
 }
-
 class TabTwoNavigation extends React.Component {
   static navigationOptions = {
     tabBarLabel: '解謎',
@@ -28,10 +27,9 @@ class TabTwoNavigation extends React.Component {
       />
     )
   }
-
-render(){
+  render() {
     const { dispatch, navigationState} = this.props
-return (
+    return (
       <NavigatorTabTwo
         navigation={
           addNavigationHelpers({

@@ -16,7 +16,8 @@ import ScorePuzzle from '../../components/ScorePuzzle';
 import PuzzleIcon from '../../components/PuzzleIcon.js';
 
 const { width, height } = Dimensions.get("window");
-
+const K_Jewelry = require("../../images/modal/K_Jewelry.png");
+const lockIcon = require("../../images/login1_lock.png");
 export default class TabTwoScreenOne extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
@@ -50,8 +51,10 @@ export default class TabTwoScreenOne extends React.Component {
       isDisabled: false,
       cost: "0",
       puzzle:"",
-      puzzle_result:false,
-      country:'W'
+      puzzle_result:'W',
+      country:'W',
+      valuePWD:'',
+      valueK:0,
     };
   }
   async init() {
@@ -72,6 +75,8 @@ export default class TabTwoScreenOne extends React.Component {
       isOpen: false,
       score_isOpen: false,
       visible:false,
+      valuePWD:'',
+      valueK:0,
       cost: user.country == 'M' ? "25" : "30",
     });
   }
@@ -102,15 +107,15 @@ export default class TabTwoScreenOne extends React.Component {
       this.refs.N_modal.open();
     }
   }
-  async giveScore(value) {
+  async giveScore() {
     this.setState({
       visible: true,
     });
-    const flag = await api_giveScore(value.K, value.password, this.state.puzzle_result, this.state.puzzle);
+    const flag = await api_giveScore(this.state.valueK, this.state.valuePWD, this.state.puzzle_result, this.state.puzzle);
     if (flag.data) {
       Alert.alert(
         '給分成功',
-        this.state.puzzle_result == 'W' ? `闖關成功恭喜獲得資源\nK寶石:${value.K}`: `闖關失敗，真可惜，沒關係還有參加獎，資源K寶石:${value.K}`,
+        this.state.puzzle_result == 'W' ? `闖關成功恭喜獲得資源\nK寶石:${this.state.valueK}`: `闖關失敗，真可惜，沒關係還有參加獎，資源K寶石:${this.state.valueK}`,
         [
           {text: '確定', onPress: () => this.init()},
           {text: '前往首頁查看資源', onPress: () => {
@@ -306,7 +311,40 @@ export default class TabTwoScreenOne extends React.Component {
                     optionStyle={{fontFamily: 'AvenirNext-Medium'}}
                     optionContainerStyle={{flex: 1}}
                   />
-                  <ScorePuzzle Submit={this.giveScore.bind(this)}/>
+                  <View style={{flex:1}}>  
+                    <View style={{flexDirection: "row",marginVertical: 10,height: 40,borderBottomWidth: 1,borderBottomColor: "#CCC"}}>
+                      <View style={{paddingHorizontal: 7,alignItems: "center",justifyContent: "center"}}>
+                        <Image source={K_Jewelry} style={styles.icon} resizeMode="contain" />
+                      </View>
+                      <TextInput 
+                        defaultValue={'0'}
+                        keyboardType={'numeric'} 
+                        placeholder="K寶石" 
+                        placeholderTextColor="#8495a0" 
+                        style={styles.input} 
+                        onChangeText={(K) => this.setState({valueK: K, score_isOpen: true})}
+                      />
+                    </View>
+                    <View style={{flexDirection: "row",marginVertical: 10,height: 40,borderBottomWidth: 1,borderBottomColor: "#CCC"}}>
+                      <View style={{paddingHorizontal: 7,alignItems: "center",justifyContent: "center"}}>
+                        <Image source={lockIcon} style={styles.icon} resizeMode="contain" />
+                      </View>
+                      <TextInput
+                        placeholder="關主密碼"
+                        placeholderTextColor="#8495a0"
+                        style={styles.input}
+                        secureTextEntry
+                        onChangeText={(password) => this.setState({valuePWD: password, score_isOpen: true})}
+                      />
+                    </View>
+                    <View style={{marginTop:10}}>
+                      <Button 
+                        title={"確定給分"}
+                        onPress={this.giveScore.bind(this)}
+                      >
+                      </Button>
+                    </View>
+                  </View>
                 </View>
               </View>
             </Image>
@@ -331,10 +369,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     paddingVertical: 1,
     backgroundColor:'rgb(164,183,192)'
-  },
-  input: {
-    flex: 1,
-    paddingHorizontal: 10,
   },
   row1: {
     width: '100%',
@@ -449,4 +483,75 @@ const styles = StyleSheet.create({
     height: 50,
     backgroundColor: "transparent"
   },
+  markWrap: {
+    flex: 1,
+    paddingVertical: 30,
+  },
+  mark: {
+    width: null,
+    height: null,
+    flex: 1,
+  },
+  background: {
+    width,
+    height,
+  },
+  wrapper: {
+    paddingVertical: 30,
+  },
+  inputWrap: {
+    flexDirection: "row",
+    marginVertical: 10,
+    height: 40,
+    borderBottomWidth: 1,
+    borderBottomColor: "#CCC"
+  },
+  iconWrap: {
+    paddingHorizontal: 7,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  icon: {
+    height: 20,
+    width: 20,
+  },
+  input: {
+    flex: 1,
+    paddingHorizontal: 10,
+  },
+  button: {
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 30,
+  },
+  buttonText: {
+    color: "#FFF",
+    fontSize: 18,
+  },
+  forgotPasswordText: {
+    color: "#D8D8D8",
+    backgroundColor: "transparent",
+    textAlign: "right",
+    paddingRight: 15,
+  },
+  wrongPasswordText: {
+    color: "#D20000",
+    backgroundColor: "transparent",
+    textAlign: "right",
+    paddingRight: 15,
+    marginTop:5,
+  },
+  signupWrap: {
+    backgroundColor: "transparent",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  accountText: {
+    color: "#D8D8D8"
+  },
+  signupLinkText: {
+    color: "#FFF",
+    marginLeft: 5,
+  }
 });

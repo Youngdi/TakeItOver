@@ -1,6 +1,7 @@
 var express = require('express')
 var config = require('./config/index')
-var cors = require('cors')
+// var cors = require('cors')
+const Setting = require('./models/setting')
 var port = process.env.PORT || config.dev.port
 
 var app = express()
@@ -59,24 +60,25 @@ io.on('connection', (socket) => {
   socket.on('message', (obj) => {
     // 向所有客户端广播发布的消息
     io.emit('message', obj)
-    // var mess = {
-    //   username: obj.username,
-    //   src: obj.src,
-    //   msg: obj.msg,
-    //   roomid: 'room1'
-    // }
-    // var message = new Message(mess)
-    // // 将发送过来的消息进行储存
-    // message.save((err, mess) => {
-    //   if (err) {
-    //     console.log(err)
-    //   }
-    //     console.log(mess)
-    // })
-    // console.log(obj.username + '说：' + obj.msg)
   })
 })
-
-require('./config/routes')(app)
+app.post('/update_board', (req, res) => {
+  // console.log(io)
+  io.emit('notification', {data: req.body.board})
+  Setting.update(
+    {},
+    {
+    $set: {
+      board: req.body.board
+    }
+  }, (e, user) => {
+    if (e) {
+      console.log(e)
+    } else {
+      res.end()
+    }
+  })
+})
+require('./config/routes')(app, io)
 // 声明静态资源地址
 app.use(express.static('./dist'))

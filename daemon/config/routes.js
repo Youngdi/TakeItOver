@@ -22,7 +22,7 @@ const Feedback = require('../models/feedback')
   // COPY Release/t2hk.json
 moment.locale('zh-tw')
 
-module.exports = (app) => {
+module.exports = (app, io) => {
   app.use((req, res, next) => {
      next()
   })
@@ -783,21 +783,23 @@ module.exports = (app) => {
       }
     })
   })
-  app.post('/update_board', (req, res) => {
-    Setting.update(
-      {},
-      {
-      $set: {
-        board: req.body.board
-      }
-    }, (e, user) => {
-      if (e) {
-        console.log(e)
-      } else {
-        res.end()
-      }
-    })
-  })
+  // app.post('/update_board', (req, res) => {
+  //   console.log(io)
+  //   // io.emit('notification', {data: req.body.board})
+  //   Setting.update(
+  //     {},
+  //     {
+  //     $set: {
+  //       board: req.body.board
+  //     }
+  //   }, (e, user) => {
+  //     if (e) {
+  //       console.log(e)
+  //     } else {
+  //       res.end()
+  //     }
+  //   })
+  // })
   // 注册
   app.post('/user/signup', (req, res) => {
     var _user = req.body

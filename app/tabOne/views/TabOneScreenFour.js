@@ -1,6 +1,6 @@
 'use strict'
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, Image, StyleSheet, ScrollView } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Platform } from 'react-native';
@@ -31,34 +31,21 @@ export default class TabOneScreenFour extends React.Component {
 
   render(){
     return(
-      <BackgroundImage url="Fire">
-        <View style={styles.main}>
-          <View style={styles.box}>
-            <Text style={styles.text}>{ '國家歷史' }</Text>
-          </View>
+      <ScrollView>
+        <View style={{backgroundColor:'#ecead9'}}>
+          <Image
+            style={styles.backgroundImage}
+            source={require('../../images/TakeOver_History-01.png')}
+            resizeMode={'contain'}
+          ></Image>
         </View>
-      </BackgroundImage>
+      </ScrollView>
     )
   }
 }
 const styles = StyleSheet.create({
-    text: {
-        textAlign: 'center',
-        color: 'black',
-        backgroundColor: 'rgba(0,0,0,0)',
-        fontSize: 32
+    backgroundImage: {
+        width: '100%',
+        height: 1300,
     },
-    box: {
-      height: 200,
-      width: 200,
-      backgroundColor: "#ffffff",
-      borderRadius: 10,
-      shadowColor: "#000000",
-      shadowOpacity: 0.8,
-      shadowRadius: 2,
-      shadowOffset: {
-        height: 10,
-        width: 0
-      }
-    }
 });

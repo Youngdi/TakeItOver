@@ -9,7 +9,7 @@ import configureStore from './app/store/configureStore';
 // Navigation
 import TabBarNavigation from './app/tabBar/views/TabBarNavigation';
 import io from 'socket.io-client';
-
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 import * as Config from './app/constants/config';
 
 class App extends React.Component {
@@ -26,6 +26,10 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
+      this.socket.on('notification', (message) => {
+        alert(message.data);
+      });
+
       CodePush.sync({ updateDialog: false, installMode: CodePush.InstallMode.IMMEDIATE },
         (status) => {
           switch (status) {

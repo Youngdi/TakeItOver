@@ -20,7 +20,7 @@ export default class TabOneScreenFive extends React.Component {
         <Ionicons.Button name="ios-menu" color="#185ffe" style={{marginLeft:13}}backgroundColor="#eeeef2" onPress={() => navigation.navigate('DrawerOpen')}>
         </Ionicons.Button>
       ),
-      drawerLabel: '疑難雜症要找誰?',
+      drawerLabel: '疑難雜症要找誰',
       drawerIcon: ({ tintColor }) => (
         <Ionicons
           name={'md-help'}

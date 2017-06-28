@@ -6,7 +6,7 @@ import React from 'react';
 // Navigation
 import { addNavigationHelpers, NavigationActions } from 'react-navigation';
 import { TabBar } from '../navigationConfiguration';
-import { BackHandler, BackAndroid } from 'react-native'; 
+import { BackHandler, BackAndroid, Platform } from 'react-native'; 
 // Redux
 import { connect } from 'react-redux';
 // FCM
@@ -30,11 +30,14 @@ class TabBarNavigation extends React.Component {
   componentDidMount() {
     FCM.requestPermissions(); // for iOS
     FCM.getFCMToken().then(token => {
+        // alert(token);
         // console.log(token)
         // store fcm token in your server
     });
     this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
-        //alert('I recevied a message');
+
+         (Platform.OS ==='ios') ? alert(notif.notification.body) : alert(notif.fcm.body)
+
         // there are two parts of notif. notif.notification contains the notification payload, notif.data contains data payload
         if(notif.local_notification){
           //this is a local notification
@@ -47,17 +50,16 @@ class TabBarNavigation extends React.Component {
           return;
         }
         FCM.presentLocalNotification({
-          title: notif.title,
-          body: notif.body,
+          title: 'Hello',
+          body: 'Hello',
           priority: "high",
-          click_action: notif.click_action,
+          click_action: 'notif.click_action',
           show_in_foreground: true,
           local: true,
           vibrate: 300, 
           number: 10, // Android only
           color: "red",
         });
-        /*
         if(Platform.OS ==='ios'){
           //optional
           //iOS requires developers to call completionHandler to end notification process. If you do not call it your background remote notifications could be throttled, to read more about it see the above documentation link. 
@@ -74,7 +76,7 @@ class TabBarNavigation extends React.Component {
               notif.finish(WillPresentNotificationResult.All) //other types available: WillPresentNotificationResult.None
               break;
           }
-        }*/
+        }
     });
     this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, (token) => {
         // console.log(token);

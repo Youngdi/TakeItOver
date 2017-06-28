@@ -30,7 +30,13 @@ import GiveScoreDay3 from '../../components/GiveScoreDay3';
 import { getMyUser, getMyCountry, getLand, api_buyResource, api_buyLand, api_qrcode, api_giveScoreDay3} from '../../api/api';
 import QRCode from '../../constants/qrcode';
 const { width, height } = Dimensions.get("window");
-
+const lockIcon = require("../../images/login1_lock.png");
+const K_Jewelry = require("../../images/modal/K_Jewelry.png");
+const Water = require("../../images/modal/Water.png");
+const Fire = require('../../images/modal/fire.png');
+const Wood = require('../../images/modal/Wood.png');
+const Seed = require('../../images/modal/Seed.png');
+const Stone = require('../../images/modal/Rock.png');
 export default class TabThreeScreenOne extends React.Component {
 
   static navigationOptions = ({ navigation }) => {
@@ -71,6 +77,13 @@ export default class TabThreeScreenOne extends React.Component {
       B5: 0,
       B6: 0,
       score_modal_isOpen:false,
+      valuePWD:'',
+      valueK:0,
+      valueFire:0,
+      valueWater:0,
+      valueStone:0,
+      valueSeed:0,
+      valueWood:0,
     };
   }
   async init() {
@@ -92,6 +105,13 @@ export default class TabThreeScreenOne extends React.Component {
       isRefreshing: false,
       visible: false,
       score_modal_isOpen:false,
+      valuePWD:'',
+      valueK:0,
+      valueFire:0,
+      valueWater:0,
+      valueStone:0,
+      valueSeed:0,
+      valueWood:0,
     });
   }
   componentWillMount() {
@@ -144,16 +164,16 @@ export default class TabThreeScreenOne extends React.Component {
   onPressSourceButton() {
     this.refs.score_modal.open();
   }
-  async giveScore(value) {
+  async giveScore() {
     this.setState({
       visible: true,
       score_modal_isOpen:true,
     });
-    const flag = await api_giveScoreDay3(value.K, value.Fire, value.Water, value.Wood, value.Stone, value.Seed, value.password);
+    const flag = await api_giveScoreDay3(this.state.valueK, this.state.valueFire, this.state.valueWater, this.state.valueWood, this.state.valueStone, this.state.valueSeed, this.state.valuePWD);
     if (flag.data) {
       Alert.alert(
       '給分成功',
-      `獲得資源能力加成\nK寶石:${value.K}x${flag.B.B1}, 火寶石:${value.Fire}x${flag.B.B2}, 水寶石:${value.Water}x${flag.B.B3}\n土寶石:${value.Stone}x${flag.B.B4}, 木寶石:${value.Wood}x${flag.B.B5}, 種子:${value.Seed}x${flag.B.B6}`,
+      `獲得資源能力加成\nK寶石:${this.state.valueK}x${flag.B.B1}, 火寶石:${this.state.valueFire}x${flag.B.B2}, 水寶石:${this.state.valueWater}x${flag.B.B3}\n土寶石:${this.state.valueStone}x${flag.B.B4}, 木寶石:${this.state.valueWood}x${flag.B.B5}, 種子:${this.state.valueSeed}x${flag.B.B6}`,
       [
         {text: '確定', onPress: () => this.init()},
         {text: '前往首頁查看資源', onPress: () => {
@@ -494,7 +514,103 @@ export default class TabThreeScreenOne extends React.Component {
               <ScrollView style={{width:'100%',height:'100%'}}>
                 <View style={styles.backdropSourceView}>
                   <View style={{flex:1, width:'80%', marginTop:0}}>
-                    <GiveScoreDay3 Submit={this.giveScore.bind(this)}/>
+                    <View style={styles.container}>  
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={K_Jewelry} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="K寶石"
+                          placeholderTextColor="#8495a0"
+                          style={styles.input}
+                          keyboardType={'numeric'}
+                          defaultValue={'0'}
+                          onChangeText={(K) => this.setState({valueK:K,score_modal_isOpen:true})}
+                        />
+                      </View>
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={Fire} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="火寶石"
+                          placeholderTextColor="#8495a0"
+                          style={styles.input}
+                          keyboardType={'numeric'}
+                          defaultValue={'0'}
+                          onChangeText={(fire) => this.setState({valueFire:fire,score_modal_isOpen:true})}
+                        />
+                      </View>
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={Water} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="水寶石"
+                          placeholderTextColor="#8495a0"
+                          style={styles.input}
+                          keyboardType={'numeric'}
+                          defaultValue={'0'}
+                          onChangeText={(water) => this.setState({valueWater:water,score_modal_isOpen:true})}
+                        />
+                      </View>
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={Wood} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="木寶石"
+                          placeholderTextColor="#8495a0"
+                          style={styles.input}
+                          keyboardType={'numeric'}
+                          defaultValue={'0'}
+                          onChangeText={(wood) => this.setState({valueWood:wood,score_modal_isOpen:true})}
+                        />
+                      </View>
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={Stone} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="地寶石"
+                          placeholderTextColor="#8495a0"
+                          style={styles.input}
+                          keyboardType={'numeric'}
+                          defaultValue={'0'}
+                          onChangeText={(stone) => this.setState({valueStone:stone,score_modal_isOpen:true})}
+                        />
+                      </View>
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={Seed} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="種子"
+                          placeholderTextColor="#8495a0"
+                          style={styles.input}
+                          keyboardType={'numeric'}
+                          defaultValue={'0'}
+                          onChangeText={(seed) => this.setState({valueSeed:seed,score_modal_isOpen:true})}
+                        />
+                      </View>
+                      <View style={styles.inputWrap}>
+                        <View style={styles.iconWrap}>
+                          <Image source={lockIcon} style={styles.icon} resizeMode="contain" />
+                        </View>
+                        <TextInput
+                          placeholder="關主密碼"
+                          placeholderTextColor="#8495a0"
+                          style={styles.input}
+                          secureTextEntry
+                          onChangeText={(password) => this.setState({valuePWD:password,score_modal_isOpen:true})}
+                        />
+                      </View>
+                      <Button
+                        onPress={this.giveScore.bind(this)}
+                        title={'確定給分'}
+                      >
+                      </Button>
+                    </View>
                   </View>
                 </View>
                 <View style={{width:1,height:300}}></View>

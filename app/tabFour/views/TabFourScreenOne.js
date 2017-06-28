@@ -413,17 +413,17 @@ export default class TabFourScreenOne extends React.Component {
             <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap'}}>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                   <View style={{width:50, height:50}}>
-                    <Text style={styles.headline}>{this.state.my_fire}</Text>
+                    <Text style={styles.headline}>{Math.floor(this.state.my_fire)}</Text>
                   </View>
                 </View>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                   <View style={{width:50, height:50}}>
-                    <Text style={styles.headline}>{this.state.my_K}</Text>
+                    <Text style={styles.headline}>{Math.floor(this.state.my_K)}</Text>
                   </View>
                 </View>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                   <View style={{width:50, height:50}}>
-                    <Text style={styles.headline}>{this.state.my_water}</Text>
+                    <Text style={styles.headline}>{Math.floor(this.state.my_water)}</Text>
                   </View>
                 </View>
             </View>
@@ -450,17 +450,17 @@ export default class TabFourScreenOne extends React.Component {
             <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap', top:-20}}>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                   <View style={{width:50, height:50}}>
-                    <Text style={styles.headline}>{this.state.my_stone}</Text>
+                    <Text style={styles.headline}>{Math.floor(this.state.my_stone)}</Text>
                   </View>
                 </View>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                   <View style={{width:50, height:50}}>
-                    <Text style={styles.headline}>{this.state.my_seed}</Text>
+                    <Text style={styles.headline}>{Math.floor(this.state.my_seed)}</Text>
                   </View>
                 </View>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                   <View style={{width:50, height:50}}>
-                    <Text style={styles.headline}>{this.state.my_wood}</Text>
+                    <Text style={styles.headline}>{Math.floor(this.state.my_wood)}</Text>
                   </View>
                 </View>
             </View>
