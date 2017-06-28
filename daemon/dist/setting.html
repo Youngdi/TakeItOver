@@ -70,6 +70,9 @@
                     <button ng-click="submit_reference();" type="button" class="col-md-12 col-lg-12 col-xs-12 col-sm-12 btn btn-primary" style="margin-top:10px;">確定</button>
                 </div>
                 <div class="col-md-2 col-xs-12 col-sm-12">
+                    <H3 class="col-md-12 col-xs-12 col-sm-12">關主密碼</H3>
+                    <input id="password" class="col-md-12 col-xs-12 col-sm-12">
+                    <button ng-click="submit_password();" type="button" class="col-md-12 col-lg-12 col-xs-12 col-sm-12 btn btn-primary" style="margin-top:10px;">確定</button>
                 </div>
             </div>
         </div>
@@ -165,6 +168,24 @@
                     alert('廣播至公布欄失敗');
                 });
             };
+            $scope.submit_password = function() {
+                var globe_function = this;
+                blockUI.start();
+                var password = $('#password').val();
+                $http({
+                    method: 'POST',
+                    url: BASECONNECTION + ':' + PORT + '/update_password',
+                    data: {
+                        password: password,
+                    }
+                }).success(function(data) {
+                    blockUI.stop();
+                    //$('#password').val("");
+                    alert('變更關主密碼成功');
+                }).error(function(data) {
+                    alert('變更關主密碼失敗');
+                });
+            };
             $scope.submit_qrcode_reset = function() {
                 blockUI.start();
                 $http({
@@ -208,6 +229,7 @@
                     });
                     $('#broadcast').val(data[0].board);
                     $('#reference').val(data[0].reference);
+                    $('#password').val(data[0].password);
                 }).error(function(e) {
                 });
             };

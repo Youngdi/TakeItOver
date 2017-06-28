@@ -79,6 +79,21 @@ app.post('/update_board', (req, res) => {
     }
   })
 })
+app.post('/update_password', (req, res) => {
+  Setting.update(
+    {},
+    {
+    $set: {
+      password: req.body.password
+    }
+  }, (e, user) => {
+    if (e) {
+      console.log(e)
+    } else {
+      res.end()
+    }
+  })
+})
 require('./config/routes')(app, io)
 // 声明静态资源地址
 app.use(express.static('./dist'))

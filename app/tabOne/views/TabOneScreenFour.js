@@ -35,7 +35,7 @@ export default class TabOneScreenFour extends React.Component {
         <View style={{backgroundColor:'#ecead9'}}>
           <Image
             style={styles.backgroundImage}
-            source={require('../../images/TakeOver_History-01.png')}
+            source={require('../../images/TakeOver_History.png')}
             resizeMode={'contain'}
           ></Image>
         </View>

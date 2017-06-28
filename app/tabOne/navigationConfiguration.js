@@ -29,7 +29,7 @@ class SideDrawer extends React.Component {
     const userCountry = await AsyncStorage.getItem('@UserCountry');
     const username = await AsyncStorage.getItem('@UserName');
     this.setState({
-      url: drawerFlag[userCountry],
+      url: drawerFlag[username],
     })
   }
   render() {
@@ -79,8 +79,8 @@ const styles = StyleSheet.create({
       backgroundColor: 'rgb(165,186,194)'
     },
     drawerIcon: {
-        width: (height < 540) ? 100 : 150,
-        height: (height < 540) ? 100 : 150,
+        width:  (height < 540) ? 175 : 225,
+        height: (height < 540) ? 175 : 225,
     },
 });
 const stackNavigatorConfiguration = {

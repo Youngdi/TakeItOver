@@ -335,51 +335,53 @@ module.exports = (app, io) => {
   app.post('/puzzle_give_score', (req, res) => {
     var puzzleUpdate = { $set: {} }
     puzzleUpdate.$set[req.body.puzzle] = req.body.puzzle_result
-    if (req.body.password === '1X4QWE') {
-      User.update(
-        {
-          name: req.body.name
-        },
-        puzzleUpdate,
-        (e, user) => {
-        if (e) console.log(e)
-      })
-      User.update(
-        {
-          name: req.body.name
-        },
-        {
-          $inc: {
-            K: req.body.K
-          }
-        },
-        (e, user) => {
-        if (e) console.log(e)
-      })
-      Country.update(
-        {
-          country: req.body.country
-        },
-        {
-          $inc: {
-            K: req.body.K
-          }
-        },
-        (e, user) => {
-        if (e) console.log(e)
-      })
-      Setting.update({}, {
-          $push: {
-              day1_puzzle: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result + '/K寶:' + req.body.K
-          }
-      }, function(e, data) {
-      })
-      res.send({data: true})
-      res.end()
-    } else {
-      res.send({data: false})
-      res.end()
-    }
+    Setting.find({}, (e, setting) => {
+      if (req.body.password === setting[0].password) {
+        User.update(
+          {
+            name: req.body.name
+          },
+          puzzleUpdate,
+          (e, user) => {
+          if (e) console.log(e)
+        })
+        User.update(
+          {
+            name: req.body.name
+          },
+          {
+            $inc: {
+              K: req.body.K
+            }
+          },
+          (e, user) => {
+          if (e) console.log(e)
+        })
+        Country.update(
+          {
+            country: req.body.country
+          },
+          {
+            $inc: {
+              K: req.body.K
+            }
+          },
+          (e, user) => {
+          if (e) console.log(e)
+        })
+        Setting.update({}, {
+            $push: {
+                day1_puzzle: '時間為：' + moment().tz('Asia/Taipei').format('llll') + ' /組別：' + req.body.name + ' /' + req.body.puzzle + ':' + req.body.puzzle_result + '/K寶:' + req.body.K
+            }
+        }, function(e, data) {
+        })
+        res.send({data: true})
+        res.end()
+      } else {
+        res.send({data: false})
+        res.end()
+      }
+    })
   })
   app.post('/give_score_day3', (req, res) => {
     GiveScore()
@@ -388,21 +390,23 @@ module.exports = (app, io) => {
         if (e) {
           console.log(e)
         } else {
-          if (req.body.password === '1X4QWE') {
-            const B = {}
-            B.B1 = user[0].B1
-            B.B2 = user[0].B2
-            B.B3 = user[0].B3
-            B.B4 = user[0].B4
-            B.B5 = user[0].B5
-            B.B6 = user[0].B6
-            await updateC(user[0].B1, user[0].B2, user[0].B3, user[0].B4, user[0].B5, user[0].B6)
-            res.send({data: true, B})
-            res.end()
-          } else {
-            res.send({data: false})
-            res.end()
-          }
+          Setting.find({}, async (e, setting) => {
+            if (req.body.password === setting[0].password) {
+              const B = {}
+              B.B1 = user[0].B1
+              B.B2 = user[0].B2
+              B.B3 = user[0].B3
+              B.B4 = user[0].B4
+              B.B5 = user[0].B5
+              B.B6 = user[0].B6
+              await updateC(user[0].B1, user[0].B2, user[0].B3, user[0].B4, user[0].B5, user[0].B6)
+              res.send({data: true, B})
+              res.end()
+            } else {
+              res.send({data: false})
+              res.end()
+            }
+          })
         }
       })
     }

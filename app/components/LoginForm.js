@@ -16,7 +16,7 @@ import {
 
 const { width, height } = Dimensions.get("window");
 
-const background = require("../images/login1_bg.png");
+const background = require("../images/TakeOver_Login.png");
 const mark = require("../images/login1_mark.png");
 const lockIcon = require("../images/login1_lock.png");
 const personIcon = require("../images/login1_person.png");
@@ -37,20 +37,13 @@ class LoginForm extends React.Component {
   return (
       <View style={styles.container}>
         <Image source={background} style={styles.background} resizeMode="cover">
-          <View style={styles.markWrap}>
-            <Image source={mark} style={styles.mark} resizeMode="contain" />
+          <View style={{height:height * 0.35,width:1}}>
           </View>
           <View style={styles.wrapper}>
             <View style={styles.inputWrap}>
-              <View style={styles.iconWrap}>
-                <Image source={personIcon} style={styles.icon} resizeMode="contain" />
-              </View>
               <Field name="username" component={renderNameInput} />
             </View>
             <View style={styles.inputWrap}>
-              <View style={styles.iconWrap}>
-                <Image source={lockIcon} style={styles.icon} resizeMode="contain" />
-              </View>
               <Field name="password" component={renderPassWordInput} />
             </View>
             <TouchableOpacity activeOpacity={.5} onPress={() => Alert.alert('去問你的隊輔XD')}>
@@ -61,7 +54,7 @@ class LoginForm extends React.Component {
             {(this.props.wrong) && (<TouchableOpacity activeOpacity={.5}><View><Text style={styles.wrongPasswordText}>帳號或密碼錯誤</Text></View></TouchableOpacity>)}
             <TouchableOpacity activeOpacity={.5} onPress={this.props.handleSubmit(this.props.Submit)}>
               <View style={styles.button}>
-                <Text style={styles.buttonText}>登入</Text>
+                <Text style={styles.buttonText}>Log in</Text>
               </View>
             </TouchableOpacity>
           </View>
@@ -78,6 +71,8 @@ class LoginForm extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent:'center',
+    alignItems:'center',
   },
   markWrap: {
     flex: 1,
@@ -93,14 +88,18 @@ const styles = StyleSheet.create({
     height,
   },
   wrapper: {
-    paddingVertical: 30,
+    paddingVertical: 40,
+    justifyContent:'center',
+    alignItems:'center',
   },
   inputWrap: {
     flexDirection: "row",
     marginVertical: 10,
-    height: 40,
-    borderBottomWidth: 1,
-    borderBottomColor: "#CCC"
+    height: 50,
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    width:'70%',
+    // borderBottomWidth: 1,
+    // borderBottomColor: "#CCC"
   },
   iconWrap: {
     paddingHorizontal: 7,
@@ -114,13 +113,14 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     paddingHorizontal: 10,
+    fontSize:18
   },
   button: {
-    backgroundColor: "#FF3366",
+    backgroundColor: "rgba(255,255,255,0)",
     paddingVertical: 20,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
   buttonText: {
     color: "#FFF",
