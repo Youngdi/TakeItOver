@@ -1,7 +1,7 @@
 'use strict'
 
 import React from 'react';
-import { View, Text, Image, StyleSheet, Platform, ScrollView, AsyncStorage } from 'react-native';
+import { View, Text, Image, StyleSheet, Platform, ScrollView, AsyncStorage, Dimensions } from 'react-native';
 import { StackNavigator, DrawerNavigator, DrawerItems, NavigationActions } from 'react-navigation';
 // Screens
 import TabOneScreenOne from './views/TabOneScreenOne';
@@ -14,6 +14,7 @@ import TabOneScreenSeven from './views/TabOneScreenSeven';
 import TabOneScreenEight from './views/TabOneScreenEight.js';
 import * as Config from '../constants/config';
 import drawerFlag from '../constants/drawer';
+const { width, height } = Dimensions.get("window");
 class SideDrawer extends React.Component {
   constructor(props) {
     super(props);
@@ -71,16 +72,15 @@ const styles = StyleSheet.create({
       flex:1
     },
     drawerIconContainer:{
-      height: 200,
+      height: (height < 540) ? 125 : 200,
       width: '100%',
       alignItems:'center',
       justifyContent:'center',
       backgroundColor: 'rgb(165,186,194)'
     },
     drawerIcon: {
-        width: 150,
-        height: 150,
-        // borderRadius:10,
+        width: (height < 540) ? 100 : 150,
+        height: (height < 540) ? 100 : 150,
     },
 });
 const stackNavigatorConfiguration = {

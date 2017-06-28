@@ -212,10 +212,10 @@ export default class TabTwoScreenOne extends React.Component {
                 onPress={this.puzzle_click.bind(this, this.state.P10, 'P10')}
                 style={{
                   width: '100%',
-                  height: 90,
+                  height: (height < 540) ? 80 : 100,
                   margin: 5,
                 }}>
-                  <PuzzleIcon url={this.state.P10 == 'N' ? 'P10': 'P10W'}></PuzzleIcon>
+                <PuzzleIcon url={this.state.P10 == 'N' ? 'P10': 'P10W'}></PuzzleIcon>
               </TouchableOpacity>
               <View style={{width:'100%',height:height*0.1}}>
                 <Image
