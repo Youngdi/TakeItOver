@@ -3,9 +3,10 @@ import {
   StyleSheet,
   Text,
   Image,
-  View
+  View,
+  Dimensions
 } from 'react-native';
-
+const { width, height } = Dimensions.get("window");
 export default class landBG extends Component {
     render() {
         return (
@@ -27,6 +28,6 @@ const styles = StyleSheet.create({
         height: null,
         alignItems:'center',
         justifyContent:'center',
-        marginTop:20,
+        marginTop: height < 600 ? 0 : -40,
     },
 });

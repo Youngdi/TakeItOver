@@ -341,8 +341,8 @@ export default class TabFourScreenOne extends React.Component {
             />
           }
         >
-        <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height, top: Platform.OS == 'ios'? -30 : 0}}>
-          <View style={{width: width*0.6,height:height * 0.05, top: Platform.OS == 'ios'? 40 : 10}}>
+        <View style={{flex:1, justifyContent:'center', alignItems:'center', width:width, height:height, top: height < 600 ? 0 : 15}}>
+          <View style={{width: width*0.6,height:height * 0.05}}>
             <Image
               style={{width:'100%',height:height * 0.05}}
               source={require('../../images/land/top.png')}
@@ -389,18 +389,18 @@ export default class TabFourScreenOne extends React.Component {
               </View>
             </View>
           </LandBG>
-          <View style={{top:Platform.OS == 'ios'? -15 : 10}}>
+          <View style={{marginTop: height < 600 ? 0 : 10, top: height < 600 ? 0 : -40}}>
             <View style={{width: width * 0.8, justifyContent: 'space-around', flexDirection: 'row', alignContent: 'space-between', flexWrap: 'nowrap'}}>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                     <Image
                       style={{width:50, height:50}}
-                      source={landFlag[`k`]}>
+                      source={landFlag[`fire`]}>
                     </Image>
                 </View>
                 <View style={{width:50,height: 50,flexShrink:1}}>
                     <Image
                       style={{width:50, height:50}}
-                      source={landFlag[`fire`]}>
+                      source={landFlag[`k`]}>
                     </Image>
                 </View>
                 <View style={{width:50,height: 50,flexShrink:1}}>

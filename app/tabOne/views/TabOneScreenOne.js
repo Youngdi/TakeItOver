@@ -376,7 +376,7 @@ export default class TabOneScreenOne extends React.Component {
         >
           <View style={styles.ImageShadow}>
             <Image 
-              style={{width:width,height:height +30, top: -30}}
+              style={{width:width +20,height:height +30, top: -30, left:-10}}
               source={require('../../images/long_modal_bg.png')}>
               <TouchableOpacity onPress={() => this.setState({history_isOpen:false})} style={{position:'absolute',right:0,top:30, width:50, height:50}}>
               <View></View>
