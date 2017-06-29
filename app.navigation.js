@@ -28,6 +28,18 @@ class App extends React.Component {
   componentDidMount() {
       this.socket.on('notification', (message) => {
         alert(message.data);
+        FCM.presentLocalNotification({
+            id: "UNIQ_ID_STRING",                               // (optional for instant notification)
+            title: "大會通知",                     // as FCM payload
+            body: message.data,                    // as FCM payload (required)
+            sound: "default",                                   // as FCM payload
+            priority: "high",                                   // as FCM payload
+            click_action: "ACTION",                             // as FCM payload
+            badge: 0,                                           // as FCM payload IOS only, set 0 to clear badges
+            icon: "ic_launcher",                                // as FCM payload, you can relace this with custom icon you put in mipmap
+            my_custom_data:'my_custom_field_value',             // extra data you want to throw
+            show_in_foreground:true                             // notification when app is in foreground (local & remote)
+        });
       });
 
       CodePush.sync({ updateDialog: false, installMode: CodePush.InstallMode.IMMEDIATE },

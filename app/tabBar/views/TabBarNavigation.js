@@ -49,17 +49,6 @@ class TabBarNavigation extends React.Component {
         if (notif && notif.local) {
           return;
         }
-        FCM.presentLocalNotification({
-          title: 'Hello',
-          body: 'Hello',
-          priority: "high",
-          click_action: 'notif.click_action',
-          show_in_foreground: true,
-          local: true,
-          vibrate: 300, 
-          number: 10, // Android only
-          color: "red",
-        });
         if(Platform.OS ==='ios'){
           //optional
           //iOS requires developers to call completionHandler to end notification process. If you do not call it your background remote notifications could be throttled, to read more about it see the above documentation link. 
