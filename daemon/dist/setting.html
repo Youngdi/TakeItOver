@@ -94,7 +94,7 @@
     function record() {
         $.ajax({
                 url: BASECONNECTION + ':' + PORT + '/get_record',
-                type: 'POST'
+                type: 'GET'
             })
             .done(function(data) {
                 console.log(data);

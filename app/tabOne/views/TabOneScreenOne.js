@@ -22,12 +22,11 @@ import imageFlags from '../../constants/config';
 import history from '../../constants/history';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 import { getMyUser, getMyCountry, api_buyResource, getFlagFromSetting } from '../../api/api';
 import Modaliconimage from '../../components/Modaliconimage';
 import HomeImage from '../../components/HomeImage.js';
 import Spinner from 'react-native-loading-spinner-overlay';
-
+import FCM, {FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType} from 'react-native-fcm';
 const { width, height } = Dimensions.get("window");
 
 

@@ -26,6 +26,49 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
+      FCM.requestPermissions();
+
+      FCM.getFCMToken().then(token => {
+        console.log("TOKEN (getFCMToken)", token);
+      });
+
+      FCM.getInitialNotification().then(notif => {
+        console.log("INITIAL NOTIFICATION", notif)
+      });
+
+      this.notificationListener = FCM.on(FCMEvent.Notification, notif => {
+        if(Platform.OS == 'ios') {
+          if(notif.local_notification){
+          } else {
+            alert(notif.notification.body)
+          }
+        } else {
+          alert(notif.fcm.body);
+        }
+        if(notif.local_notification){
+          return;
+        }
+        if(notif.opened_from_tray){
+          return;
+        }
+        if(Platform.OS ==='ios'){
+          switch(notif._notificationType){
+            case NotificationType.Remote:
+              notif.finish(RemoteNotificationResult.NewData) //other types available: RemoteNotificationResult.NewData, RemoteNotificationResult.ResultFailed
+              break;
+            case NotificationType.NotificationResponse:
+              notif.finish();
+              break;
+            case NotificationType.WillPresent:
+              notif.finish(WillPresentNotificationResult.All) //other types available: WillPresentNotificationResult.None
+              break;
+          }
+        }
+
+        this.refreshTokenListener = FCM.on(FCMEvent.RefreshToken, token => {
+          console.log("TOKEN (refreshUnsubscribe)", token);
+        });
+      })
       this.socket.on('notification', (message) => {
         alert(message.data);
         FCM.presentLocalNotification({
