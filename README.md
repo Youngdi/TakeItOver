@@ -1,6 +1,6 @@
 # 2017 TakeItOver夏令營App
 
-[![N|Solid](http://www.bannerch.org/images/logo.svg)](http://www.bannerch.org/)
+[![N|Solid](http://www.bannerch.org/images/main%20optic/logo.svg)](http://www.bannerch.org/)
 
 Banner Church summer camp 2017旌旗夏令營配合大地遊戲使用的App
 
